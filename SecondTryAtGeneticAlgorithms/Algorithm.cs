@@ -10,7 +10,7 @@ namespace SecondTryAtGeneticAlgorithms {
         /* GA parameters */
         //internal static readonly string solution = "1111000000000000000000000000000000000000000000000000000000001111";
         internal static readonly string solution = "5555555555555555555555555555555555555555555555555555555555555555555555";
-		internal static readonly int populationSize = 5000;		//Tweak. Too low and it breaks, too high, and each generation will take forever.
+		internal static readonly int populationSize = 1000;		//Tweak. Too low and it breaks, too high, and each generation will take forever.
         internal static readonly int randomGeneRange = 100;    //Tweak for difficulty of finding solution
         private static readonly double mutationRate = 0.025;    //Tweak. Too high creates random gibberish, too low never finds the solution.
 
