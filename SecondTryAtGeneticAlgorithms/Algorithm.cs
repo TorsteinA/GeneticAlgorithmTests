@@ -24,7 +24,7 @@ namespace SecondTryAtGeneticAlgorithms {
 		/// </summary>
 		/// <param name="pop">Population to evolve</param>
 		/// <returns>Evolved population</returns>
-		public static Population EvolvePopulation(Population pop)
+		internal static Population EvolvePopulation(Population pop)
         {
             Population newPopulation = new Population(pop.Size(), false);
             
