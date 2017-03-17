@@ -10,40 +10,51 @@ namespace SecondTryAtGeneticAlgorithms {
         private int _fitness = 0;
         private Random rnd = new Random();
 
-        //create a random individual
-        internal void GenerateIndividual()
+		/// <summary>
+		/// create a random individual
+		/// </summary>
+		internal void GenerateIndividual()
         {
             for (int i = 0; i < Size(); i++) {
-                int gene = (int)Math.Round((double)rnd.Next() % Algorithm.randomGeneRange);    //tutorial did not have % 1000
+                int gene = (int)Math.Round((double)rnd.Next() % Algorithm.randomGeneRange);
                 _genes[i] = gene;
             }
         }
 
+		/// <summary>
+		/// Returns gene at index
+		/// </summary>
+		/// <param name="index">Where to find gene</param>
+		/// <returns></returns>
         internal int GetGene(int index)
         {
             return _genes[index];
         }
 
+		/// <summary>
+		/// Sets gene at index to value
+		/// </summary>
+		/// <param name="index">Where to change gene</param>
+		/// <param name="value">What to change gene to</param>
         internal void SetGene(int index, int value)
         {
             _genes[index] = value;
             _fitness = 0;
         }
 
-        internal string GetGenes()
-        {
-            string returnString = "";
-            for (var i = 0; i < Size(); i++) {
-                returnString += _genes[i];
-            }
-            return returnString;
-        }
-
+		/// <summary>
+		/// Length of Genes
+		/// </summary>
+		/// <returns>Length of genes</returns>
         internal int Size()
         {
             return _genes.Length;
         }
 
+		/// <summary>
+		/// Fitness of individual
+		/// </summary>
+		/// <returns>Fitness</returns>
         internal int GetFitness()
         {
             if (_fitness == 0) {
@@ -52,6 +63,10 @@ namespace SecondTryAtGeneticAlgorithms {
             return _fitness;
         }
 
+		/// <summary>
+		/// To String
+		/// </summary>
+		/// <returns>Gene as string</returns>
         public override string ToString()
         {
             string geneString = "";

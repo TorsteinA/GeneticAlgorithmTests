@@ -19,7 +19,7 @@ namespace SecondTryAtGeneticAlgorithms {
                     + ", \t Fittest score: " 
                     + myPop.GetFittest().GetFitness() 
                     + ", \t Genes of fittest: " 
-                    + myPop.GetFittest().GetGenes());
+                    + myPop.GetFittest().ToString());
                 myPop = Algorithm.EvolvePopulation(myPop);
             }
             Console.WriteLine();
