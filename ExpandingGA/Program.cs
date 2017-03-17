@@ -10,15 +10,16 @@ namespace GeneticAlgorithmForStrings {
 			FitnessCalc.SetSolution(Algorithm.solution);
 			Population myPop = new Population(Algorithm.populationSize, true);
 			int _generationCount = 0;
+			
 
 			while (myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxFitness()) {
 				_generationCount++;
 				Console.WriteLine("\n   Generation: "
 					+ _generationCount
 					+ ", \t Fittest score: "
-					+ myPop.GetFittest().GetFitness()
+					+ myPop.GetFittest().GetFitness()/*
 					+ ", \t Genes of fittest: "
-					+ myPop.GetFittest().ToString());
+					+ myPop.GetFittest().ToString()*/);
 				myPop = Algorithm.EvolvePopulation(myPop);
 			}
 			Console.WriteLine();

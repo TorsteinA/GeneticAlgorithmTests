@@ -13,18 +13,17 @@ namespace GeneticAlgorithmForStrings {
 		/// </summary>
 		/// <param name="populationSize"></param>
 		/// <param name="initialise"></param>
-        internal Population(int populationSize, bool initialise)
-        {
-            individuals = new Individual[populationSize];
-            //Initialize population
-            if (initialise) {
-                for(int i = 0; i < Size(); i++) {
-                    Individual newIndividdual = new Individual();
-                    newIndividdual.GenerateIndividual();
-                    SaveIndividual(i, newIndividdual);
+        internal Population(int populationSize, bool initialise) {
+			individuals = new Individual[populationSize];
+			//Initialize population
+			if (initialise) {
+				for (int i = 0; i < Size(); i++) {
+					Individual newIndividdual = new Individual();
+					newIndividdual.GenerateIndividual();
+					SaveIndividual(i, newIndividdual);
                 }
-            }
-        }
+			}
+		}
 
 		/// <summary>
 		/// Get Individual from population by index
