@@ -9,15 +9,20 @@ namespace GeneticAlgorithmForStrings {
 
         /* GA parameters */
 		//Tweak. Algorithm tries to create this solution
-        internal static readonly string solution = "Got my Genetic Algorithm to work with sentences now! \nCould probably do several sentences! \nIt even supports new lines \t and tabs\n\n:D";
+        internal static readonly string solution = "Hei jeg liker undertøy! \n" +
+			"Zelda: Breath of the Wild is the best game EVERRRrrrRRRRrrr!!! \n" +
+			"\nI have no clue! \n" +
+			"\n:D :D :D \n:D :D\n:D\n:D :D\n:D :D :D \n" +
+			"\nMy Email: \n" +
+			"torstein_alvern5557@hotmail.com og alvtor15@student.westerdals.no";
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-		internal static readonly int populationSize = 1000;
+		internal static readonly int populationSize = 5000;
 		//Tweak for difficulty of finding solution
 		internal static readonly int randomGeneRange = 100;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
 		private static readonly double mutationRate = 0.025;
 		//Letters that algorithm can make genes with
-		internal static readonly string allowedLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:!?\n\t";
+		internal static readonly string allowedLetters = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:!?\n\t$#@¤£\"%¤3&/{()[]=}+?`^¨' *<>-_;";
 
 		//Crossover tournament population size
 		private static readonly int tournamentSize = 50;
