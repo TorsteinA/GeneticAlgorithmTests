@@ -10,7 +10,7 @@ namespace GeneticAlgorithmForStrings {
 		/* GA parameters */
 		//Tweak. Algorithm tries to create this solution
 		internal static readonly string[] solution = {
-			"Hei jeg liker undertøy!"/*,
+			"Hei"/* jeg liker undertøy!"/*,
 			"Zelda: Breath of the Wild is the best game EVERRRrrrRRRRrrr!!!",
 			"I have no clue!",
 			":D :D :D",
@@ -20,17 +20,15 @@ namespace GeneticAlgorithmForStrings {
 			":D :D :D"*/
 		};
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-		internal static readonly int populationSize = 50;
-		//Tweak for difficulty of finding solution
-		internal static readonly int randomGeneRange = 100;
+		internal static readonly int populationSize = 500;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
-		private static readonly double mutationRate = 0.025;
+		private static readonly double mutationRate = 0.015;
 		//Letters that algorithm can make genes with
-		internal static readonly string allowedLetters = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";// ,.:!?\n\t$#@¤£\"%¤3&/{()[]=}+?`^¨' *<>-_;";
+		internal static readonly string allowedLetters = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";// ,.:!?\n\t$#@¤£\"%¤3&/{()[]=}+?`^¨' *<>-_;";
 		//Default length of genes at start of program
-		static internal int DefaultGeneLength = 4;     // Algorithm.solution.Length;	//Solution length is kinda cheating
+		static internal int DefaultGeneLength = Algorithm.solution.Length;	//Solution length is kinda cheating
 		//Max length of each part of gene
-		static internal int MaxGeneStringLength = 30;
+		static internal int MaxGeneStringLength = 10;
 
 		//Crossover tournament population size
 		private static readonly int tournamentSize = 50;
@@ -108,19 +106,26 @@ namespace GeneticAlgorithmForStrings {
             // Loop through genes
             for (int i = 0; i < indiv.Size(); i++) {
                 if (rnd.NextDouble() <= mutationRate) {
-					// Create random gene
-					string gene = "";
-					for (int j = 0; j < indiv.Size(); j++) {
-
-						//if (rnd.NextDouble() <= mutationRate) {
-							gene += allowedLetters[rnd.Next(allowedLetters.Length)];
-						//}
-					}
-					// Set gene to individual
-					indiv.SetGene(i, gene);
+					MutateGene(indiv, i);
                 }
             }
         }
+
+		private static void MutateGene(Individual indiv, int i) {
+			// Create random gene
+			string gene = "";
+			int length = rnd.Next() % Algorithm.MaxGeneStringLength;
+
+			for (int j = 0; j < indiv.GetGene(i).Length && j < Algorithm.MaxGeneStringLength; j++) {
+				if (rnd.NextDouble() <= mutationRate) {
+					gene += allowedLetters[rnd.Next(allowedLetters.Length)];
+					indiv.SetGenePart(i, j, gene);
+				}
+			}
+			Console.WriteLine("MutationGene: " + gene);
+			//indiv.SetGenePart(i, gene);
+			Console.WriteLine("new Gene: " + indiv.GetGene(i));
+		}
 
 		/// <summary>
 		/// Select individuals for crossover

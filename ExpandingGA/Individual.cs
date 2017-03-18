@@ -19,7 +19,7 @@ namespace GeneticAlgorithmForStrings {
 				string gene = "";
 				int geneLength = rnd.Next() % Algorithm.MaxGeneStringLength;
 				
-				//Console.WriteLine("Gene: " + i + ", GeneLength: " + geneLength);
+				Console.WriteLine("GeneNr: " + i + ", GeneLength: " + geneLength);
 
 				//Create string of random length
 				for (int j = 0; j < geneLength; j++) {
@@ -57,14 +57,16 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		internal char GetGenePart(int geneIndex, int partIndex) 
 		{
-			char c;
+			char[] chars = new char[_genes[geneIndex].Length];
 
-			if (partIndex <= _genes[geneIndex].Length -1)
-				c = _genes[geneIndex][partIndex];		//This is not allowed apparenly
-			else
-				c = ' ';
+			if (partIndex <= chars.Length)
+				chars = _genes[geneIndex].ToCharArray();
 
-			return c;
+			Console.WriteLine(chars);
+
+			char returnChar = chars[partIndex];
+
+			return returnChar;
 		}
 
 		/// <summary>
@@ -77,6 +79,21 @@ namespace GeneticAlgorithmForStrings {
             _genes[index] = value;
             _fitness = 0;
         }
+		
+		internal void SetGenePart(int geneIndex, int partIndex, string value) 
+		{
+			Console.WriteLine("Setting GeneIndex: " + geneIndex + ", on partIndex: " + partIndex + ", to value: " + value);
+
+			char[] geneChars = _genes[geneIndex].ToCharArray(); 
+			char[] valueChars = value.ToCharArray();
+
+			for (int i = 0; i <= value.Length && i <= geneChars.Length; i++) {
+				Console.WriteLine("Index: " + i);
+				geneChars[partIndex++] = valueChars[i];
+			}
+			Console.WriteLine("New Gene: " + new string(geneChars) + ", old Gene: " + _genes[geneIndex]);
+			_genes[geneIndex] = new string(geneChars);
+		}
 
 		/// <summary>
 		/// Length of Genes

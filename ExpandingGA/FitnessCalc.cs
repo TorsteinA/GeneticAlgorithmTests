@@ -35,7 +35,7 @@ namespace GeneticAlgorithmForStrings {
 				
 
 				if (individual.GetGene(i).Length == solution[i].Length){
-					fitness++;
+					fitness+=2;
 				}
 
 				for (int j = 0; j <= solution[i].Length-1; j++) {
@@ -47,8 +47,9 @@ namespace GeneticAlgorithmForStrings {
 						fitness++;
 					}
 				}
+				//Console.WriteLine("\nIndiv:    " + individual.ToString() + "Solution: " + solution[i]);
 			}
-			Console.WriteLine("Fitness: " + fitness);
+			//Console.WriteLine("Fitness: " + fitness);
 			return fitness;
         }
 
@@ -62,7 +63,10 @@ namespace GeneticAlgorithmForStrings {
 
 			for (int i = 0; i < solution.Length; i++) {
 				maxFitness += solution[i].Length;
+				maxFitness += 2;
 			}
+
+
             return maxFitness;
         }
     }
