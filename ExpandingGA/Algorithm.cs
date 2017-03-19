@@ -23,9 +23,9 @@ namespace GeneticAlgorithmForStrings {
 		private static readonly double mutationRate = 0.025;
 		//Letters that algorithm can make genes with
 		internal static readonly string allowedLetters = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:!?\n\t$#@¤£\"%¤3&/{()[]=}+?`^¨' *<>-_;";
-
 		//Crossover tournament population size
 		private static readonly int tournamentSize = 50;
+
 		//How much DNA to take from each parent. Should stay at 0.5
 		private static readonly double uniformRate = 0.5;
 		//Keep copy of best individual next generation, or just random?
