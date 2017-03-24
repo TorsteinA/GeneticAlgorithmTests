@@ -1,37 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GeneticAlgorithmForStrings {
-    class Algorithm {
+namespace ExpandingGA {
+    internal class Algorithm {
 
         /* GA parameters */
 		//Tweak. Algorithm tries to create this solution
-        internal static readonly string solution = "Hei jeg liker undertøy! \n" +
-			"Zelda: Breath of the Wild is the best game EVERRRrrrRRRRrrr!!! \n" +
-			"\nI have no clue! \n" +
-			"\n:D :D :D \n:D :D\n:D\n:D :D\n:D :D :D \n" +
-			"\nMy Email: \n" +
-			"torstein_alvern5557@hotmail.com og alvtor15@student.westerdals.no";
+        internal static readonly string Solution = "Got my Genetic Algorithm to work with sentences now! \nWop Wop Wop Wop!\nYO!\n\n:D :D :D\n:D :D\n:D\n:D :D\n:D :D :D";
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-		internal static readonly int populationSize = 5000;
+		internal static readonly int PopulationSize = 500;
 		//Tweak for difficulty of finding solution
-		internal static readonly int randomGeneRange = 100;
+		internal static readonly int RandomGeneRange = 100;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
-		private static readonly double mutationRate = 0.025;
-		//Letters that algorithm can make genes with
-		internal static readonly string allowedLetters = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:!?\n\t$#@¤£\"%¤3&/{()[]=}+?`^¨' *<>-_;";
-		//Crossover tournament population size
-		private static readonly int tournamentSize = 50;
+        private const double MutationRate = 0.025;
+        //Letters that algorithm can make genes with
+		internal static readonly string AllowedLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:!?\n\t";
 
+		//Crossover tournament population size
+		private static readonly int TournamentSize = 50;
 		//How much DNA to take from each parent. Should stay at 0.5
-		private static readonly double uniformRate = 0.5;
+		private static readonly double UniformRate = 0.5;
 		//Keep copy of best individual next generation, or just random?
-		private static readonly bool elitism = true;            
-        
-        private static Random rnd = new Random();
+        private const bool Elitism = true;
+
+        private static readonly Random Rnd = new Random();
 
 		/// <summary>
 		/// Evolve a population
@@ -40,31 +31,26 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns>Evolved population</returns>
 		internal static Population EvolvePopulation(Population pop)
         {
-            Population newPopulation = new Population(pop.Size(), false);
+            var newPopulation = new Population(pop.Size(), false);
             
             // Keep our best individual
-            if (elitism) {
+            if (Elitism) {
                 newPopulation.SaveIndividual(0, pop.GetFittest());
             }
 
             // Crossover population
-            int elitismOffset;
-            if (elitism) {
-                elitismOffset = 1;
-            } else {
-                elitismOffset = 0;
-            }
+            const int elitismOffset = Elitism ? 1 : 0;
 
             // Loop over the population size and create new individuals with crossover
-            for (int i = elitismOffset; i < pop.Size(); i++) {
-                Individual indiv1 = TournamentSelection(pop);
-                Individual indiv2 = TournamentSelection(pop);
-                Individual newIndiv = Crossover(indiv1, indiv2);
+            for (var i = elitismOffset; i < pop.Size(); i++) {
+                var indiv1 = TournamentSelection(pop);
+                var indiv2 = TournamentSelection(pop);
+                var newIndiv = Crossover(indiv1, indiv2);
                 newPopulation.SaveIndividual(i, newIndiv);
             }
 
             // Mutate population
-            for (int i = elitismOffset; i < newPopulation.Size(); i++) {
+            for (var i = elitismOffset; i < newPopulation.Size(); i++) {
                 Mutate(newPopulation.GetIndividual(i));
             }
             return newPopulation;
@@ -78,15 +64,11 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns>Child individual</returns>
 		private static Individual Crossover(Individual indiv1, Individual indiv2)
         {
-            Individual newSol = new Individual();
+            var newSol = new Individual();
             // Loop through genes
-            for (int i = 0; i < indiv1.Size(); i++) {
+            for (var i = 0; i < indiv1.Size(); i++) {
                 // Crossover
-                if (rnd.NextDouble() <= uniformRate) {
-                    newSol.SetGene(i, indiv1.GetGene(i));
-                } else {
-                    newSol.SetGene(i, indiv2.GetGene(i));
-                }
+                newSol.SetGene(i, Rnd.NextDouble() <= UniformRate ? indiv1.GetGene(i) : indiv2.GetGene(i));
             }
             return newSol;
         }
@@ -98,13 +80,12 @@ namespace GeneticAlgorithmForStrings {
 		private static void Mutate(Individual indiv)
         {
             // Loop through genes
-            for (int i = 0; i < indiv.Size(); i++) {
-                if (rnd.NextDouble() <= mutationRate) {
-					// Create random gene
-					//char gene = (int)Math.Round((double)rnd.Next() % randomGeneRange);
-					char gene = allowedLetters[rnd.Next(allowedLetters.Length)];
-                    indiv.SetGene(i, gene);
-                }
+            for (var i = 0; i < indiv.Size(); i++) {
+                if (!(Rnd.NextDouble() <= MutationRate)) continue;
+                // Create random gene
+                //char gene = (int)Math.Round((double)rnd.Next() % randomGeneRange);
+                var gene = AllowedLetters[Rnd.Next(AllowedLetters.Length)];
+                indiv.SetGene(i, gene);
             }
         }
 
@@ -116,14 +97,14 @@ namespace GeneticAlgorithmForStrings {
 		private static Individual TournamentSelection(Population pop)
         {
             // Create a tournament population
-            Population tournament = new Population(tournamentSize, false);
+            var tournament = new Population(TournamentSize, false);
             // For each place in the tournament get a random individual
-            for (int i = 0; i < tournamentSize; i++) {
-                int randomId = rnd.Next(pop.Size());
+            for (var i = 0; i < TournamentSize; i++) {
+                var randomId = Rnd.Next(pop.Size());
                 tournament.SaveIndividual(i, pop.GetIndividual(randomId));
             }
             // Get the fittest
-            Individual fittest = tournament.GetFittest();
+            var fittest = tournament.GetFittest();
             return fittest;
         }
     }

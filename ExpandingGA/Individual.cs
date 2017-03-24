@@ -1,23 +1,21 @@
 ﻿using System;
 
-namespace GeneticAlgorithmForStrings {
-
-
+namespace ExpandingGA {
 	internal class Individual {
 
-		static internal int DefaultGeneLength = Algorithm.solution.Length;
-		private char[] _genes = new char[DefaultGeneLength];
+		internal static int DefaultGeneLength = Algorithm.Solution.Length;
+		private readonly char[] _genes = new char[DefaultGeneLength];
 		private int _fitness = 0;
-		private Random rnd = new Random();
+		private readonly Random _rnd = new Random();
 
 		/// <summary>
 		/// create a random individual
 		/// </summary>
 		internal void GenerateIndividual()
         {
-            for (int i = 0; i < Size(); i++) {
+            for (var i = 0; i < Size(); i++) {
 				//int gene = (int)Math.Round((double)rnd.Next() % Algorithm.randomGeneRange);
-				char gene = Algorithm.allowedLetters[rnd.Next(Algorithm.allowedLetters.Length)];
+				var gene = Algorithm.AllowedLetters[_rnd.Next(Algorithm.AllowedLetters.Length)];
                 _genes[i] = gene;
             }
         }
@@ -70,8 +68,8 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns>Gene as string</returns>
         public override string ToString()
         {
-            string geneString = "";
-            for (int i = 0; i < Size(); i++) {
+            var geneString = "";
+            for (var i = 0; i < Size(); i++) {
                 geneString += GetGene(i);
             }
             return geneString;

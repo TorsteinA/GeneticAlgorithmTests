@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GeneticAlgorithmForStrings {
-    class Population {
-        Individual[] individuals;
+﻿namespace ExpandingGA {
+    internal class Population {
+        readonly Individual[] _individuals;
         
 		/// <summary>
 		/// Constructor
@@ -15,7 +9,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <param name="initialise"></param>
         internal Population(int populationSize, bool initialise)
         {
-            individuals = new Individual[populationSize];
+            _individuals = new Individual[populationSize];
             //Initialize population
             if (initialise) {
                 for(int i = 0; i < Size(); i++) {
@@ -33,7 +27,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns>Individual at index</returns>
         internal Individual GetIndividual(int index)
         {
-            return individuals[index];
+            return _individuals[index];
         }
 
 		/// <summary>
@@ -42,9 +36,9 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns>Fittest individual in population</returns>
         internal Individual GetFittest()
         {
-            Individual fittest = individuals[0];
+            var fittest = _individuals[0];
             //Loop through individuals to find fittest
-            for(int i = 0; i < Size(); i++) {
+            for(var i = 0; i < Size(); i++) {
                 if (fittest.GetFitness() <= GetIndividual(i).GetFitness()) {
                     fittest = GetIndividual(i);
                 }
@@ -58,7 +52,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns>Size of population</returns>
         internal int Size()
         {
-            return individuals.Length;
+            return _individuals.Length;
         }
 
 		/// <summary>
@@ -68,7 +62,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <param name="indiv">Individual to save</param>
         internal void SaveIndividual(int index, Individual indiv)
         {
-            individuals[index] = indiv;
+            _individuals[index] = indiv;
         }
     }
 }
