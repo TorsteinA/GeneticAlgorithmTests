@@ -55,11 +55,12 @@ namespace GeneticAlgorithmForStrings {
 
             // Crossover population
             int elitismOffset;
-            if (elitism) {
-                elitismOffset = 1;
-            } else {
-                elitismOffset = 0;
-            }
+			if (elitism) {
+				elitismOffset = 1;
+			}
+			else {
+				elitismOffset = 0;
+			}
 
             // Loop over the population size and create new individuals with crossover
             for (int i = elitismOffset; i < pop.Size(); i++) {
