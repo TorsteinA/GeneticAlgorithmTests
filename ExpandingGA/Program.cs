@@ -1,32 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GeneticAlgorithmForStrings {
-	class Program {
-		static void Main(string[] args) {
-			FitnessCalc.SetSolution(Algorithm.solution);
-			Population myPop = new Population(Algorithm.populationSize, true);
-			int _generationCount = 0;
+namespace ExpandingGA {
+    internal class Program {
+        public static void Main(string[] args) {
+			FitnessCalc.SetSolution(Algorithm.Solution);
+			var myPop = new Population(Algorithm.PopulationSize, true);
+			var generationCount = 0;
 
 			while (myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxFitness()) {
-				_generationCount++;
-				Console.WriteLine("\n   Generation: "
-					+ _generationCount
-					+ ", \t Fittest score: "
-					+ myPop.GetFittest().GetFitness()
-					+ ", \t Genes of fittest: "
-					+ myPop.GetFittest().ToString());
+				generationCount++;
+
+			    Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("Generation: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(generationCount);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write(", \t Fittest score: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(myPop.GetFittest().GetFitness());
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine(", \t Genes of fittest: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(myPop.GetFittest().ToString());
+
+
 				myPop = Algorithm.EvolvePopulation(myPop);
 			}
+
+
 			Console.WriteLine();
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.WriteLine("Solution Found!");
 			Console.Write("Generation: ");
 			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.WriteLine(_generationCount);
+			Console.WriteLine(generationCount);
 			Console.WriteLine();
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.WriteLine("MyPop Genes:    ");
@@ -37,7 +45,7 @@ namespace GeneticAlgorithmForStrings {
 			Console.WriteLine();
 			Console.WriteLine("Solution Genes: ");
 			Console.ForegroundColor = ConsoleColor.White;
-			Console.Write(Algorithm.solution);
+			Console.Write(Algorithm.Solution);
 			Console.WriteLine();
 			Console.WriteLine();
 			Console.WriteLine();
