@@ -1,4 +1,4 @@
-﻿namespace ExpandingGA {
+﻿namespace GeneticAlgorithmForStrings {
     internal class Population {
         readonly Individual[] _individuals;
         

@@ -1,4 +1,4 @@
-﻿namespace ExpandingGA {
+﻿namespace GeneticAlgorithmForStrings {
     internal class FitnessCalc {
 
         static char[] _solution;

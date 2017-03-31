@@ -1,9 +1,10 @@
 ﻿using System;
 
-namespace ExpandingGA {
-	internal class Individual {
+namespace GeneticAlgorithmForStrings {
+	internal class Individual
+	{
 
-		internal static int DefaultGeneLength = Algorithm.Solution.Length;
+	    internal static int DefaultGeneLength = 64;//Algorithm.Solution.Length;
 		private readonly char[] _genes = new char[DefaultGeneLength];
 		private int _fitness = 0;
 		private readonly Random _rnd = new Random();

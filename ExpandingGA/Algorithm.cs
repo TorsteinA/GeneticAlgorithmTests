@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace ExpandingGA {
+namespace GeneticAlgorithmForStrings {
     internal class Algorithm {
 
         /* GA parameters */
 		//Tweak. Algorithm tries to create this solution
-        internal static readonly string Solution = "Got my Genetic Algorithm to work with sentences now! \nWop Wop Wop Wop!\nYO!\n\n:D :D :D\n:D :D\n:D\n:D :D\n:D :D :D";
+//        internal static readonly string Solution = "Got my Genetic Algorithm to work with sentences now! \nWop Wop Wop Wop!\n:D :D :D\n:D :D\n:D\n:D :D\n:D :D :D\n\nDen klarer å skrive ord som \"Pokémon\" også! \\m/";
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
 		internal static readonly int PopulationSize = 500;
 		//Tweak for difficulty of finding solution
@@ -13,13 +13,13 @@ namespace ExpandingGA {
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
         //Letters that algorithm can make genes with
-		internal static readonly string AllowedLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:!?\n\t";
+		internal static readonly string AllowedLetters = "abcdefghijklmnopqrstuvwxyzæøåèéêëàáâäíìîïùúûüABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÈÉÊËÀÁÂÄÍÌÎÏÙÚÛÜ0123456789 ,.:!?¨^~'*;-_/()=&%¤¤#|§\"\\\n\t";
 
 		//Crossover tournament population size
-		private static readonly int TournamentSize = 50;
-		//How much DNA to take from each parent. Should stay at 0.5
-		private static readonly double UniformRate = 0.5;
-		//Keep copy of best individual next generation, or just random?
+        private const int TournamentSize = 50;
+        //How much DNA to take from each parent. Should stay at 0.5
+        private const double UniformRate = 0.5;
+        //Keep copy of best individual next generation, or just random?
         private const bool Elitism = true;
 
         private static readonly Random Rnd = new Random();
@@ -32,12 +32,11 @@ namespace ExpandingGA {
 		internal static Population EvolvePopulation(Population pop)
         {
             var newPopulation = new Population(pop.Size(), false);
-            
-            // Keep our best individual
-            if (Elitism) {
-                newPopulation.SaveIndividual(0, pop.GetFittest());
-            }
 
+            // Keep our best individual
+            if (Elitism) 
+                newPopulation.SaveIndividual(0, pop.GetFittest());
+            
             // Crossover population
             const int elitismOffset = Elitism ? 1 : 0;
 
@@ -50,9 +49,9 @@ namespace ExpandingGA {
             }
 
             // Mutate population
-            for (var i = elitismOffset; i < newPopulation.Size(); i++) {
+            for (var i = elitismOffset; i < newPopulation.Size(); i++)
                 Mutate(newPopulation.GetIndividual(i));
-            }
+            
             return newPopulation;
         }
 
@@ -83,7 +82,6 @@ namespace ExpandingGA {
             for (var i = 0; i < indiv.Size(); i++) {
                 if (!(Rnd.NextDouble() <= MutationRate)) continue;
                 // Create random gene
-                //char gene = (int)Math.Round((double)rnd.Next() % randomGeneRange);
                 var gene = AllowedLetters[Rnd.Next(AllowedLetters.Length)];
                 indiv.SetGene(i, gene);
             }
