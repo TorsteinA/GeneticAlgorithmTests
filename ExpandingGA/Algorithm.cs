@@ -12,8 +12,8 @@ namespace GeneticAlgorithmForStrings {
 		internal static readonly int RandomGeneRange = 100;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
-        //Letters that algorithm can make genes with
-		internal static readonly string AllowedLetters = "abcdefghijklmnopqrstuvwxyzæøåèéêëàáâäíìîïùúûüABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÈÉÊËÀÁÂÄÍÌÎÏÙÚÛÜ0123456789 ,.:!?¨^~'*;-_/()=&%¤¤#|§\"\\\n\t";
+		//Letters that algorithm can make genes with
+		internal static readonly string AllowedLetters = "agct"; //abcdefghijklmnopqrstuvwxyzæøåèéêëàáâäíìîïùúûüABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÈÉÊËÀÁÂÄÍÌÎÏÙÚÛÜ0123456789 ,.:!?¨^~'*;-_/()=&%¤¤#|§\"\\\n\t";
 
 		//Crossover tournament population size
         private const int TournamentSize = 50;

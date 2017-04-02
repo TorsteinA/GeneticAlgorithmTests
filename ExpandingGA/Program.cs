@@ -4,16 +4,26 @@ namespace GeneticAlgorithmForStrings {
     internal class Program {
         public static void Main(string[] args)
         {
-            for (var generationCount = 0; generationCount < 3; generationCount++)
-            {
-                for (var individualCount = 0; individualCount < 3; individualCount++)
-                {
-                    var fileC = new FileCreator(generationCount, individualCount);
-                }
-            }
-            Console.WriteLine("Files Created");
 
-            /*
+
+
+
+
+			/***FileCreator testing***
+			int generation = 0;
+			int individual = 0;
+			
+			for (int i = 0; i < 5; i++) {
+				for (int j = 0; j < 5; j++) {
+					var fileCreator = new FileCreator(i, j);  //Creates folders from generation, and uses both generation and individual for filename
+					Console.WriteLine("File Created");
+				}
+			}*/
+
+
+
+
+			/***Genetic Algorithm for strings***
 			FitnessCalc.SetSolution(Algorithm.Solution);
 			var myPop = new Population(Algorithm.PopulationSize, true);
 			var generationCount = 0;
@@ -63,8 +73,8 @@ namespace GeneticAlgorithmForStrings {
 
 
 
-            // Keep the console window open in debug mode.
-            System.Console.WriteLine("Press any key to exit.");
+			// Keep the console window open in debug mode.
+			System.Console.WriteLine("Press any key to exit.");
             System.Console.ReadKey();
         }
 	}

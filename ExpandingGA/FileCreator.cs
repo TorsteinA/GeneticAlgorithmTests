@@ -8,165 +8,103 @@ using System.Threading.Tasks;
 namespace GeneticAlgorithmForStrings {
     class FileCreator
     {
-        public static string FolderName = @"e:\RobotCreator";
-        public string PathString = "";
-        public string FileName;
+        private static readonly string _folderName = @"e:\RobotCreator";   //Root Folder for robots
+		private readonly string _fileExtension = ".cs";
+		private string _pathString;
+        private string _fileName;
 
-        public FileCreator(int generation, int individual)
-        {
-            FileName = GetFileName(generation, individual);
-            PathString = System.IO.Path.Combine(FolderName, "Robots_gen" + generation);
-            System.IO.Directory.CreateDirectory(PathString);
+		//TODO print 0001 instead of 1, 0023 instead of 23. This is to keep things sorted when there's hundreds of entities
 
-            PathString = System.IO.Path.Combine(PathString, FileName);
+        public FileCreator(int generation, int individual) {
+			_pathString = System.IO.Path.Combine(_folderName, "Robots_gen" + generation);
+			_fileName = GetFileName(generation, individual) + _fileExtension;
+            System.IO.Directory.CreateDirectory(_pathString);
             
-            Console.WriteLine("Path to my file: {0}\n", PathString);
+            Console.WriteLine("Path to my file: {0}\n", _pathString);
 
-            if (!System.IO.File.Exists(PathString)) {
-                using (System.IO.FileStream fs = System.IO.File.Create(PathString)) {
-                    
-                }
-            }
-            else {
-                Console.WriteLine("File \"{0}\" already exists.", FileName);
-//                return; //Use to prevent overwriting
-            }
-
-
-            // Create the file.
-            using (FileStream fs = File.Create(PathString))
-            {
-                Byte[] info =
-                    new UTF8Encoding(true).GetBytes(CreateFirstPartOfRobot() + 
-                                                    CreateMidPartOfRobot(generation, individual) +
-                                                    CreateLastPartOfRobot());
-                // Add some information to the file.
-                fs.Write(info, 0, info.Length);
-            }
+			CreateFile(generation, individual);
         }
 
-        private string CreateFirstPartOfRobot()
-        {
+		private void CreateFile(int generation, int individual) {
+
+			_pathString = System.IO.Path.Combine(_pathString, _fileName);
+			if (!System.IO.File.Exists(_pathString)) {
+				using (System.IO.FileStream fs = System.IO.File.Create(_pathString)) {
+
+				}
+			}
+			else {
+				Console.WriteLine("File \"{0}\" already exists.", _fileName);
+//                return;	 //Use to prevent overwriting existing files
+			}
+
+			// Create the file.
+			using (FileStream fs = File.Create(_pathString)) {
+				// Get together the pieces that goes into file.
+				Byte[] info = new UTF8Encoding(true).GetBytes(CreateFirstPartOfRobot(generation, individual) +
+													CreateMidPartOfRobot() +
+													CreateLastPartOfRobot());
+				// Add information to the file.
+				fs.Write(info, 0, info.Length);
+			}
+		}
+
+		private string CreateFirstPartOfRobot(int generation, int individual) {
             var imports = "using System;" +
-                          "\nusing Robocode;" +
+						  "\nusing System.Collections.Generic;" +
+						  "\nusing System.Linq;" +
+						  "\nusing System.Text;" +
+						  "\nusing Robocode;" +
                           "\n";
 
-            var classInfo = "\nclass RobotCreationTest : AdvancedRobot {";
+            var classInfo = "\nnamespace GARICS {    //GARICS: Genetic Algorithm Robot in C Sharp" +	//GARICS: Genetic Algorithm Robot in C Sharp
+							"\n\tclass " + GetFileName(generation, individual) + " : Robot {";
 
-            var insideMain = "\n\tpublic static void Main(string[] args) {" + 
-                             "\n\t\tWriteHelloWorld();" +
-                             "\n\t}";
+			var runMethod = "\n\t\tpublic override void Run() {" +
+							"\n\n\t\t\t//Proving we can call methods and use comments" +
+                            "\n\t\t\t//WriteHelloWorld();" +
+							"\n\n\t\t\t//We should probably do something useful though" +
+							"\n\t\t\tTurnLeft(Heading - 90);" +
+						 	"\n\t\t\tTurnRight(90);" +
+							"\n" +
+							"\n\t\t\twhile (true) {" +
+							"\n\t\t\t\tAhead(5000);" +
+							"\n" +
+							"\n\t\t\t\tTurnRight(90);" +
+							"\n\t\t\t}" +
+							"\n\t\t}" +
+							"\n";
 
-            var methods = "\n\n\tpublic void WriteHelloWorld() {" +
+            var methods = "\n\t\tpublic override void OnScannedRobot(ScannedRobotEvent e) {" +
+						  "\n\t\t\tFire(1);" +
+						  "\n\t\t}" + 
+						  "\n" + //Fill more methods here that bot can use. 
+						  "\n\t\tpublic void WriteHelloWorld() {" +
                           "\n";
 
-            return imports + classInfo + insideMain + methods;
-
+            return imports + classInfo + runMethod + methods;
         }
 
-        private string CreateMidPartOfRobot(int generation , int individualNumber) {
-            var middle = "\t\tConsole.WriteLine(\"Hello World from Generation ";
-            middle += generation;
-            middle += ", Individual number ";
-            middle += individualNumber;
-            middle += "!\");";
-            
-            return middle;
+		//This is where we fill in with code based on genes
+		private string CreateMidPartOfRobot() { 
+            var middle = "\t\t\tConsole.WriteLine(\"Hello World!\");";
+			middle += "\n\t\t\t//Now with comments!";
+			return middle;
         }
 
-        private string CreateLastPartOfRobot()
-        {
-            return "\n\t}\n}";
+        private string CreateLastPartOfRobot() {
+            return "\n\t\t}" +
+				   "\n\t}" +
+				   "\n}";
         }
 
-        private string GetFileName(int generation , int individualNumber)
-        {
-            var fileName = "Robot_G";
+        private string GetFileName(int generation , int individualNumber) {
+            var fileName = "Robot_g";
             fileName += generation;
-            fileName += "_I";
+            fileName += "_i";
             fileName += individualNumber;
-            fileName += ".cs";
 
             return fileName;
         }
     }
 }
-
-
-
-
-/*
-
-// Specify a name for your top-level folder.
-string folderName = @"c:\Top-Level Folder";
-
-// To create a string that specifies the path to a subfolder under your 
-// top-level folder, add a name for the subfolder to folderName.
-string pathString = System.IO.Path.Combine(folderName, "SubFolder");
-
-// You can write out the path name directly instead of using the Combine
-// method. Combine just makes the process easier.
-string pathString2 = @"c:\Top-Level Folder\SubFolder2";
-
-// You can extend the depth of your path if you want to.
-//pathString = System.IO.Path.Combine(pathString, "SubSubFolder");
-
-// Create the subfolder. You can verify in File Explorer that you have this
-// structure in the C: drive.
-//    Local Disk (C:)
-//        Top-Level Folder
-//            SubFolder
-System.IO.Directory.CreateDirectory(pathString);
-
-        // Create a file name for the file you want to create. 
-        string fileName = System.IO.Path.GetRandomFileName();
-
-// This example uses a random string for the name, but you also can specify
-// a particular name.
-//string fileName = "MyNewFile.txt";
-
-// Use Combine again to add the file name to the path.
-pathString = System.IO.Path.Combine(pathString, fileName);
-
-        // Verify the path that you have constructed.
-        Console.WriteLine("Path to my file: {0}\n", pathString);
-
-        // Check that the file doesn't already exist. If it doesn't exist, create
-        // the file and write integers 0 - 99 to it.
-        // DANGER: System.IO.File.Create will overwrite the file if it already exists.
-        // This could happen even with random file names, although it is unlikely.
-        if (!System.IO.File.Exists(pathString))
-        {
-            using (System.IO.FileStream fs = System.IO.File.Create(pathString))
-            {
-                for (byte i = 0; i< 100; i++)
-                {
-                    fs.WriteByte(i);
-                }
-            }
-        }
-        else
-        {
-            Console.WriteLine("File \"{0}\" already exists.", fileName);
-            return;
-        }
-
-        // Read and display the data from your file.
-        try
-        {
-            byte[] readBuffer = System.IO.File.ReadAllBytes(pathString);
-            foreach (byte b in readBuffer)
-            {
-                Console.Write(b + " ");
-            }
-            Console.WriteLine();
-        }
-        catch (System.IO.IOException e)
-        {
-            Console.WriteLine(e.Message);
-        }
-
-        // Keep the console window open in debug mode.
-        System.Console.WriteLine("Press any key to exit.");
-        System.Console.ReadKey();
-    }*/
