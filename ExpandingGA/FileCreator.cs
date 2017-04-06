@@ -51,7 +51,7 @@ namespace GeneticAlgorithmForStrings {
             var csc = new CSharpCodeProvider(new Dictionary<string, string>() {{"CompilerVersion", "v4.0"}});
             var parameters =
                 new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll"},
-                    $"{GetFileName(generation, individual)}.dll", true)
+                    $"{_dllDirectoryPath}/{GetFileName(generation, individual)}.dll", true)
                 {
                     GenerateExecutable = false,
                     //TODO: get write access to subdirs
