@@ -13,28 +13,26 @@ namespace GeneticAlgorithmForStrings {
     {
         private static readonly string _folderName = @"RobotCreator/";   //Root Folder for robots
 		private readonly string _fileExtension = ".cs";
-		private readonly string _directoryPath;
+		private readonly string _directoryPath, _dllDirectoryPath;
         private string _fileName;
         private const string NameSpace = "GARICS";
-
-        private readonly string _robotName;
+		private readonly string _robotName;
 
         public FileCreator(int generation, int individual) {
 
             //Get robotname once so we don't have to call GetFileName all the time.
             _robotName = GetFileName(generation, individual);
 
-			_directoryPath = System.IO.Path.Combine(_folderName, "Robots_gen" + generation.ToString("D4"));
 			_fileName = _robotName + _fileExtension;
+			_directoryPath = System.IO.Path.Combine(_folderName, "Robots_gen" + generation.ToString("D4"));
+			_dllDirectoryPath = System.IO.Path.Combine(_folderName, "DLL");
             System.IO.Directory.CreateDirectory(_directoryPath);
+			System.IO.Directory.CreateDirectory(_dllDirectoryPath);
 
             Console.WriteLine("Path to my file: {0}\n", _directoryPath);
 
 			CreateFile(generation, individual);
-			
 			CreateDll(generation, individual);
-
-			//Generate .battle files
 			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, _robotName);
 		}
 
@@ -116,10 +114,10 @@ namespace GeneticAlgorithmForStrings {
                               CreateMidPartOfRobot() +
                               CreateLastPartOfRobot();
 
-            var csc = new CSharpCodeProvider(new Dictionary<string, string>() {{"CompilerVersion", "v4.0"}});	//Was 4.62, changed to 3.5
+            var csc = new CSharpCodeProvider(new Dictionary<string, string>() {{"CompilerVersion", "v4.0"}});	//Was 4.62, changed to 4.0
             var parameters =
                 new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll"},
-                    $"{GetFileName(generation, individual)}.dll", true)
+                    $"./{_dllDirectoryPath}/{GetFileName(generation, individual)}.dll", true)
                 {
                     GenerateExecutable = false,
                     //TODO: get write access to subdirs
