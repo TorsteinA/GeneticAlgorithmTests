@@ -17,15 +17,13 @@ namespace GeneticAlgorithmForStrings {
         private readonly string _fileName;
         private const string NameSpace = "GARICS";
 
-        private readonly string _robotName;
-
         public FileCreator(int generation, int individual) {
 
             //Get robotname once so we don't have to call GetFileName all the time.
-            _robotName = GetFileName(generation, individual);
+            var robotName = GetFileName(generation, individual);
 
 			_directoryPath = System.IO.Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
-			_fileName = _robotName + FileExtension;
+			_fileName = robotName + FileExtension;
             System.IO.Directory.CreateDirectory(_directoryPath);
 
             Console.WriteLine("Path to my file: {0}\n", _directoryPath);
@@ -35,7 +33,7 @@ namespace GeneticAlgorithmForStrings {
 			CreateDll(generation, individual);
 
 			//Generate .battle files
-			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, _robotName);
+			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, robotName);
 		}
 
 		//TODO: write files
