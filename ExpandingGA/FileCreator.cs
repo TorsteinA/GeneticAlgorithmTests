@@ -13,24 +13,22 @@ namespace GeneticAlgorithmForStrings {
     {
         private static readonly string _folderName = @"RobotCreator/";   //Root Folder for robots
 		private readonly string _fileExtension = ".cs";
-		private readonly string _filePath;
+		private readonly string _directoryPath;
         private string _fileName;
         private const string NameSpace = "GARICS";
 
-        private string _robotName;
-
-        //TODO print 0001 instead of 1, 0023 instead of 23. This is to keep things sorted when there's hundreds of entities
+        private readonly string _robotName;
 
         public FileCreator(int generation, int individual) {
 
             //Get robotname once so we don't have to call GetFileName all the time.
             _robotName = GetFileName(generation, individual);
 
-			_filePath = System.IO.Path.Combine(_folderName, "Robots_gen" + generation);
-			_fileName = GetFileName(generation, individual) + _fileExtension;
-            System.IO.Directory.CreateDirectory(_filePath);
+			_directoryPath = System.IO.Path.Combine(_folderName, "Robots_gen" + generation.ToString("D4"));
+			_fileName = _robotName + _fileExtension;
+            System.IO.Directory.CreateDirectory(_directoryPath);
             
-            Console.WriteLine("Path to my file: {0}\n", _filePath);
+            Console.WriteLine("Path to my file: {0}\n", _directoryPath);
 
 			CreateFile(generation, individual);
         }
@@ -38,7 +36,7 @@ namespace GeneticAlgorithmForStrings {
         //TODO: I suggest we create a more generic CreateFile method
 		private void CreateFile(int generation, int individual) {
 
-			var pathIncludingFile = System.IO.Path.Combine(_filePath, _fileName);
+			var pathIncludingFile = System.IO.Path.Combine(_directoryPath, _fileName);
 			if (!System.IO.File.Exists(pathIncludingFile)) {
 				using (System.IO.FileStream fs = System.IO.File.Create(pathIncludingFile)) {
 
@@ -64,14 +62,9 @@ namespace GeneticAlgorithmForStrings {
 			    CreateDll(generation, individual);
 
 			    //Generate .battle files
-			    BattleFileCreator.CreateBattleFiles(_filePath, NameSpace, _robotName);
+			    BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, _robotName);
 			}
 		}
-
-        private void CreateBattleFile(int generation, int individual)
-        {
-            throw new NotImplementedException();
-        }
 
         private void CreateDll(int generation, int individual)
         {
@@ -87,7 +80,7 @@ namespace GeneticAlgorithmForStrings {
                 {
                     GenerateExecutable = false,
                     //TODO: get write access to subdirs
-//			            OutputAssembly = _filePath
+//			            OutputAssembly = _directoryPath
                 };
             var results = csc.CompileAssemblyFromSource(parameters,
                 classCodeAsString);
@@ -146,9 +139,9 @@ namespace GeneticAlgorithmForStrings {
 
         private string GetFileName(int generation , int individualNumber) {
             var fileName = "Robot_g";
-            fileName += generation;
+            fileName += generation.ToString("D4");
             fileName += "_i";
-            fileName += individualNumber;
+            fileName += individualNumber.ToString("D4");
 
             return fileName;
         }
