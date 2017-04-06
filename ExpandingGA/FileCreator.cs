@@ -48,17 +48,18 @@ namespace GeneticAlgorithmForStrings {
 		                            CreateMidPartOfRobot() +
 		                            CreateLastPartOfRobot();
 
-		    var csc = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v4.0" } });
-		    var parameters =
-			    new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll", "Robocode.dll" },
-				    $"./{_dllDirectoryPath}/{GetFileName(generation, individual)}.dll", true) {
-				    GenerateExecutable = false,
-				    //TODO: get write access to subdirs
-				    //			            OutputAssembly = _directoryPath
-			    };
-		    var results = csc.CompileAssemblyFromSource(parameters,
-			    classCodeAsString);
-		    results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
+            var csc = new CSharpCodeProvider(new Dictionary<string, string>() {{"CompilerVersion", "v4.0"}});
+            var parameters =
+                new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll"},
+                    $"{GetFileName(generation, individual)}.dll", true)
+                {
+                    GenerateExecutable = false,
+                    //TODO: get write access to subdirs
+//			            OutputAssembly = _directoryPath
+                };
+            var results = csc.CompileAssemblyFromSource(parameters,
+                classCodeAsString);
+            results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
 
 	    }
 
