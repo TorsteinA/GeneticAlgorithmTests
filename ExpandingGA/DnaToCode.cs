@@ -57,7 +57,7 @@ namespace GeneticAlgorithmForStrings {
 
             */
             
-                        BlockA = {  "",     // Block for state transitions
+                        AllowedMethods = {  "",     // Block for state transitions
                                     "",     // Has content for if statements
                                     "" },   // Both states will use this block
             
@@ -304,7 +304,7 @@ namespace GeneticAlgorithmForStrings {
 
 
 
-            statement += BlockD[];
+            statement += BlockD[0];
 
 
 		    statement += ";";
