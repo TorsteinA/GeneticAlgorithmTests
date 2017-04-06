@@ -1,4 +1,8 @@
 ﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.CSharp;
 
 namespace GeneticAlgorithmForStrings {
     internal class Program {
@@ -9,7 +13,7 @@ namespace GeneticAlgorithmForStrings {
 
 
 
-			/***FileCreator testing***
+//			***FileCreator testing***
 			int generation = 0;
 			int individual = 0;
 			
@@ -18,7 +22,7 @@ namespace GeneticAlgorithmForStrings {
 					var fileCreator = new FileCreator(i, j);  //Creates folders from generation, and uses both generation and individual for filename
 					Console.WriteLine("File Created");
 				}
-			}*/
+			}
 
 
 
@@ -74,8 +78,10 @@ namespace GeneticAlgorithmForStrings {
 
 
 			// Keep the console window open in debug mode.
-			System.Console.WriteLine("Press any key to exit.");
-            System.Console.ReadKey();
+/*			System.Console.WriteLine("Press any key to exit.");
+
+            System.Console.ReadKey();*/
+
         }
 	}
 }

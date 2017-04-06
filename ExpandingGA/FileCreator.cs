@@ -1,14 +1,16 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.CSharp;
 
 namespace GeneticAlgorithmForStrings {
     class FileCreator
     {
-        private static readonly string _folderName = @"e:\RobotCreator";   //Root Folder for robots
+        private static readonly string _folderName = @"RobotCreator/";   //Root Folder for robots
 		private readonly string _fileExtension = ".cs";
 		private string _pathString;
         private string _fileName;
@@ -44,6 +46,29 @@ namespace GeneticAlgorithmForStrings {
 				Byte[] info = new UTF8Encoding(true).GetBytes(CreateFirstPartOfRobot(generation, individual) +
 													CreateMidPartOfRobot() +
 													CreateLastPartOfRobot());
+
+			    #region DLL generation
+
+			    var dllPathString = $"Robots_DLL";
+			    Directory.CreateDirectory(dllPathString);
+
+			    var classString = CreateFirstPartOfRobot(generation, individual) +
+			                      CreateMidPartOfRobot() +
+			                      CreateLastPartOfRobot();
+
+			    var csc = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v4.62" } });
+			    var parameters =
+			        new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll"}, $"{GetFileName(generation, individual)}.dll", true)
+			        {
+			            GenerateExecutable = false,
+//			            OutputAssembly = dllPathString
+			        };
+			    var results = csc.CompileAssemblyFromSource(parameters,
+			        classString);
+			    results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
+
+			    #endregion
+
 				// Add information to the file.
 				fs.Write(info, 0, info.Length);
 			}
