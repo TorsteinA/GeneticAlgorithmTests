@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="robocode, Version=1.9.2.6, Culture=neutral, PublicKeyToken=43c1c8ae0e25a953">
+      <HintPath>..\..\..\..\..\robocode\libs\robocode.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
+    <Compile Include="BattleFileCreator.cs" />
     <Compile Include="DnaToCode.cs" />
     <Compile Include="FileCreator.cs" />
     <Compile Include="FitnessCalc.cs" />
