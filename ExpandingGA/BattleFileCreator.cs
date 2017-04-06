@@ -13,8 +13,11 @@ namespace GeneticAlgorithmForStrings {
 
 		public static void CreateBattleFiles(string filePath, string nameSpace, string robotName) {
 			foreach (var enemyRobot in EnemyRobots) {
-				FileCreator.CreateFile(filePath, $"{robotName}_vs_{enemyRobot}.battle",
-					GetFileText($"{nameSpace}.{robotName}", enemyRobot));
+				FileCreator.CreateFile(
+					filePath, 
+					$"{robotName}_vs_{enemyRobot}.battle",
+					GetFileText($"{nameSpace}.{robotName}", enemyRobot)
+				);
 			}
 		}
 

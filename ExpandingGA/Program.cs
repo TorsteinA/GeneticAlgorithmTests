@@ -8,7 +8,7 @@ namespace GeneticAlgorithmForStrings {
     internal class Program {
         public static void Main(string[] args)
         {
-
+			//TODO When changing project to create many generations of bots, use e: drive on desktop computer because HDD space.
 
 
 
@@ -19,8 +19,9 @@ namespace GeneticAlgorithmForStrings {
 			
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 5; j++) {
+					Console.WriteLine("Generation " + i.ToString("D3") + ", Individual " + j.ToString("D4"));
 					var fileCreator = new FileCreator(i, j);  //Creates folders from generation, and uses both generation and individual for filename
-					Console.WriteLine("File Created");
+					Console.WriteLine();
 				}
 			}
 
