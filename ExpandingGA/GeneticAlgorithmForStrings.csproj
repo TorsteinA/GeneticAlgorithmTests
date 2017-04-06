@@ -39,6 +39,9 @@
       <HintPath>..\packages\RoboCode.1.8.3.0\lib\robocode.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="robocode, Version=1.9.2.6, Culture=neutral, PublicKeyToken=43c1c8ae0e25a953">
+      <HintPath>bin\Debug\robocode.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

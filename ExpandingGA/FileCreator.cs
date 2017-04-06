@@ -78,7 +78,7 @@ namespace GeneticAlgorithmForStrings {
                 new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll"},
                     $"{GetFileName(generation, individual)}.dll", true)
                 {
-                    GenerateExecutable = false,
+                    GenerateExecutable = false
                     //TODO: get write access to subdirs
 //			            OutputAssembly = _directoryPath
                 };
