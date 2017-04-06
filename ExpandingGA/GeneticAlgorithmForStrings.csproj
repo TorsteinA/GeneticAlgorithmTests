@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
+    <Compile Include="BattleFileCreator.cs" />
     <Compile Include="DnaToCode.cs" />
     <Compile Include="FileCreator.cs" />
     <Compile Include="FitnessCalc.cs" />
