@@ -9,7 +9,7 @@ namespace GeneticAlgorithmForStrings {
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
 		internal static readonly int PopulationSize = 500;
 		//Tweak for difficulty of finding solution
-		internal static readonly int RandomGeneRange = 100;
+		internal static readonly int RandomGeneRange = 100;	//Not needed?
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
