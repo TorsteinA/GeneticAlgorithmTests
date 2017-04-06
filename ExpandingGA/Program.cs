@@ -9,16 +9,16 @@ namespace GeneticAlgorithmForStrings {
 
 
 
-			/***FileCreator testing***
+			//***FileCreator testing***
 			int generation = 0;
 			int individual = 0;
 			
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 5; j++) {
 					var fileCreator = new FileCreator(i, j);  //Creates folders from generation, and uses both generation and individual for filename
-					Console.WriteLine("File Created");
+//					Console.WriteLine("File Created");
 				}
-			}*/
+			}//
 
 
 

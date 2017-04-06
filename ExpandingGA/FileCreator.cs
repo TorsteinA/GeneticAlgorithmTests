@@ -11,7 +11,7 @@ namespace GeneticAlgorithmForStrings {
         private static readonly string _folderName = @"e:\RobotCreator";   //Root Folder for robots
 		private readonly string _fileExtension = ".cs";
 		private string _pathString;
-        private string _fileName;
+        private readonly string _fileName;
 
 		//TODO print 0001 instead of 1, 0023 instead of 23. This is to keep things sorted when there's hundreds of entities
 
