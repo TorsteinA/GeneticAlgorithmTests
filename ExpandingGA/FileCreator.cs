@@ -27,13 +27,62 @@ namespace GeneticAlgorithmForStrings {
 			_directoryPath = System.IO.Path.Combine(_folderName, "Robots_gen" + generation.ToString("D4"));
 			_fileName = _robotName + _fileExtension;
             System.IO.Directory.CreateDirectory(_directoryPath);
-            
+
             Console.WriteLine("Path to my file: {0}\n", _directoryPath);
 
 			CreateFile(generation, individual);
-        }
+			
+			CreateDll(generation, individual);
 
-        //TODO: I suggest we create a more generic CreateFile method
+			//Generate .battle files
+			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, _robotName);
+		}
+
+		//TODO: write files
+		internal static void CreateFile(string filePath, string name, string contents) {
+			var pathIncludingFile = System.IO.Path.Combine(filePath, name);
+
+			if (!File.Exists(pathIncludingFile)) {
+				//File.Create(pathIncludingFile);
+
+				using (var fs = File.Create(pathIncludingFile)) {
+					// Get together the pieces that goes into file.
+					var info = new UTF8Encoding(true).GetBytes(contents);
+
+
+					// Add information to the file.
+					fs.Write(info, 0, info.Length);
+					fs.Close();
+
+
+					//Dette virket som en enklere måte å skrive ut på
+					//File.WriteAllText(pathIncludingFile, contents);
+				}
+
+			}
+			else {
+				Console.WriteLine($"File \"{name}\" already exists.");
+				//return;	 //Use to prevent overwriting existing files
+			}
+
+			/*
+			using (var fs = File.Create(pathIncludingFile)) {
+				// Get together the pieces that goes into file.
+				var info = new UTF8Encoding(true).GetBytes(contents);
+
+
+				// Add information to the file.
+				fs.Write(info, 0, info.Length);
+				fs.Close();
+
+
+				//Dette virket som en enklere måte å skrive ut på
+				//File.WriteAllText(pathIncludingFile, contents);
+			}*/
+		}
+
+
+		//TODO: I suggest we create a more generic CreateFile method
 		private void CreateFile(int generation, int individual) {
 
 			var pathIncludingFile = System.IO.Path.Combine(_directoryPath, _fileName);
@@ -53,16 +102,10 @@ namespace GeneticAlgorithmForStrings {
 				var info = new UTF8Encoding(true).GetBytes(CreateFirstPartOfRobot(generation, individual) +
 													CreateMidPartOfRobot() +
 													CreateLastPartOfRobot());
-
-
+				
 			    // Add information to the file.
 				fs.Write(info, 0, info.Length);
 			    fs.Close();
-
-			    CreateDll(generation, individual);
-
-			    //Generate .battle files
-			    BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, _robotName);
 			}
 		}
 
@@ -73,7 +116,7 @@ namespace GeneticAlgorithmForStrings {
                               CreateMidPartOfRobot() +
                               CreateLastPartOfRobot();
 
-            var csc = new CSharpCodeProvider(new Dictionary<string, string>() {{"CompilerVersion", "v4.62"}});
+            var csc = new CSharpCodeProvider(new Dictionary<string, string>() {{"CompilerVersion", "v4.0"}});	//Was 4.62, changed to 3.5
             var parameters =
                 new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll"},
                     $"{GetFileName(generation, individual)}.dll", true)
@@ -85,8 +128,8 @@ namespace GeneticAlgorithmForStrings {
             var results = csc.CompileAssemblyFromSource(parameters,
                 classCodeAsString);
             results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
-            
-        }
+
+		}
 
         private string CreateFirstPartOfRobot(int generation, int individual) {
             var imports = "using System;" +
