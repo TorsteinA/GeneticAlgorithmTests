@@ -22,6 +22,7 @@ namespace GeneticAlgorithmForStrings
             }
         }
 
+        //NOTE: the formatting here is hideous because of the @-operator
         private static string GetFileText(string robotName, string enemyName)
         {
             return $@"#Battle Properties

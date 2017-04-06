@@ -11,10 +11,10 @@ using Microsoft.CSharp;
 namespace GeneticAlgorithmForStrings {
     class FileCreator
     {
-        private static readonly string _folderName = @"RobotCreator/";   //Root Folder for robots
-		private readonly string _fileExtension = ".cs";
-		private readonly string _directoryPath;
-        private string _fileName;
+        private const string FolderName = @"RobotCreator/"; //Root Folder for robots
+        private const string FileExtension = ".cs";
+        private readonly string _directoryPath;
+        private readonly string _fileName;
         private const string NameSpace = "GARICS";
 
         private readonly string _robotName;
@@ -24,8 +24,8 @@ namespace GeneticAlgorithmForStrings {
             //Get robotname once so we don't have to call GetFileName all the time.
             _robotName = GetFileName(generation, individual);
 
-			_directoryPath = System.IO.Path.Combine(_folderName, "Robots_gen" + generation.ToString("D4"));
-			_fileName = _robotName + _fileExtension;
+			_directoryPath = System.IO.Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
+			_fileName = _robotName + FileExtension;
             System.IO.Directory.CreateDirectory(_directoryPath);
             
             Console.WriteLine("Path to my file: {0}\n", _directoryPath);
