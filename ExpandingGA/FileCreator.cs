@@ -23,10 +23,10 @@ namespace GeneticAlgorithmForStrings {
 			var robotName = GetFileName(generation, individual);
 
 			_codeFileName = robotName + FileExtension;
-			_directoryPath = System.IO.Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
 			_dllDirectoryPath = System.IO.Path.Combine(FolderName, "DLL");
+			_directoryPath = System.IO.Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
 
-            System.IO.Directory.CreateDirectory(_directoryPath);
+			System.IO.Directory.CreateDirectory(_directoryPath);
 			System.IO.Directory.CreateDirectory(_dllDirectoryPath);
 			
 			CreateCodeFile(generation, individual);
