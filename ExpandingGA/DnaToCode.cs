@@ -18,10 +18,12 @@ namespace GeneticAlgorithmForStrings {
 					_minVariables = 5;		        //Minimum number of variables for numberOfVariables.
 		
 		private string _variables = "",								    //String with variables of robot
- 					   _firstStateEnterLeaveMethodContent,				//String with contents of first state
-					   _secondStateEnterLeaveMethodContent,				//String with contents of second state
- 					   _firstStateDoStateActionMethodContent,			//String with contents of first state
-					   _secondStateDoStateActionMethodContent,			//String with contents of second state
+ 					   _firstStateEnterMethodContent,					//String with contents of first states enter method
+					   _secondStateEnterMethodContent,					//String with contents of second states enter method
+ 					   _firstStateLeaveMethodContent,					//String with contents of first states leave method
+					   _secondStateLeaveMethodContent,					//String with contents of second states leave method
+ 					   _firstStateDoStateActionMethodContent,			//String with contents of first states action method
+					   _secondStateDoStateActionMethodContent,			//String with contents of second states action method
 					   _firstToSecondStateTransitionContent,	        //String with contents of transition from first to second
 					   _secondToFirstStateTransitionContent;            //String with contents of transition from second to first
 
@@ -57,26 +59,26 @@ namespace GeneticAlgorithmForStrings {
 
             */
             
-                        AllowedMethods = {  "",     // Block for state transitions
-                                    "",     // Has content for if statements
-                                    "" },   // Both states will use this block
-            
+                        BlockA = {  "",								// Block for state transitions
+                                    "",								// Has content for if statements
+                                    "" },							// Both states will use this block
+            														
+																	
+                        BlockB = {  "",								// Block for EnterState content
+                                    "",								// Has method calls and perhaps statements/loops
+                                    "" },							// Both states will use this block
+																	
+                        BlockC = {  "",								// Block for LeaveState content
+                                    "",								// Has method calls for when robot leaves a state (Maybe merge with BlockB)
+                                    "" },							// Both states will use this block
+																	
+                        BlockD = {  "",								// Block for DoStateAction content
+                                    "",								// Has method calls and statements/loops
+                                    "" },							// Both states will use this block
 
-                        BlockB = {  "",     // Block for EnterState content
-                                    "",     // Has method calls and perhaps statements/loops
-                                    "" },   // Both states will use this block
-
-                        BlockC = {  "",     // Block for LeaveState content
-                                    "",     // Has method calls for when robot leaves a state (Maybe merge with BlockB)
-                                    "" },   // Both states will use this block
-
-                        BlockD = {  "",     // Block for DoStateAction content
-                                    "",     // Has method calls and statements/loops
-                                    "" },   // Both states will use this block
-
-                        BlockE = {  "ourRobot.Energy",				   // Block for state variables
-                                    "ourRobot.HeadingRadians",		   // Has variables method can choose from
-                                    "ourRobot.Velocity",			   // Both states will use this block
+                        BlockE = {  "ourRobot.Energy",				// Block for state variables
+                                    "ourRobot.HeadingRadians",		// Has variables method can choose from
+                                    "ourRobot.Velocity",			// Both states will use this block
                                     "ourRobot.X",
                                     "ourRobot.Y",
                                     "ourRobot.Enemy.HeadingRadians",
@@ -98,25 +100,31 @@ namespace GeneticAlgorithmForStrings {
 			    SetNumberOfVariables(genes.GetGene(_geneIterator++));
 			    SetVariables(genes);
 
-					    //Set geneIterator to specific number here to let method contents start at the same place each time and not get messed up by mutations in variables (Need to calculate how many we need/max it can use first though)
-						    //Can also be placed between each method call to separate genes further
+					//Set geneIterator to specific number here to let method contents start at the same place each time and not get messed up by mutations in variables (Need to calculate how many we need/max it can use first though)
+					//Can also be placed between each method call below to separate genes further
 
-			    // Sets content for state enterLeave
-			    _firstStateEnterLeaveMethodContent = CreateStateMethodContent(genes);
-			    _secondStateEnterLeaveMethodContent = CreateStateMethodContent(genes);
+				// Sets content for transitions
+				_firstToSecondStateTransitionContent = GetCondition(genes);
+				_secondToFirstStateTransitionContent = GetCondition(genes);
+
+					//Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
+
+				// Sets content for state Enter
+				_firstStateEnterMethodContent = CreateStateMethodContent(genes, _minEnterLeaveStatements, BlockB);
+			    _secondStateEnterMethodContent = CreateStateMethodContent(genes, _minEnterLeaveStatements, BlockB);
+
+					//Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content	
+
+				// Sets content for state Leave
+				_firstStateLeaveMethodContent = CreateStateMethodContent(genes,_minEnterLeaveStatements, BlockC);
+			    _secondStateLeaveMethodContent = CreateStateMethodContent(genes,_minEnterLeaveStatements, BlockC);
 
 					    //Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
 
 			    // Sets content for state doAction
-			     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes);
-			    _secondStateDoStateActionMethodContent = CreateStateMethodContent(genes);
-
-					    //Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
-
-			    // Sets content for transitions
-			    _firstToSecondStateTransitionContent = GetCondition(genes);
-			    _secondToFirstStateTransitionContent = GetCondition(genes);
-		    }
+			     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, _minStatements, BlockD);
+			    _secondStateDoStateActionMethodContent = CreateStateMethodContent(genes, _minStatements, BlockD);
+			}
 		
 		/// <summary>
 		/// Sets content of variables.
@@ -129,17 +137,19 @@ namespace GeneticAlgorithmForStrings {
 				_variables += ";";
 			}
 		}
-		
+
 		/// <summary>
 		/// Creates a string with the contents of a method
 		/// </summary>
 		/// <param name="genes"></param>
+		/// <param name="minStatements"></param>
+		/// <param name="block"></param>
 		/// <returns></returns>
-		private string CreateStateMethodContent(Individual genes) {
-			string contents = "";
-			int statements = GetNumberOfStatements(genes.GetGene(_geneIterator++));
-			for (int i = 0; i < statements; i++) {
-				contents += "\n" + GetStatement(genes);
+		private string CreateStateMethodContent(Individual genes, int minStatements, string[] block) {
+			var contents = "";
+			var statements = GetNumberOfStatements(genes.GetGene(_geneIterator++), minStatements);
+			for (var i = 0; i < statements; i++) {
+				contents += "\n" + GetStatement(genes, block);
 			}
 			return contents;
 		}
@@ -256,58 +266,25 @@ namespace GeneticAlgorithmForStrings {
 		/// Returns string with a method call, if-statement, or a loop.
 		/// </summary>
 		/// <param name="genes"></param>
+		/// <param name="block"></param>
 		/// <returns></returns>
-		private string GetStatement(Individual genes) {
+		private string GetStatement(Individual genes, IReadOnlyList<string> block) {
 
-			string statement = "\n";
-
-            //Statements:
-            // "for (int i = 0; i " + GetComparator() + GetVariable() + "; i++) {\n" + GetStatement() + "\n}"
-
-            // "if (" + GetVariable() + GetComparator() + GetVariable() + ") {\n" + GetStatement() + "\n}"
-
-            // "else if (" + GetVariable() + GetComparator() + GetVariable() + ") {\n" + GetStatement() + "\n}"		//Can only be added if previous was an if
-
-            // "else {\n" + GetStatement() + "\n}"																	//Can only be added if previous was an if or else if
-
-            // "while (" + GetVariable() + GetComparator() + GetVariable() +  ") {\n" + GetStatement() + "\n}"
-
-            // "do {\n" + GetStatement() + "} while(" + GetVariable() + GetComparator() + GetVariable() +  ");"		
-
-            // GetRobotMethod();																					//Should probably have a higher chance than the others
-
-
-
-
-            /*
-            string varName = "";
-
-			string geneChars = Algorithm.AllowedLetters;
+			var statement = "";
+			var geneChars = Algorithm.AllowedLetters;
+			var gene1 = genes.GetGene(_geneIterator++);
+			var gene2 = genes.GetGene(_geneIterator++);
 			
-			for (int i = 0; i <= geneChars.Length; i++) {
-				for (int j = 0; j < geneChars.Length; i++) {
-					if (gene1 == geneChars[i] && gene2 == geneChars[j]) {
-
-						if ((geneChars.Length * i + j) > _numberOfVariables) {
-							varName = BlockE[(geneChars.Length * i + j)];
-						}
-						else {
-							varName = "";
-						}
+			for (var i = 0; i <= geneChars.Length; i++) {
+				for (var j = 0; j < geneChars.Length; i++)
+				{
+					if (gene1 != geneChars[i] || gene2 != geneChars[j]) continue;
+					if ((geneChars.Length * i + j) > _numberOfVariables) {
+						statement = block[(geneChars.Length * i + j)];
 					}
 				}
 			}
-			return varName;
-            */
-
-
-
-
-
-            statement += BlockD[0];
-
-
-		    statement += ";";
+//			statement += ";";
 
 			return statement;
 		}
@@ -377,11 +354,12 @@ namespace GeneticAlgorithmForStrings {
 		/// Returns a number based on minStatements and genes.
 		/// </summary>
 		/// <param name="gene"></param>
+		/// <param name="minStatements"></param>
 		/// <returns></returns>
-		private int GetNumberOfStatements(char gene) {
+		private int GetNumberOfStatements(char gene, int minStatements) {
 			for (int i = 0; i < Algorithm.AllowedLetters.Length; i++) {
 				if (gene == Algorithm.AllowedLetters[i]) {
-					return i + _minStatements;
+					return i + minStatements;
 				}
 			}
 			return 0;
