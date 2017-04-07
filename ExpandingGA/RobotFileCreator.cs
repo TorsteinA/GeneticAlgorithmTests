@@ -13,12 +13,13 @@
 		
 		internal static string GetFileText(int generation, int individual) {
 			var imports = $"using System;" +
-						"\nusing System.CodeDom.Compiler;" +
+//						"\nusing System.CodeDom.Compiler;" +
 						"\nusing System.Collections.Generic;" +
 						"\nusing System.IO;" +
 						"\nusing System.Linq;" +
 						"\nusing System.Text;" +
-						"\nusing Microsoft.CSharp;" +
+						"\nusing Robocode;" +
+//						"\nusing Microsoft.CSharp;" +
 			            "\n";
 
 			var classInfo = $"\nnamespace {FileCreator.NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +
@@ -46,8 +47,7 @@
 
 			const string methods = "\n\t\tpublic override void OnScannedRobot(ScannedRobotEvent e) {" +
 			                       "\n\t\t\t// Absolute angle towards target;" +
-			                       "\n\t\t\tvar angleToEnemy = HeadingRadians + e.BearingRadians;;" +
-			                       "\n\t\t\tvar angleToEnemy = HeadingRadians + e.BearingRadians;;" +
+			                       "\n\t\t\tvar angleToEnemy = HeadingRadians + e.BearingRadians;" +
 			                       "\n\t\t\t//Update enemy data;" +
 			                       "\n\t\t\tvar enemyX = (int)(X + Math.Sin(angleToEnemy) * e.Distance);" +
 			                       "\n\t\t\tvar enemyY = (int)(Y + Math.Cos(angleToEnemy) * e.Distance);" +
