@@ -11,12 +11,11 @@
         {
             _individuals = new Individual[populationSize];
             //Initialize population
-            if (initialise) {
-                for(int i = 0; i < Size(); i++) {
-                    Individual newIndividdual = new Individual();
-                    newIndividdual.GenerateIndividual();
-                    SaveIndividual(i, newIndividdual);
-                }
+            if (!initialise) return;
+            for(var i = 0; i < Size(); i++) {
+                var newIndividdual = new Individual();
+                newIndividdual.GenerateIndividual();
+                SaveIndividual(i, newIndividdual);
             }
         }
 

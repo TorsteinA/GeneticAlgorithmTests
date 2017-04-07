@@ -97,7 +97,13 @@ namespace GeneticAlgorithmForStrings {
             var classInfo = $"\nnamespace {NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +	//GARICS: Genetic Algorithm Robot in C Sharp
 							"\n\tclass " + GetFileName(generation, individual) + " : Robot {";
 
-			const string runMethod = "\n\t\tpublic override void Run() {" +
+		    const string fields = "\npublic EnemyData Enemy { get; set; } = null;" +
+                                  "\nprivate StateManagerScript _stateManager;" +
+		                          "\n" +
+		                          "\n";
+
+
+            const string runMethod = "\n\t\tpublic override void Run() {" +
 			                         "\n\n\t\t\t//Proving we can call methods and use comments" +
 			                         "\n\t\t\t//WriteHelloWorld();" +
 			                         "\n\n\t\t\t//We should probably do something useful though" +
@@ -113,13 +119,20 @@ namespace GeneticAlgorithmForStrings {
 			                         "\n";
 
             const string methods = "\n\t\tpublic override void OnScannedRobot(ScannedRobotEvent e) {" +
-                                   "\n\t\t\tFire(1);" +
+                                   "\n\t\t\t// Absolute angle towards target;" +
+                                   "\n\t\t\tvar angleToEnemy = HeadingRadians + e.BearingRadians;;" +
+                                   "\n\t\t\tvar angleToEnemy = HeadingRadians + e.BearingRadians;;" +
+                                   "\n\t\t\t//Update enemy data;" +
+                                   "\n\t\t\tvar enemyX = (int)(X + Math.Sin(angleToEnemy) * e.Distance);" +
+                                   "\n\t\t\tvar enemyY = (int)(Y + Math.Cos(angleToEnemy) * e.Distance);" +
+                                   "\n\t\t\tEnemy.SetEnemyData(e, new Point2D(enemyX, enemyY));" +
                                    "\n\t\t}" + 
                                    "\n" + //Fill more methods here that bot can use. 
+
                                    "\n\t\tpublic void WriteHelloWorld() {" +
                                    "\n";
 
-            return imports + classInfo + runMethod + methods;
+            return imports + classInfo + fields + runMethod + methods;
         }
 
 		private string CreateMidPartOfRobot() {
