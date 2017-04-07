@@ -58,12 +58,15 @@ namespace GeneticAlgorithmForStrings {
 
             */
             
+
                         _blockA = { "",								// Block for state transitions
                                     "",								// Has content for if statements
+                                    "",								// Format example: v1 == v2
                                     "" },							// Both states will use this block
             														
                         _blockB = { "",								// Block for EnterState content
                                     "",								// Has method calls and perhaps statements/loops
+                                    "",								// Format example: 
                                     "" },							// Both states will use this block
 																	
                         _blockC = { "",								// Block for LeaveState content
