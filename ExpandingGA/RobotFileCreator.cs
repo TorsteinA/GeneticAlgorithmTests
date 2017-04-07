@@ -1,8 +1,8 @@
 ﻿namespace GeneticAlgorithmForStrings
 {
-	public class RobotFileCreator
+	internal class RobotFileCreator
 	{
-		public static void CreateRobotFiles(string filePath, int generation, int individual) {
+		internal static void CreateRobotFiles(string filePath, int generation, int individual) {
 			FileCreator.CreateFile(
 				filePath,
 				$"{FileCreator.GetRobotName(generation, individual)}{FileCreator.CodeFileExtension}",
@@ -11,7 +11,7 @@
 			RobotStateFileCreator.CreateStateFiles(filePath, generation, individual);
 		}
 		
-		public static string GetFileText(int generation, int individual) {
+		internal static string GetFileText(int generation, int individual) {
 			var imports = $"using System;" +
 						"\nusing System.CodeDom.Compiler;" +
 						"\nusing System.Collections.Generic;" +

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GeneticAlgorithmForStrings {
-	class RobotStateFileCreator {
+	internal class RobotStateFileCreator {
 		
-		public static void CreateStateFiles(string filePath, int generation, int individual) {
+		internal static void CreateStateFiles(string filePath, int generation, int individual) {
 			for (var i = 0; i <= 1; i++) {
 				FileCreator.CreateFile(
 					filePath,

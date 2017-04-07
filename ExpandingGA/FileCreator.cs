@@ -12,7 +12,7 @@ namespace GeneticAlgorithmForStrings {
 		//TODO Refactor fileCreator and BattleFileCreator to Superclass FileCreator, and subclasses BattleFileCreator, CodeFileCreator?
 
 		private const string FolderName = @"RobotCreator/"; //Root Folder for robots
-		public const string NameSpace = "GARICS",
+		internal const string NameSpace = "GARICS",
 							CodeFileExtension = ".cs";
 
 		private readonly string _directoryPath, 
@@ -32,7 +32,7 @@ namespace GeneticAlgorithmForStrings {
 		private void CreateFiles(int generation, int individual) {
 			RobotFileCreator.CreateRobotFiles(_directoryPath, generation, individual);						//The robot itself
 			//TODO		AddConstantClasses();							//Classes that won't change between individuals that robot needs to work.
-			CreateDll(generation, individual);	//TODO Separate class for DLL creation
+			DLLFileCreator.CreateDll(_dllDirectoryPath, generation, individual);	//TODO Separate class for DLL creation
 			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, GetRobotName(generation, individual));	
 		}
 //
@@ -43,28 +43,25 @@ namespace GeneticAlgorithmForStrings {
 //			                             CreateLastPartOfRobot());
 //	    }
 
-		// Without quite knowing how DLLs work, We should probably refactor so it works for more than just the robot.cs file sources, and compiles a bot from all the files it needs.
-		private void CreateDll(int generation, int individual) {
-
-			//		    var classCodeAsString = CreateFirstPartOfRobot(generation, individual) +
-			//		                            CreateMidPartOfRobot() +
-			//		                            CreateLastPartOfRobot();
-			var classCodeAsString = RobotFileCreator.GetFileText(generation, individual);
-
-			var csc = new CSharpCodeProvider(new Dictionary<string, string>() {{"CompilerVersion", "v4.0"}});
-            var parameters =
-                new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll"},
-                    $"{_dllDirectoryPath}/{GetRobotName(generation, individual)}.dll", true)
-                {
-                    GenerateExecutable = false,
-                    //TODO: get write access to subdirs
-//			            OutputAssembly = _directoryPath
-                };
-            var results = csc.CompileAssemblyFromSource(parameters,
-                classCodeAsString);
-            results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
-
-	    }
+//		 Without quite knowing how DLLs work, We should probably refactor so it works for more than just the robot.cs file sources, and compiles a bot from all the files it needs.
+//		private void CreateDll(int generation, int individual) {
+//
+//			var classCodeAsString = RobotFileCreator.GetFileText(generation, individual);
+//
+//			var csc = new CSharpCodeProvider(new Dictionary<string, string>() {{"CompilerVersion", "v4.0"}});
+//            var parameters =
+//                new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll"},
+//                    $"{_dllDirectoryPath}/{GetRobotName(generation, individual)}.dll", true)
+//                {
+//                    GenerateExecutable = false,
+//                    //TODO: get write access to subdirs
+////			            OutputAssembly = _directoryPath
+//                };
+//            var results = csc.CompileAssemblyFromSource(parameters,
+//                classCodeAsString);
+//            results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
+//
+//	    }
 
 		internal static void CreateFile(string filePath, string name, string contents) {
 			var pathIncludingFile = System.IO.Path.Combine(filePath, name);

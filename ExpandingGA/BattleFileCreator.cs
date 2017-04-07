@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 
 namespace GeneticAlgorithmForStrings {
-	public class BattleFileCreator {
+	internal class BattleFileCreator {
 		//The robots to face off against
 		private static readonly string[] EnemyRobots =
 			{"sample.SittingDuck", "sample.Crazy", "sample.Tracker", "sample.Corners"};
@@ -11,7 +11,7 @@ namespace GeneticAlgorithmForStrings {
 		//Number of rounds per battle
 		private const int NumberOfRounds = 10;
 
-		public static void CreateBattleFiles(string filePath, string nameSpace, string robotName) {
+		internal static void CreateBattleFiles(string filePath, string nameSpace, string robotName) {
 			foreach (var enemyRobot in EnemyRobots) {
 				FileCreator.CreateFile(
 					filePath, 
