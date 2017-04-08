@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -91,41 +92,43 @@ namespace GeneticAlgorithmForStrings {
 #endregion Fields
 
         #region CreateCodeContent
-            
+
         /// <summary>
             /// Constructor of DnaToCode class
             /// </summary>
             /// <param name="genes"></param>
         public DnaToCode(Individual genes) {
-			    // Sets content for variables
-			    SetNumberOfVariables(genes.GetGene(_geneIterator++));
-			    SetVariables(genes);
+			// Sets content for variables
+			SetVariables(genes);    //uses max 9 genes with 4-letter genes. 
 
-					//Set geneIterator to specific number here to let method contents start at the same place each time and not get messed up by mutations in variables (Need to calculate how many we need/max it can use first though)
-					//Can also be placed between each method call below to separate genes further
+			//Set geneIterator to specific number here to let method contents start at the same place each time and not get messed up by mutations in variables (Need to calculate how many we need/max it can use first though)
+			_geneIterator = 10;
 
-				// Sets content for transitions
-				_firstToSecondStateTransitionContent = GetCondition(genes);
-				_secondToFirstStateTransitionContent = GetCondition(genes);
+			// Sets content for transitions
+			_firstToSecondStateTransitionContent = GetCondition(genes); //uses 2 genes with 4-letter genes (before && / || expansion)
+			_secondToFirstStateTransitionContent = GetCondition(genes); 
 
-					//Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
+            //Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
+            _geneIterator = 20;
 
-				// Sets content for state Enter
-				_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);
-			    _secondStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);
+			// Sets content for state Enter
+			_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);
+		    _secondStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);
 
-					//Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content	
+			//Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations earlier in the genome.
+            _geneIterator = 30;
+            
+			// Sets content for state Leave
+			_firstStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockC);
+		    _secondStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockC);
 
-				// Sets content for state Leave
-				_firstStateLeaveMethodContent = CreateStateMethodContent(genes,MinEnterLeaveStatements, _blockC);
-			    _secondStateLeaveMethodContent = CreateStateMethodContent(genes,MinEnterLeaveStatements, _blockC);
+			//Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
+            _geneIterator = 40;
 
-					    //Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
-
-			    // Sets content for state doAction
-			     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockD);
-			    _secondStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockD);
-			}
+		    // Sets content for state doAction
+		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockD);
+		    _secondStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockD);
+		}
 		
 		/// <summary>
 		/// Sets content of variables.
@@ -134,7 +137,8 @@ namespace GeneticAlgorithmForStrings {
 		private void SetVariables(Individual genes)
 		{
 		    var variables = "";
-			for (int i = _geneIterator; i < _numberOfVariables; i++) {
+		    SetNumberOfVariables(genes.GetGene(_geneIterator++));
+		    for (var i = _geneIterator; i < _numberOfVariables; i++) {
 				variables += "\nvar v" + i + " = ";
 				variables += GetVariableName(genes.GetGene(_geneIterator++), genes.GetGene(_geneIterator++)).ToString();
 				variables += ";";
@@ -149,7 +153,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <param name="minStatements"></param>
 		/// <param name="block"></param>
 		/// <returns></returns>
-		private string CreateStateMethodContent(Individual genes, int minStatements, string[] block) {
+		private string CreateStateMethodContent(Individual genes, int minStatements, IReadOnlyList<string> block) {
 			var contents = "";
 			var statements = GetNumberOfStatements(genes.GetGene(_geneIterator++), minStatements);
 			for (var i = 0; i < statements; i++) {
@@ -167,10 +171,14 @@ namespace GeneticAlgorithmForStrings {
 
             //TODO Introduce chance of && or ||, allowing for more specific conditions
 
+            //If new gene is 0 or 1, do nothing, if it's 2, use &&, if it's 3, use || ?
+            
+
             var transitionContent = "";
             var geneChars = Algorithm.AllowedLetters;
             var gene1 = genes.GetGene(_geneIterator++);
             var gene2 = genes.GetGene(_geneIterator++);
+            var gene3 = genes.GetGene(_geneIterator++);
 
             for (var i = 0; i <= geneChars.Length; i++) {
                 for (var j = 0; j < geneChars.Length; i++) {
@@ -180,6 +188,22 @@ namespace GeneticAlgorithmForStrings {
                     }
                 }
             }
+
+            /*
+            switch (gene3)
+            {
+                case 'a':
+                case 'g':
+                    break;
+                case 'c':
+                    transitionContent += " && " + GetCondition(genes);
+                    break;
+                case 't':
+                    transitionContent += " || " + GetCondition(genes);
+                    break;
+            }
+            */
+
             return transitionContent;
         }
         
@@ -193,12 +217,11 @@ namespace GeneticAlgorithmForStrings {
         /// <param name="gene"></param>
         private void SetNumberOfVariables(char gene) {
 
-            for (int i = 0; i < Algorithm.AllowedLetters.Length; i++) {
+            for (var i = 0; i < Algorithm.AllowedLetters.Length; i++) {
                 if (gene == Algorithm.AllowedLetters[i]) {
                     _numberOfVariables = i + MinVariables;
                 }
             }
-
         }
         
         /// <summary>
