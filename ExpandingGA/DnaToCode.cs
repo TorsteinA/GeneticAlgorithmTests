@@ -57,24 +57,30 @@ namespace GeneticAlgorithmForStrings {
                                                                                         //...
                                                                                         //Other functions that return types, or set variables
                                                                                         //Functions in state class
-
             */
-            
 
                         _blockA = { "",								                                            // Block for state transitions
                                     "",								                                            // Has content for if statements
                                     "",								                                            // Format example: v1 == v2
                                     "" },							                                            // Both states will use this block
-            														                                            
+
                         _blockB = { "",								                                            // Block for Enter and Leave State content
                                     "",								                                            // Has method calls and perhaps statements/loops
                                     "",								                                            // Format example: DoMethodCall(param1, param2);
                                     "" },							                                            // Both states will use this block
-																	
+
                         _blockC = { "KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);",	// Block for DoStateAction content
-                                    "",								                                            // Has method calls and statements/loops
-                                    "",								                                            // Format example: DoMethodCall(param1, param2);
-                                    "" },							                                            // Both states will use this block
+                                    "ourRobot.Fire(ourRobot.Enemy.Distance);",								    // Has method calls and statements/loops
+                                    "CircularTagetFire()",							                            // Format example: DoMethodCall(param1, param2);
+                                    "ourRobot.TurnRight()", //Needs parameters							        // Both states will use this block
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "" },
 
                         _blockD = { "ourRobot.Energy",				                                            // Block for state variables
                                     "ourRobot.HeadingRadians",		                                            // Has variables method can choose from
