@@ -4,12 +4,11 @@ namespace GeneticAlgorithmForStrings {
 	internal class Individual
 	{
 
-	    internal static int DefaultGeneLength = 50; //DnaToCode should always use less than 50 genes. 
-		private readonly char[] _genes = new char[DefaultGeneLength];
+	    private readonly char[] _genes = new char[Algorithm.DefaultGeneLength];
 		private int _fitness = 0;
 		private readonly Random _rnd = new Random();
 
-		/// <summary>
+	    /// <summary>
 		/// create a random individual
 		/// </summary>
 		internal void GenerateIndividual()

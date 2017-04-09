@@ -14,7 +14,8 @@ namespace GeneticAlgorithmForStrings {
 	                _geneIterator = 0;		                //always call with ++ when used with genes.GetGene().
 
 		private const int MinStatements = 2,		        //Minimum number of statements in each states DoStateAction 
-                          MinEnterLeaveStatements = 0,      //Minimum nymber of statements in each states EnterState and LeaveState
+                          MinEnterLeaveStatements = 0,      //Minimum number of statements in each states EnterState and LeaveState
+                          MinConditions = 0,                //Minimum number of conditions ( serparated by && or ||) for each call.
 					      MinVariables = 5;		            //Minimum number of variables for numberOfVariables.
 
 	    private string _variables;		        					            //String with variables of robot
@@ -60,25 +61,22 @@ namespace GeneticAlgorithmForStrings {
             */
             
 
-                        _blockA = { "",								// Block for state transitions
-                                    "",								// Has content for if statements
-                                    "",								// Format example: v1 == v2
-                                    "" },							// Both states will use this block
-            														
-                        _blockB = { "",								// Block for EnterState content
-                                    "",								// Has method calls and perhaps statements/loops
-                                    "",								// Format example: 
-                                    "" },							// Both states will use this block
+                        _blockA = { "",								                                            // Block for state transitions
+                                    "",								                                            // Has content for if statements
+                                    "",								                                            // Format example: v1 == v2
+                                    "" },							                                            // Both states will use this block
+            														                                            
+                        _blockB = { "",								                                            // Block for Enter and Leave State content
+                                    "",								                                            // Has method calls and perhaps statements/loops
+                                    "",								                                            // Format example: DoMethodCall(param1, param2);
+                                    "" },							                                            // Both states will use this block
 																	
-                        _blockC = { "",								// Block for LeaveState content
-                                    "",								// Has method calls for when robot leaves a state (Maybe merge with BlockB)
-                                    "" },							// Both states will use this block
-																	
-                        _blockD = { "KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);",	// Block for DoStateAction content
+                        _blockC = { "KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);",	// Block for DoStateAction content
                                     "",								                                            // Has method calls and statements/loops
+                                    "",								                                            // Format example: DoMethodCall(param1, param2);
                                     "" },							                                            // Both states will use this block
 
-                        _blockE = { "ourRobot.Energy",				                                            // Block for state variables
+                        _blockD = { "ourRobot.Energy",				                                            // Block for state variables
                                     "ourRobot.HeadingRadians",		                                            // Has variables method can choose from
                                     "ourRobot.Velocity",			                                            // Both states will use this block
                                     "ourRobot.X",
@@ -99,36 +97,33 @@ namespace GeneticAlgorithmForStrings {
             /// <param name="genes"></param>
         public DnaToCode(Individual genes) {
 			// Sets content for variables
-			SetVariables(genes);    //uses max 9 genes with 4-letter genes. 
+			SetVariables(genes);    //uses max 9 genes with 4-letter genes and minVariables = 5
 
-			//Set geneIterator to specific number here to let method contents start at the same place each time and not get messed up by mutations in variables (Need to calculate how many we need/max it can use first though)
+			//Set geneIterator to specific number to let next gene start at the same place each time and not get messed up by mutations in variables
 			_geneIterator = 10;
 
 			// Sets content for transitions
-			_firstToSecondStateTransitionContent = GetCondition(genes); //uses 2 genes with 4-letter genes (before && / || expansion)
-			_secondToFirstStateTransitionContent = GetCondition(genes); 
+			_firstToSecondStateTransitionContent = GetCondition(genes, MinConditions); //uses max 8 genes with 4-letter genes and minCondition = 0
+			_secondToFirstStateTransitionContent = GetCondition(genes, MinConditions); //uses max 8 genes with 4-letter genes and minCondition = 0
 
-            //Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
-            _geneIterator = 20;
+            _geneIterator = 30;
 
 			// Sets content for state Enter
-			_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);
-		    _secondStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);
+			_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);  //Uses max 9 genes with 4-letter genes and minEnterLeaveStatements = 0
+		    _secondStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB); //Uses max 9 genes with 4-letter genes and minEnterLeaveStatements = 0
 
-			//Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations earlier in the genome.
-            _geneIterator = 30;
+            _geneIterator = 50;
             
 			// Sets content for state Leave
-			_firstStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockC);
-		    _secondStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockC);
-
-			//Set geneIterator to specific number here as well to let transition contents start at the same place each time and not get messed up by mutations in state content
-            _geneIterator = 40;
+			_firstStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);  //Uses max 9 genes with 4-letter genes and minEnterLeaveStatements = 0
+            _secondStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB); //Uses max 9 genes with 4-letter genes and minEnterLeaveStatements = 0
+            
+            _geneIterator = 70;
 
 		    // Sets content for state doAction
-		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockD);
-		    _secondStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockD);
-		}
+		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockC);   //Uses max 13 genes with 4-letter genes and minStatements = 2
+		    _secondStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockC);   //Uses max 13 genes with 4-letter genes and minStatements = 2
+        }
 		
 		/// <summary>
 		/// Sets content of variables.
@@ -161,25 +156,24 @@ namespace GeneticAlgorithmForStrings {
 			}
 			return contents;
 		}
-        
-        /// <summary>
-        /// Returns condition that can be used with statements
-        /// </summary>
-        /// <param name="genes"></param>
-        /// <returns></returns>
-        private string GetCondition(Individual genes) {
 
-            //TODO Introduce chance of && or ||, allowing for more specific conditions
-
+	    /// <summary>
+	    /// Returns condition that can be used with statements
+	    /// </summary>
+	    /// <param name="genes"></param>
+	    /// <param name="depth"></param>
+	    /// <returns></returns>
+	    private string GetCondition(Individual genes, int depth) {
+            
             //If new gene is 0 or 1, do nothing, if it's 2, use &&, if it's 3, use || ?
             
-
+            const int depthLimit = 2;
             var transitionContent = "";
             var geneChars = Algorithm.AllowedLetters;
             var gene1 = genes.GetGene(_geneIterator++);
             var gene2 = genes.GetGene(_geneIterator++);
-            var gene3 = genes.GetGene(_geneIterator++);
-
+            
+            //Adds condition from block
             for (var i = 0; i <= geneChars.Length; i++) {
                 for (var j = 0; j < geneChars.Length; i++) {
                     if (gene1 != geneChars[i] || gene2 != geneChars[j]) continue;
@@ -188,21 +182,22 @@ namespace GeneticAlgorithmForStrings {
                     }
                 }
             }
+            if (depth >= depthLimit) return transitionContent;
 
-            /*
+            //Expands condition
+            var gene3 = genes.GetGene(_geneIterator++);
             switch (gene3)
             {
                 case 'a':
                 case 'g':
                     break;
                 case 'c':
-                    transitionContent += " && " + GetCondition(genes);
+                    transitionContent += " && " + GetCondition(genes, ++depth);
                     break;
                 case 't':
-                    transitionContent += " || " + GetCondition(genes);
+                    transitionContent += " || " + GetCondition(genes, ++depth);
                     break;
             }
-            */
 
             return transitionContent;
         }
@@ -254,7 +249,7 @@ namespace GeneticAlgorithmForStrings {
                 {
                     if (gene1 != geneChars[i] || gene2 != geneChars[j]) continue;
                     if ((geneChars.Length * i + j) > _numberOfVariables) {
-                        varName = _blockE[(geneChars.Length * i + j)];
+                        varName = _blockD[(geneChars.Length * i + j)];
                     }
                 }
             }
