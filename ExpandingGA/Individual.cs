@@ -4,12 +4,11 @@ namespace GeneticAlgorithmForStrings {
 	internal class Individual
 	{
 
-	    internal static int DefaultGeneLength = 64;//Algorithm.Solution.Length;
-		private readonly char[] _genes = new char[DefaultGeneLength];
+	    private readonly char[] _genes = new char[Algorithm.DefaultGeneLength];
 		private int _fitness = 0;
 		private readonly Random _rnd = new Random();
 
-		/// <summary>
+	    /// <summary>
 		/// create a random individual
 		/// </summary>
 		internal void GenerateIndividual()

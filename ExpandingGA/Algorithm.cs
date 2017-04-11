@@ -13,9 +13,10 @@ namespace GeneticAlgorithmForStrings {
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
 		internal static readonly string AllowedLetters = "agct"; //abcdefghijklmnopqrstuvwxyzæøåèéêëàáâäíìîïùúûüABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÈÉÊËÀÁÂÄÍÌÎÏÙÚÛÜ0123456789 ,.:!?¨^~'*;-_/()=&%¤¤#|§\"\\\n\t";
-		
+        //DNA length
+        internal static int DefaultGeneLength = 100; //DnaToCode should always use less than 60 genes. 
 
-		//Crossover tournament population size
+        //Crossover tournament population size
         private const int TournamentSize = 50;
         //How much DNA to take from each parent. Should stay at 0.5
         private const double UniformRate = 0.5;
