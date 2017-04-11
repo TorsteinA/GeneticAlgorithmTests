@@ -337,4 +337,4 @@ namespace GeneticAlgorithmForStrings {
 
         #endregion ReturnMethods
     }
-}
+}s
