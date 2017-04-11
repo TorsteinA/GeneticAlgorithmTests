@@ -1,8 +1,8 @@
-﻿namespace SeaSharpBot.FSM.States
+﻿namespace PG4500_2017_Exam1.FSM.States
 {
     public class FleeState : State {
 
-        public FleeState(ref SeaSharpBot ourRobot) {
+        public FleeState(ref PG4500_2017_Exam1 ourRobot) {
             OurRobot = ourRobot;
         }
 

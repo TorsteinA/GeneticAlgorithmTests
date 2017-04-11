@@ -1,12 +1,12 @@
 ﻿using System;
+using PG4500_2017_Exam1.FSM;
 using Robocode;
 using Robocode.Util;
-using SeaSharpBot.FSM;
 using SeaSharpBot.Helpers;
 
-namespace SeaSharpBot
+namespace PG4500_2017_Exam1
 {
-	public class SeaSharpBot : AdvancedRobot
+	public class alvtor_SeaSharpBot : AdvancedRobot
 	{
 
 		#region Fields
@@ -34,7 +34,7 @@ namespace SeaSharpBot
 		/// <summary>
 		///     Constructor for The Awesome Deadly Dupp
 		/// </summary>
-		public SeaSharpBot()
+		public alvtor_SeaSharpBot()
 		{
 			_stateManager = new StateManagerScript(this);
 		}

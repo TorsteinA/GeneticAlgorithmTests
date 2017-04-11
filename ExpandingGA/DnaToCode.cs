@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GeneticAlgorithmForStrings {
 	internal class DnaToCode {
@@ -29,40 +24,11 @@ namespace GeneticAlgorithmForStrings {
 					            _secondToFirstStateTransitionContent;           //String with contents of transition from second to first
 
 		private readonly string[] 
-            /**
-            AllowedMethods = { "ourRobot.Ahead",			// Fill in more later
-											"ourRobot.Fire",				// Turn cannon
-											"KeepRadarLock",				// Turn cannon
-											"CircularTargetingFire",		// Turn cannon
-											"ourRobot.Turn"},   			// CircularTargetingFire
-																			// Turn radar 36
-																			// Turn radar (variable)
-																			// KeepWidthLock
-																			// Turn Body
-																			// Ahead
-
-						AllowedVariables = {"ourRobot.Energy",				//Variables:
-											"ourRobot.HeadingRadians",			//ourRobot.
-											"ourRobot.Velocity",					//HeadingRadians	
-											"ourRobot.X",							//Energy	
-											"ourRobot.Y",							//EnemyData.	
-											"ourRobot.Enemy.HeadingRadians",			//HeadingRadians	
-											"ourRobot.Enemy.BearingRadians",			//BearingRadians	
-											"ourRobot.Enemy.Energy",					//Energy	
-											"ourRobot.Enemy.Position.X",				//Position    	
-											"ourRobot.Enemy.Position.Y"},               //Acceleration
-                                                                                        //...
-                                                                                        //Velocity
-                                                                                        //Position
-                                                                                        //...
-                                                                                        //Other functions that return types, or set variables
-                                                                                        //Functions in state class
-            */
-
-                        _blockA = { "",								                                            // Block for state transitions
-                                    "",								                                            // Has content for if statements
-                                    "",								                                            // Format example: v1 == v2
-                                    "" },							                                            // Both states will use this block
+                        _blockA = { "ourRobot.v1 == ourRobot.v2",	                                            // Block for state transitions
+                                    "ourRobot.v1 != ourRobot.v2",								                // Has content for if statements
+                                    "ourRobot.v1 <= ourRobot.v2",	                                            // Format example: v1 == v2
+                                    "ourRobot.v1 > ourRobot.v2",	                                            // Both states will use this block
+                                    "" },
 
                         _blockB = { "",								                                            // Block for Enter and Leave State content
                                     "",								                                            // Has method calls and perhaps statements/loops
@@ -70,8 +36,8 @@ namespace GeneticAlgorithmForStrings {
                                     "" },							                                            // Both states will use this block
 
                         _blockC = { "KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);",	// Block for DoStateAction content
-                                    "ourRobot.Fire(ourRobot.Enemy.Distance);",								    // Has method calls and statements/loops
-                                    "CircularTagetFire()",							                            // Format example: DoMethodCall(param1, param2);
+                                    "ourRobot.Fire(500 / ourRobot.Enemy.Distance);",							// Has method calls and statements/loops
+                                    "CircularTargetFire()",							                            // Format example: DoMethodCall(param1, param2);
                                     "ourRobot.TurnRight()", //Needs parameters							        // Both states will use this block
                                     "",
                                     "",
@@ -93,6 +59,10 @@ namespace GeneticAlgorithmForStrings {
                                     "ourRobot.Enemy.Position.X",
                                     "ourRobot.Enemy.Position.Y"};
 
+		
+
+
+
 #endregion Fields
 
         #region CreateCodeContent
@@ -101,10 +71,11 @@ namespace GeneticAlgorithmForStrings {
             /// Constructor of DnaToCode class
             /// </summary>
             /// <param name="genes"></param>
-        public DnaToCode(Individual genes) {
+        public DnaToCode(Individual genes)
+        {
 			// Sets content for variables
 			SetVariables(genes);    //uses max 9 genes with 4-letter genes and minVariables = 5
-
+			
 			//Set geneIterator to specific number to let next gene start at the same place each time and not get messed up by mutations in variables
 			_geneIterator = 10;
 

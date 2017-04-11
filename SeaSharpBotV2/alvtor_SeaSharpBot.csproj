@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9C15C3DA-668F-4674-AC7E-EFC35CE47348}</ProjectGuid>
+    <ProjectGuid>{5D81B50F-0419-4BA5-A991-215DB3D5CBF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SeaSharpBot</RootNamespace>
-    <AssemblyName>SeaSharpBot</AssemblyName>
+    <RootNamespace>SeaSharpBotV2</RootNamespace>
+    <AssemblyName>SeaSharpBotV2</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,15 +33,14 @@
     <Reference Include="jni4net.n-0.8.7.0">
       <HintPath>C:\robocode\robots\SeaSharpBot\jni4net.n-0.8.7.0.dll</HintPath>
     </Reference>
-    <Reference Include="robocode, Version=1.8.3.0, Culture=neutral, PublicKeyToken=43c1c8ae0e25a953, processorArchitecture=MSIL">
-      <HintPath>..\packages\RoboCode.1.8.3.0\lib\robocode.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="robocode">
+      <HintPath>C:\robocode\robots\SeaSharpBot\robocode.dll</HintPath>
     </Reference>
     <Reference Include="robocode.control">
       <HintPath>C:\robocode\robots\SeaSharpBot\robocode.control.dll</HintPath>
     </Reference>
     <Reference Include="robocode.dotnet.nhost-1.9.2.6">
-      <HintPath>C:\robocode\libs\robocode.dotnet.nhost-1.9.2.6.dll</HintPath>
+      <HintPath>C:\robocode\robots\SeaSharpBot\robocode.dotnet.nhost-1.9.2.6.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,19 +52,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FSM\State.cs" />
+    <Compile Include="FSM\StateManagerScript.cs" />
+    <Compile Include="FSM\States\AttackState.cs" />
+    <Compile Include="FSM\States\ChargeState.cs" />
     <Compile Include="FSM\States\EvadeBulletState.cs" />
     <Compile Include="FSM\States\FleeState.cs" />
+    <Compile Include="FSM\States\WanderState.cs" />
     <Compile Include="Helpers\EnemyData.cs" />
     <Compile Include="Helpers\MathHelpers.cs" />
     <Compile Include="Helpers\Point2D.cs" />
     <Compile Include="Helpers\Vector2D.cs" />
-    <Compile Include="SeaSharpBot.cs" />
-    <Compile Include="FSM\States\AttackState.cs" />
-    <Compile Include="FSM\States\ChargeState.cs" />
-    <Compile Include="FSM\States\WanderState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FSM\State.cs" />
-    <Compile Include="FSM\StateManagerScript.cs" />
+    <Compile Include="alvtor_SeaSharpBot.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

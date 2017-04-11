@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Robocode;
-using SeaSharpBot.FSM.States;
+using PG4500_2017_Exam1.FSM.States;
 
-namespace SeaSharpBot.FSM
+namespace PG4500_2017_Exam1.FSM
 {
 	public class StateManagerScript 
 	{
@@ -15,16 +14,16 @@ namespace SeaSharpBot.FSM
         /// State Manager Constructor
         /// </summary>
         /// <param name="ourRobot">Reference the the robot in need of a state machine</param>
-		public StateManagerScript (SeaSharpBot ourRobot) {
+		public StateManagerScript (alvtor_SeaSharpBot ourRobot) {
 
 		    _states = new HashSet<State>
 		    {
 		        new WanderState(ourRobot),
 		        new ChargeState(ourRobot),
 		        new AttackState(ourRobot)
+                //Add more states as robot becomes stable with these
 		    };
-
-
+            
 		    _activeState = _states.ElementAt(0);
 		}
 	

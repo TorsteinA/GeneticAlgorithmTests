@@ -1,10 +1,8 @@
-﻿using Robocode;
-
-namespace SeaSharpBot.FSM
+﻿namespace PG4500_2017_Exam1.FSM
 {
 	public abstract class State
 	{
-		protected SeaSharpBot OurRobot;
+		protected alvtor_SeaSharpBot OurRobot;
 
 		public abstract float Relevance();
 

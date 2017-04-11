@@ -1,8 +1,10 @@
-﻿namespace SeaSharpBot.FSM.States
+﻿namespace PG4500_2017_Exam1.FSM.States
 {
-    public class EvadeBulletState : State {
-
-        public EvadeBulletState(ref SeaSharpBot ourRobot) {
+    public class ChargeState : State
+    {
+    
+        public ChargeState(alvtor_SeaSharpBot ourRobot)
+        {
             OurRobot = ourRobot;
         }
 
@@ -12,13 +14,14 @@
             if (OurRobot.HasLockOnEnemy) returnValue++;
             if (!OurRobot.IsInPosition) returnValue++;
             if (!OurRobot.UnderSiege) returnValue++;
-            if (OurRobot.EnemyBulletInTheAir) returnValue += 10;
+            if (!OurRobot.EnemyBulletInTheAir) returnValue++;
 
             return returnValue;
         }
 
-        public override void Execute() {
-            OurRobot.EvadeBullet();
+        public override void Execute()
+        {
+            OurRobot.Charge();
         }
     }
 }

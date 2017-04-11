@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SeaSharpBot")]
+[assembly: AssemblyTitle("SeaSharpBotV2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SeaSharpBot")]
+[assembly: AssemblyProduct("SeaSharpBotV2")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9c15c3da-668f-4674-ac7e-efc35ce47348")]
+[assembly: Guid("5d81b50f-0419-4ba5-a991-215db3d5cbf3")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,9 +1,9 @@
-﻿namespace SeaSharpBot.FSM.States
+﻿namespace PG4500_2017_Exam1.FSM.States
 {
     public class AttackState : State
     {
 
-        public AttackState(SeaSharpBot ourRobot)
+        public AttackState(alvtor_SeaSharpBot ourRobot)
         {
             OurRobot = ourRobot;
         }
