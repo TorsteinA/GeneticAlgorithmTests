@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="GeneticAlgorithm\Algorithm.cs" />
     <Compile Include="FileCreation\BattleFileCreator.cs" />
-    <Compile Include="FileCreation\DLLFileCreator.cs" />
+    <Compile Include="FileCreation\DllFileCreator.cs" />
     <Compile Include="DnaToCode.cs" />
     <Compile Include="FileCreation\FileCreator.cs" />
     <Compile Include="GeneticAlgorithm\FitnessCalc.cs" />
@@ -61,6 +61,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SSB\SeaSharpBot.csproj">
+      <Project>{9c15c3da-668f-4674-ac7e-efc35ce47348}</Project>
+      <Name>SeaSharpBot</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

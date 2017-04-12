@@ -112,7 +112,7 @@ namespace GeneticAlgorithmForStrings {
 		    SetNumberOfVariables(genes.GetGene(_geneIterator++));
 		    for (var i = _geneIterator; i < _numberOfVariables; i++) {
 				variables += "\nvar v" + i + " = ";
-				variables += GetVariableName(genes.GetGene(_geneIterator++), genes.GetGene(_geneIterator++)).ToString();
+				variables += GetVariableName(genes.GetGene(_geneIterator++), genes.GetGene(_geneIterator++));
 				variables += ";";
 			}
 		    _variables = variables;

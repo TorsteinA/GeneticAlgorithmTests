@@ -6,7 +6,7 @@ using Microsoft.CSharp;
 
 namespace GeneticAlgorithmForStrings
 {
-	internal class DLLFileCreator
+	internal class DllFileCreator
 	{
 		internal static void CreateDll(string dllDirPath, int generation, int individual) {
 

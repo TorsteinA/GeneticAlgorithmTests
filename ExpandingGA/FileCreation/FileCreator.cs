@@ -30,7 +30,7 @@ namespace GeneticAlgorithmForStrings {
 		private void CreateFiles(int generation, int individual) {
 			RobotFileCreator.CreateRobotFiles(_directoryPath, generation, individual);						//The robot itself
 			//TODO		AddConstantClasses();							//Classes that won't change between individuals that robot needs to work.
-			DLLFileCreator.CreateDll(_dllDirectoryPath, generation, individual);
+			DllFileCreator.CreateDll(_dllDirectoryPath, generation, individual);
 			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, GetRobotName(generation, individual));	
 		}
 
