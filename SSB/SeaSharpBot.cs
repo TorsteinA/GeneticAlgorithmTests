@@ -17,25 +17,17 @@ namespace SeaSharpBot
 		#region Fields
 
 		// Properties
-	    public EnemyData Enemy { get; set; } = null;
+	    internal EnemyData Enemy { get; set; }
         internal EnemyData OldEnemy;
-        public double OldEnemyHeading;
+        internal double OldEnemyHeading;
         public float InnerCircleDiameter = 400;
         public float OuterCircleDiameter = 600;
         
 	    private StateManagerScript _stateManagerTop, _stateManagerBottom;
 
 #endregion Fields
-
+		
         #region SystemFunctions
-
-		/// <summary>
-		///     Constructor for The Awesome Deadly Dupp
-		/// </summary>
-		public SeaSharpBot()
-		{
-		}
-
 		/// <summary>
 		///     This method is called as soon as the match is loaded
 		/// </summary>
@@ -43,8 +35,8 @@ namespace SeaSharpBot
         {
             Console.WriteLine("Run");
             Enemy = new EnemyData();
-            _stateManagerTop = new StateManagerScript(this, new SeekState(this));
-            _stateManagerBottom = new StateManagerScript(this, new WanderState(this));
+            _stateManagerTop = new StateManagerScript(new SeekState(this));
+            _stateManagerBottom = new StateManagerScript(new WanderState(this));
             
             while (true) {
                 _stateManagerTop.FrameCheck();
@@ -61,8 +53,7 @@ namespace SeaSharpBot
 		public override void OnScannedRobot(ScannedRobotEvent e)
 		{
             // Absolute angle towards target
-		    double angleToEnemy = HeadingRadians + e.BearingRadians;
-            
+		    var angleToEnemy = HeadingRadians + e.BearingRadians;
             
             //Update enemy data
             var enemyX = (int) (X + Math.Sin(angleToEnemy)*e.Distance);
@@ -108,7 +99,6 @@ namespace SeaSharpBot
             graphics.DrawLine(pen2, intendedPoint, enemyPoint);
 
             
-            // TODO Implement steering towards intended point (in ChargeState)
             graphics.DrawArc(pen1, 
                 (float)Enemy.Position.X -InnerCircleDiameter/2, 
                 (float)Enemy.Position.Y -InnerCircleDiameter/2, 

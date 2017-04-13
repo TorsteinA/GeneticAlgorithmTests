@@ -24,7 +24,7 @@ namespace GeneticAlgorithmForStrings {
 					            _secondToFirstStateTransitionContent;           //String with contents of transition from second to first
 
 		private readonly string[] 
-                        _blockA = { "ourRobot.v1 == ourRobot.v2",	                                            // Block for state transitions
+                        _blockA = { "ourRobot.v1 == ourRobot.v2",	                                            // Block for state transitions		//TODO Needs rethinking to incorporate variable types correctly.
                                     "ourRobot.v1 != ourRobot.v2",								                // Has content for if statements
                                     "ourRobot.v1 <= ourRobot.v2",	                                            // Format example: v1 == v2
                                     "ourRobot.v1 > ourRobot.v2",	                                            // Both states will use this block
@@ -217,7 +217,7 @@ namespace GeneticAlgorithmForStrings {
         /// <param name="gene1"></param>
         /// <param name="gene2"></param>
         /// <returns></returns>
-        private string GetVariableName(char gene1, char gene2) {
+        private string GetVariableName(char gene1, char gene2) {	//Might need parameter for variable type to have all code compile.
             var varName = "";
             var geneChars = Algorithm.AllowedLetters;
 
