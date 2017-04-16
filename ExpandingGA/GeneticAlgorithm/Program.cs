@@ -13,7 +13,27 @@ namespace GeneticAlgorithmForStrings {
 
 
 
-//			***FileCreator testing***
+			
+			 
+//			*** DnaToCode testing ***
+
+			Individual indiv = new Individual();
+			indiv.GenerateIndividual();
+			DnaToCode DnaTranslator = new DnaToCode(indiv);
+
+	        Console.WriteLine("Variable declarations:");
+	        Console.WriteLine(DnaTranslator.GetVariableDeclarations());
+	        Console.WriteLine();
+	        Console.WriteLine("Variable Initialisations");
+	        Console.WriteLine(DnaTranslator.GetVariableInitialisations());
+	        Console.WriteLine();
+
+
+
+
+
+			/*
+//			*** FileCreator testing ***
 			int generation = 0;
 			int individual = 0;
 			
@@ -24,11 +44,11 @@ namespace GeneticAlgorithmForStrings {
 					Console.WriteLine();
 				}
 			}
+			*/
 
 
 
-
-			/***Genetic Algorithm for strings***
+			/*** Genetic Algorithm for strings ***
 			FitnessCalc.SetSolution(Algorithm.Solution);
 			var myPop = new Population(Algorithm.PopulationSize, true);
 			var generationCount = 0;

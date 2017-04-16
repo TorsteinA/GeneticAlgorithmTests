@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Garics.cs" />
     <Compile Include="GeneratedRobotClassesExample.cs" />
     <Compile Include="GeneticAlgorithm\Algorithm.cs" />
     <Compile Include="FileCreation\BattleFileCreator.cs" />

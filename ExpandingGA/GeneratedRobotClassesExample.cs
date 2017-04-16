@@ -12,25 +12,7 @@ namespace GeneticAlgorithmForStrings {
 
 
 		/*
-		
-*** The Garics Class ***	//Is a constant class not affected by algorithm
-
-		using System;
-
-		namespace Garics {
-
-			public abstract class Garics : AdvancedRobot {
-				internal EnemyData Enemy { get; set; }
-				internal EnemyData OldEnemy;
-				internal double OldEnemyHeading;
-				private StateManagerScript _stateManager;
-
-				public abstract void Run();
-				public abstract void OnScannedRobot(ScannedRobotEvent e);
-			}
-		}
-		
-		
+				
 *** The Robot class ***
 		 
 		using System;
@@ -49,11 +31,13 @@ namespace GeneticAlgorithmForStrings {
 
 		public class Robot_gX_iY : Garics {
 					
-			DnaToCode.GetVariables();
+			DnaToCode.GetVariableDeclarations();
 		
 			public override void Run() {
 				Enemy = new EnemyData();
 				_stateManager = new StateManagerScript(new State1(this));
+				
+				DnaToCode.GetVariableInitialisations();
 
 				while (true) {
 					_stateManager.FrameCheck();
