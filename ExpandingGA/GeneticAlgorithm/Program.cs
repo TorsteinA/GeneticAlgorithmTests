@@ -9,30 +9,40 @@ namespace GeneticAlgorithmForStrings {
         public static void Main(string[] args)
         {
 			//TODO When changing project to create many generations of bots, use e: drive on desktop computer because HDD space.
-
-
-
-
 			
-			 
 //			*** DnaToCode testing ***
 
-			Individual indiv = new Individual();
+			var indiv = new Individual();
 			indiv.GenerateIndividual();
-			DnaToCode DnaTranslator = new DnaToCode(indiv);
+			var dnaTranslator = new DnaToCode(indiv);
 
-	        Console.WriteLine("Variable declarations:");
-	        Console.WriteLine(DnaTranslator.GetVariableDeclarations());
 	        Console.WriteLine();
-	        Console.WriteLine("Variable Initialisations");
-	        Console.WriteLine(DnaTranslator.GetVariableInitialisations());
+	        Console.WriteLine("DNA");
+	        Console.WriteLine(indiv.ToString());
+	        Console.WriteLine("Length: " + indiv.Size());
+			Console.WriteLine();
+	        Console.WriteLine("- Variable declarations");
+	        Console.WriteLine(dnaTranslator.GetVariableDeclarations());
 	        Console.WriteLine();
+	        Console.WriteLine("- Variable Initialisations");
+	        Console.WriteLine(dnaTranslator.GetVariableInitialisations());
+	        Console.WriteLine();
+	        Console.WriteLine("- Transition State1 - State2");
+	        Console.WriteLine("if( " + dnaTranslator.GetFirstToSecondStateTransitionContent() + " ) {//Do things}");
+	        Console.WriteLine();
+	        Console.WriteLine("- Transition State2 - State1");
+	        Console.WriteLine("if( " + dnaTranslator.GetSecondToFirstStateTransitionContent() + " ) {//Do things}");
+	        Console.WriteLine();
+	        Console.WriteLine("- Enter States");
+	        Console.WriteLine("- State1");
+//	        Console.WriteLine(dnaTranslator.GetFirstStateEnterMethodContent());
+//	        Console.WriteLine("- State2");
+//	        Console.WriteLine(dnaTranslator.GetSecondStateEnterMethodContent());
 
 
 
 
-
-			/*
+	        /*
 //			*** FileCreator testing ***
 			int generation = 0;
 			int individual = 0;
