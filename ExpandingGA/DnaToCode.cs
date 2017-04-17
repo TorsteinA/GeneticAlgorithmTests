@@ -12,7 +12,6 @@ namespace GeneticAlgorithmForStrings {
 
 		private const int MinStatements = 2,		        //Minimum number of statements in each states DoStateAction 
                           MinEnterLeaveStatements = 0,      //Minimum number of statements in each states EnterState and LeaveState
-                          MinConditions = 0,                //Minimum number of conditions ( serparated by && or ||) for each call.
 					      MinVariables = 5;		            //Minimum number of variables for numberOfVariables.
 
 	    private string _variableDeclarations,		        					//String with variable declarations of robot
@@ -26,31 +25,20 @@ namespace GeneticAlgorithmForStrings {
 					            _firstToSecondStateTransitionContent,	        //String with contents of transition from first to second
 					            _secondToFirstStateTransitionContent;           //String with contents of transition from second to first
 
-		private readonly string[]
-                        _blockB = { "",								                                            // Block for Enter and Leave State content
-                                    "",								                                            // Has method calls and perhaps statements/loops
-                                    "",								                                            // Format example: DoMethodCall(param1, param2);
-                                    "" },							                                            // Both states will use this block
-
-                        _blockC = { "KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);",	// Block for DoStateAction content
-                                    "ourRobot.Fire(500 / ourRobot.Enemy.Distance);",							// Has method calls and statements/loops
-                                    "CircularTargetFire()",							                            // Format example: DoMethodCall(param1, param2);
-                                    "ourRobot.TurnRight()", //Needs parameters							        // Both states will use this block
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "" };
+		private readonly string[] _methodCalls = {
+			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",	// Block for DoStateAction content
+            "ourRobot.Fire(500 / ourRobot.Enemy.Distance)",								// Has method calls and statements/loops
+            "CircularTargetFire()",							                            // Format example: DoMethodCall(param1, param2);
+            "ourRobot.TurnRight()", //Needs parameters							        // Both states will use this block
+            "TestMethod()",
+            "Example()" };
 		
 		private readonly Dictionary<string, List<string>> _variableDictionary = new Dictionary<string, List<string>>();		// Block for variable contents. Check helpermethod SetupVariableLists to see/edit values
 		
 		private List<string> _intVarList, 
 							 _floatVarList, 
 							 _doubleVarList, 
-							 _transitionsList;	//, stringVarList, voidMethodList, intMethodList, floatMethodList, doubleMethodList, stringMethodList;
+							 _transitionsList;
 		
 #endregion Fields
 
@@ -72,30 +60,31 @@ namespace GeneticAlgorithmForStrings {
 			_geneIterator = 20;
 			
 			// Sets content for transitions
-			_firstToSecondStateTransitionContent = GetCondition(genes); //uses 5 genes (But currently does not support && or || in conditions)
-			_secondToFirstStateTransitionContent = GetCondition(genes); //uses 5 genes (But currently does not support && or || in conditions)
+			_firstToSecondStateTransitionContent = GetCondition(genes); //uses 5 genes TODO (But currently does not support && or || in conditions)
+			_secondToFirstStateTransitionContent = GetCondition(genes); //uses 5 genes 
 
 	        Console.WriteLine("GeneIter:" + _geneIterator);
 			_geneIterator = 30;
-			/*
-			// Sets content for state Enter
-			_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);  //Uses max 9 genes with 4-letter genes and minEnterLeaveStatements = 0
-		    _secondStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB); //Uses max 9 genes with 4-letter genes and minEnterLeaveStatements = 0
 			
-	        Console.WriteLine("GeneIter:" + _geneIterator);
-            _geneIterator = 50;
-            /*
-			// Sets content for state Leave
-			_firstStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB);  //Uses max 9 genes with 4-letter genes and minEnterLeaveStatements = 0
-            _secondStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements, _blockB); //Uses max 9 genes with 4-letter genes and minEnterLeaveStatements = 0
+			// Sets content for state Enter
+			_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements); //TODO: Recalculate max gene use
+			Console.WriteLine("GeneIter:" + _geneIterator);
+			_secondStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements);
+			Console.WriteLine("GeneIter:" + _geneIterator);
+            //_geneIterator = 50;
             
+			// Sets content for state Leave
+			_firstStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements);
 	        Console.WriteLine("GeneIter:" + _geneIterator);
-            _geneIterator = 70;
+			_secondStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements);
+            Console.WriteLine("GeneIter:" + _geneIterator);
+            //_geneIterator = 70;
 
 		    // Sets content for state doAction
-		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockC);   //Uses max 13 genes with 4-letter genes and minStatements = 2
-		    _secondStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements, _blockC);   //Uses max 13 genes with 4-letter genes and minStatements = 2
-			*/
+		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements);
+	        Console.WriteLine("GeneIter:" + _geneIterator);
+			_secondStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements);
+			Console.WriteLine("GeneIter:" + _geneIterator);
 		}
 
 		/// <summary>
@@ -159,11 +148,11 @@ namespace GeneticAlgorithmForStrings {
 		/// <param name="minStatements"></param>
 		/// <param name="block"></param>
 		/// <returns></returns>
-		private string CreateStateMethodContent(Individual genes, int minStatements, IReadOnlyList<string> block) {
+		private string CreateStateMethodContent(Individual genes, int minStatements) {
 			var contents = "";
 			var statements = GetNumberFromSingleGene(genes.GetGene(_geneIterator++), minStatements);
 			for (var i = 0; i < statements; i++) {
-				contents += "\n" + GetStatement(genes, block);
+				contents += "\n" + GetStatement(genes, 0);
 			}
 			return contents;
 		}
@@ -223,7 +212,7 @@ namespace GeneticAlgorithmForStrings {
 		private string GetCondition(Individual genes)
 		{
 			var index = GetNumberFromFiveGenes(genes);
-			return _transitionsList[index % _transitionsList.Count-1];
+			return _transitionsList[index % _transitionsList.Count];
 		}
 		
 #endregion CreateCodeContent
@@ -384,41 +373,86 @@ namespace GeneticAlgorithmForStrings {
 					return -1;
 			}
 		}
-
+		
 		/// <summary>
 		/// Returns string with a method call, if-statement, or a loop.
 		/// </summary>
-		/// <param name="genes"></param>
-		/// <param name="block"></param>
+		/// <param name="genes">Genes to use</param>
+		/// <param name="depth">Call with </param>
 		/// <returns></returns>
-		private string GetStatement(Individual genes, IReadOnlyList<string> block) {
+		private string GetStatement(Individual genes, int depth)
+		{
+			var statement = "";
+			var gene1 = genes.GetGene(_geneIterator++);
+			
+			switch (gene1) {
+				case 'a':
+					if (depth < 3) statement += GetIfStatement(genes, depth);
+					break;
+				case 't':
+					if (depth < 2) statement += GetLoop(genes, depth);
+					break;
+				case 'c':
+				case 'g':
+					statement += GetMethodCall(genes);
+					break;
+			}
+			return statement;
+		}
 
-            var statement = "";
-            var geneChars = Algorithm.AllowedLetters;
-            var gene1 = genes.GetGene(_geneIterator++);
-            var gene2 = genes.GetGene(_geneIterator++);
+		/// <summary>
+		/// Returns a loop with a condition and statements inside.
+		/// </summary>
+		/// <param name="genes"></param>
+		/// <param name="depth"></param>
+		/// <returns></returns>
+		private string GetLoop(Individual genes, int depth) {
+			var statement = "";
+			statement += "while(";
+			statement += GetCondition(genes);
+			statement += "){";
+			statement += GetStatement(genes, ++depth);
+			statement += "}";
+			return statement;
+		}
 
-            for (var i = 0; i <= geneChars.Length; i++) {
-                for (var j = 0; j < geneChars.Length; i++) {
-                    if (gene1 != geneChars[i] || gene2 != geneChars[j]) continue;
-                    if ((geneChars.Length * i + j) > _numberOfVariables) {
-                        statement = block[(geneChars.Length * i + j)];
-                    }
-                }
-            }
-            return statement;
-        }
-        
-#endregion HelperMethods
+		/// <summary>
+		/// Returns an if-statement with condition and statements inside.
+		/// </summary>
+		/// <param name="genes"></param>
+		/// <param name="depth"></param>
+		/// <returns></returns>
+		private string GetIfStatement(Individual genes, int depth) {
+			var statement = "";
+			statement += "if(";
+			statement += GetCondition(genes);
+			statement += "){";
+			statement += GetStatement(genes, ++depth);
+			statement += "}";
+			return statement;
+		}
 
-        #region ReturnMethods
+		/// <summary>
+		/// Returns a method call from _methodcalls using 2 genes. If _methodCalls have more than 16 elements, refactor.
+		/// </summary>
+		/// <param name="genes"></param>
+		/// <returns></returns>
+		private string GetMethodCall(Individual genes)
+		{
+			var index = GetNumberFromDoubleGene(genes.GetGene(_geneIterator++), genes.GetGene(_geneIterator++), 0);
+			return _methodCalls[index % _methodCalls.Length] + ";";
+		}
 
-        
-        /// <summary>
-        /// Returns string with variable declarations
-        /// </summary>
-        /// <returns></returns>
-        public string GetVariableDeclarations() {
+		#endregion HelperMethods
+
+		#region ReturnMethods
+
+
+		/// <summary>
+		/// Returns string with variable declarations
+		/// </summary>
+		/// <returns></returns>
+		public string GetVariableDeclarations() {
 			return _variableDeclarations;
 		}
         /// <summary>
@@ -494,6 +528,6 @@ namespace GeneticAlgorithmForStrings {
 		}
 
 
-        #endregion ReturnMethods
-    }
+		#endregion ReturnMethods
+	}
 }

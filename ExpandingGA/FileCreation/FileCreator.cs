@@ -16,7 +16,7 @@ namespace GeneticAlgorithmForStrings {
 		private readonly string _directoryPath, 
 								_dllDirectoryPath;
 		
-		internal FileCreator(int generation, int individual) {
+		internal FileCreator(int generation, int individual, Individual genes) {
 			
 			_dllDirectoryPath = System.IO.Path.Combine(FolderName, "DLL");
 			_directoryPath = System.IO.Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
@@ -24,11 +24,11 @@ namespace GeneticAlgorithmForStrings {
 			System.IO.Directory.CreateDirectory(_directoryPath);
 			System.IO.Directory.CreateDirectory(_dllDirectoryPath);
 			
-			CreateFiles(generation, individual);
+			CreateFiles(generation, individual, genes);
 		}
 
-		private void CreateFiles(int generation, int individual) {
-			RobotFileCreator.CreateRobotFiles(_directoryPath, generation, individual);						//The robot itself
+		private void CreateFiles(int generation, int individual, Individual genes) {
+			RobotFileCreator.CreateRobotFiles(_directoryPath, generation, individual, genes);						//The robot itself
 			//TODO		AddConstantClasses();							//Classes that won't change between individuals that robot needs to work.
 			DllFileCreator.CreateDll(_dllDirectoryPath, generation, individual);
 			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, GetRobotName(generation, individual));	

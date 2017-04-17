@@ -14,7 +14,7 @@ namespace GeneticAlgorithmForStrings {
 		//Letters that algorithm can make genes with
 		internal static readonly string AllowedLetters = "agct"; //abcdefghijklmnopqrstuvwxyzæøåèéêëàáâäíìîïùúûüABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÈÉÊËÀÁÂÄÍÌÎÏÙÚÛÜ0123456789 ,.:!?¨^~'*;-_/()=&%¤¤#|§\"\\\n\t";
         //DNA length
-        internal static int DefaultGeneLength = 100; //DnaToCode should always use less than 60 genes.  (FunFact: 4-letter genes with length=100 gives us 1.6e60 possible genomes)
+        internal static int DefaultGeneLength = 400; //DnaToCode should always use less than 60 genes.  (FunFact: 4-letter genes with length=100 gives us 1.6e60 possible genomes)
 
         //Crossover tournament population size
         private const int TournamentSize = 50;

@@ -21,28 +21,43 @@ namespace GeneticAlgorithmForStrings {
 	        Console.WriteLine(indiv.ToString());
 	        Console.WriteLine("Length: " + indiv.Size());
 			Console.WriteLine();
-	        Console.WriteLine("- Variable declarations");
-	        Console.WriteLine(dnaTranslator.GetVariableDeclarations());
+			Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Variable declarations");
+			Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetVariableDeclarations());
 	        Console.WriteLine();
-	        Console.WriteLine("- Variable Initialisations");
-	        Console.WriteLine(dnaTranslator.GetVariableInitialisations());
+			Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Variable Initialisations");
+			Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetVariableInitialisations());
 	        Console.WriteLine();
-	        Console.WriteLine("- Transition State1 - State2");
-	        Console.WriteLine("if( " + dnaTranslator.GetFirstToSecondStateTransitionContent() + " ) {//Do things}");
+	        Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Transition State1 -> State2");
+	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine("if( " + dnaTranslator.GetFirstToSecondStateTransitionContent() + " ) {//Do things}");
 	        Console.WriteLine();
-	        Console.WriteLine("- Transition State2 - State1");
-	        Console.WriteLine("if( " + dnaTranslator.GetSecondToFirstStateTransitionContent() + " ) {//Do things}");
+	        Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Transition State2 -> State1");
+	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine("if( " + dnaTranslator.GetSecondToFirstStateTransitionContent() + " ) {//Do things}");
 	        Console.WriteLine();
-	        Console.WriteLine("- Enter States");
-	        Console.WriteLine("- State1");
-//	        Console.WriteLine(dnaTranslator.GetFirstStateEnterMethodContent());
-//	        Console.WriteLine("- State2");
-//	        Console.WriteLine(dnaTranslator.GetSecondStateEnterMethodContent());
+			Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Enter States");
+			Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State1");
+	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetFirstStateEnterMethodContent());
+	        Console.WriteLine();
+	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State2");
+	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetSecondStateEnterMethodContent());
+	        Console.WriteLine();
+	        Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Leave States");
+	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State1");
+	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetFirstStateLeaveMethodContent());
+	        Console.WriteLine();
+	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State2");
+	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetSecondStateLeaveMethodContent());
+	        Console.WriteLine();
+	        Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- State Actions");
+	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State1");
+	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetFirstStateDoStateActionMethodContent());
+	        Console.WriteLine();
+	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State2");
+	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetSecondStateDoStateActionMethodContent());
+	        Console.WriteLine();
 
 
 
-
-	        /*
+			/*
 //			*** FileCreator testing ***
 			int generation = 0;
 			int individual = 0;
@@ -109,10 +124,10 @@ namespace GeneticAlgorithmForStrings {
 
 
 			// Keep the console window open in debug mode.
-/*			System.Console.WriteLine("Press any key to exit.");
+			/*			System.Console.WriteLine("Press any key to exit.");
 
-            System.Console.ReadKey();*/
+						System.Console.ReadKey();*/
 
-        }
+		}
 	}
 }
