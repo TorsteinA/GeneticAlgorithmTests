@@ -10,6 +10,8 @@ namespace GeneticAlgorithmForStrings {
         {
 			//TODO When changing project to create many generations of bots, use e: drive on desktop computer because HDD space.
 			
+
+			/*
 //			*** DnaToCode testing ***
 
 			var indiv = new Individual();
@@ -54,22 +56,22 @@ namespace GeneticAlgorithmForStrings {
 	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State2");
 	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetSecondStateDoStateActionMethodContent());
 	        Console.WriteLine();
+			*/
 
 
-
-			/*
-//			*** FileCreator testing ***
-			int generation = 0;
-			int individual = 0;
 			
-			for (int i = 0; i < 5; i++) {
-				for (int j = 0; j < 5; j++) {
-					Console.WriteLine("Generation " + i.ToString("D3") + ", Individual " + j.ToString("D4"));
-					var fileCreator = new FileCreator(i, j);  //Creates folders from generation, and uses both generation and individual for filename
+//			*** FileCreator testing ***
+	        var indiv = new Individual();
+	        indiv.GenerateIndividual();
+
+			for (var generation = 0; generation < 5; generation++) {
+				for (var individual = 0; individual < 5; individual++) {
+					Console.WriteLine("Generation " + generation.ToString("D3") + ", Individual " + individual.ToString("D4"));
+					var fileCreator = new FileCreator(generation, individual, indiv);  //Creates folders from generation, and uses both generation and individual for filename
 					Console.WriteLine();
 				}
 			}
-			*/
+			
 
 
 

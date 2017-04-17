@@ -37,12 +37,12 @@
 			var runMethod = "\n\t\tpublic override void Run() {" +
 			                "\n\t\t\tEnemy = new EnemyData();" +
 			                "\n\t\t\t_stateManager = new StateManagerScript(new State0(this));" +
-			                "\n\t\t\t" + _dnaTranslator.GetVariableInitialisations() +
+			                "\n" + _dnaTranslator.GetVariableInitialisations() +
 							"\n" +
 			 			    "\n\t\t\twhile (true) {" +
 			                "\n\t\t\t_stateManager.FrameCheck();" +
 			 			    "\n\t\t\tExecute();" +
-			                "\n\t\t\tOldEnemy = Enemy" +
+			                "\n\t\t\tOldEnemy = Enemy;" +
 			                "\n\t\t\t}" +
 			                "\n\t\t}" +
 			                "\n";
@@ -52,11 +52,9 @@
 			                       "\n\t\t\tvar enemyX = (int)(X + Math.Sin(angleToEnemy) * e.Distance);" +
 			                       "\n\t\t\tvar enemyY = (int)(Y + Math.Cos(angleToEnemy) * e.Distance);" +
 			                       "\n\t\t\tEnemy.SetEnemyData(e, new Point2D(enemyX, enemyY));" +
-			                       "\n\t\t}" +
-			                       "\n";
+			                       "\n\t\t}";
 						
-			const string end = "\n\t\t}" +
-			                   "\n\t}" +
+			const string end = "\n\t}" +
 			                   "\n}";
 
 			return imports + classInfo + fields + runMethod + methods + end;

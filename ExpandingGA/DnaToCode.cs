@@ -25,11 +25,11 @@ namespace GeneticAlgorithmForStrings {
 					            _firstToSecondStateTransitionContent,	        //String with contents of transition from first to second
 					            _secondToFirstStateTransitionContent;           //String with contents of transition from second to first
 
-		private readonly string[] _methodCalls = {
-			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",	// Block for DoStateAction content
-            "ourRobot.Fire(500 / ourRobot.Enemy.Distance)",								// Has method calls and statements/loops
-            "CircularTargetFire()",							                            // Format example: DoMethodCall(param1, param2);
-            "ourRobot.TurnRight()", //Needs parameters							        // Both states will use this block
+		private readonly string[] _methodCalls = {								//String array with method calls robot can use. All calls from this array are called from a state class. 
+			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",	
+            "ourRobot.Fire(500 / ourRobot.Enemy.Distance)",								
+            "CircularTargetFire()",							                            
+            "ourRobot.TurnRight()", //Needs parameters							       
             "TestMethod()",
             "Example()" };
 		
@@ -71,6 +71,7 @@ namespace GeneticAlgorithmForStrings {
 			Console.WriteLine("GeneIter:" + _geneIterator);
 			_secondStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements);
 			Console.WriteLine("GeneIter:" + _geneIterator);
+
             //_geneIterator = 50;
             
 			// Sets content for state Leave
@@ -78,7 +79,8 @@ namespace GeneticAlgorithmForStrings {
 	        Console.WriteLine("GeneIter:" + _geneIterator);
 			_secondStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements);
             Console.WriteLine("GeneIter:" + _geneIterator);
-            //_geneIterator = 70;
+            
+			//_geneIterator = 70;
 
 		    // Sets content for state doAction
 		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements);
@@ -388,9 +390,11 @@ namespace GeneticAlgorithmForStrings {
 			switch (gene1) {
 				case 'a':
 					if (depth < 3) statement += GetIfStatement(genes, depth);
+					else statement += GetMethodCall(genes);
 					break;
 				case 't':
 					if (depth < 2) statement += GetLoop(genes, depth);
+					else statement += GetMethodCall(genes);
 					break;
 				case 'c':
 				case 'g':
