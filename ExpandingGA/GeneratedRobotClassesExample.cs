@@ -55,20 +55,20 @@ namespace GeneticAlgorithmForStrings {
 		}
 
 		
-*** State1 ***		
+*** State0 ***		
 
 		using System;
 		using System.Drawing;
 	 
 		namespace Garics {
-	 		public class State1 : State	{
-	 			public State1(Garics ourRobot){
+	 		public class State0 : State	{
+	 			public State0(Garics ourRobot){
 	 				OurRobot = ourRobot;
 	 			}
 	 
 	 			public override State StateChangeRelevance(){
 	 				if (DnaToCode.GetFirstToSecondStateTransitionContent())
-	 					return new State2(OurRobot);
+	 					return new State1(OurRobot);
 	 				else
 	 					return this;
 	 			}
@@ -89,20 +89,20 @@ namespace GeneticAlgorithmForStrings {
 		}
 	 
 
-*** State2 ***
+*** State1 ***
 
 		using System;
 		using System.Drawing;
 	 
 		namespace Garics {
-	 		public class State2 : State	{
-	 			public State2(Garics ourRobot){
+	 		public class State1 : State	{
+	 			public State1(Garics ourRobot){
 	 				OurRobot = ourRobot;
 	 			}
 	 
 	 			public override State StateChangeRelevance(){
 	 				if (DnaToCode.GetSecondToFirstStateTransitionContent())
-	 					return new State1(OurRobot);
+	 					return new State0(OurRobot);
 	 				else
 	 					return this;
 	 			}

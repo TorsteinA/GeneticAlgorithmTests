@@ -4,13 +4,18 @@
 	{
 		private static DnaToCode _dnaTranslator;
 		internal static void CreateRobotFiles(string filePath, int generation, int individual, Individual genes) {
+			//Create gene translator
 			_dnaTranslator = new DnaToCode(genes);
+
+			//Create Robot_gX_iY.cs
 			FileCreator.CreateFile(
 				filePath,
 				$"{FileCreator.GetRobotName(generation, individual)}{FileCreator.CodeFileExtension}",
 				GetFileText(generation, individual)
 			);
-			RobotStateFileCreator.CreateStateFiles(filePath, generation, individual);
+
+			//Creates state files.
+			RobotStateFileCreator.CreateStateFiles(filePath, generation, individual, _dnaTranslator);
 		}
 		
 		internal static string GetFileText(int generation, int individual) {
@@ -31,7 +36,7 @@
 
 			var runMethod = "\n\t\tpublic override void Run() {" +
 			                "\n\t\t\tEnemy = new EnemyData();" +
-			                "\n\t\t\t_stateManager = new StateManagerScript(new State1(this));" +
+			                "\n\t\t\t_stateManager = new StateManagerScript(new State0(this));" +
 			                "\n\t\t\t" + _dnaTranslator.GetVariableInitialisations() +
 							"\n" +
 			 			    "\n\t\t\twhile (true) {" +
