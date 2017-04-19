@@ -420,45 +420,58 @@ namespace GeneticAlgorithmForStrings {
 			//return _methodCalls[index % _methodCalls.Length] + ";";
 
 
-			//Above is old working code based on finished blocks, below is nonfactored almost-pseudo-to-see-if-I-can-make-this-work-code. Ideally, a gene will choose to create or fetch a method call.
-
+			//Above is old working code based on finished blocks, below is nonfactored almost-pseudo-to-see-if-I-can-make-this-work-code. 
+			//Ideally, a gene will choose to create or fetch a method call.
 			
-			//Make RoboMethod list, and fill it with RoboMethods. Extract from here what type it needs, and where it needs it. 
-
 			var roboMethodList = new List<RoboMethod>
 			{
 				new RoboMethod("None", new List<RoboMethodTypes>()),
 				new RoboMethod("OneInt", new List<RoboMethodTypes>() {RoboMethodTypes.Int}),
 				new RoboMethod("IntAndFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Int, RoboMethodTypes.Float}),
-				new RoboMethod("DoubBoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
+				new RoboMethod("DoubDoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
 				new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
 			};
 
 			
-			var geneNum = GenesToNumber(genes, 1, 0);
+			var geneNum = GenesToNumber(genes, 1, 0);	//Use more genes when it works properly. Maybe use modulo to not index out of range
 			var returnString = roboMethodList[geneNum].MethodName + "(";
-
-
+			
 			while (roboMethodList[geneNum].TypeRequired.Count > 0)
 			{
 				var rType = roboMethodList[geneNum].TypeRequired.Dequeue();
 
-				if (rType.Equals(RoboMethodTypes.Int)) returnString += "0"; //FetchInt();
-				if (rType.Equals(RoboMethodTypes.Float)) returnString += "0.0f"; //FetchFloat();
-				if (rType.Equals(RoboMethodTypes.Double)) returnString += "0.0"; //FetchDouble();
+				if (rType.Equals(RoboMethodTypes.Int)) returnString += FetchInt(genes);
+				if (rType.Equals(RoboMethodTypes.Float)) returnString += FetchFloat(genes);
+				if (rType.Equals(RoboMethodTypes.Double)) returnString += FetchDouble(genes);
 
-				if (roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's none left to fill, don't put comma.
+				if (roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's no params left to fill, don't put comma.
 			}
 			
 			returnString += ");";
 			return returnString;
 		}
 
-		
-		#endregion HelperMethods
+#endregion HelperMethods
 
 		#region ReturnMethods
 
+		private string FetchDouble(Individual genes)
+		{
+			return GenesToNumber(genes, 3, -32).ToString();
+		}
+
+		private string FetchFloat(Individual genes)
+		{
+			//Return genesToNumer Normalized between two values I have to find out .ToString();
+			return "42.0f";
+		}
+
+		private string FetchInt(Individual genes)
+		{
+			//Same as float, but higher numbers?
+			return "23";
+		}
+		
 
 		/// <summary>
 		/// Returns string with variable declarations
