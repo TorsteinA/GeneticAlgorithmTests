@@ -11,6 +11,7 @@ namespace GeneticAlgorithmForStrings
 		internal static void CreateDll(string dllDirPath, int generation, int individual) {
 
 			var classCodeAsString = RobotFileCreator.GetFileText(generation, individual);
+//			classCodeAsString += ...
 
 			var csc = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v4.0" } });
 			var parameters =

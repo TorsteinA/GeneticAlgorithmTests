@@ -16,8 +16,7 @@ namespace GeneticAlgorithmForStrings {
 				);
 			}
 		}
-
-		//TODO Fill in text to go in state files. 
+		
 		private static string GetFileText(int stateNumber, DnaToCode dnaTranslator)
 		{
 			return "using System;" +

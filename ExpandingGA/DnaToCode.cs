@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Deployment.Internal;
 using System.Linq;
 
 namespace GeneticAlgorithmForStrings {
@@ -67,24 +68,29 @@ namespace GeneticAlgorithmForStrings {
 			_geneIterator = 30;
 			
 			// Sets content for state Enter
-			_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements); //TODO: Recalculate max gene use
+			_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements); //Worst Case use of genes = 1+6((1+5)*3) = 109
 			Console.WriteLine("GeneIter:" + _geneIterator);
+	        _geneIterator = 140;
+
 			_secondStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements);
 			Console.WriteLine("GeneIter:" + _geneIterator);
-
-            //_geneIterator = 50;
+			_geneIterator = 250;
             
+
 			// Sets content for state Leave
 			_firstStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements);
 	        Console.WriteLine("GeneIter:" + _geneIterator);
+	        _geneIterator = 360;
+
 			_secondStateLeaveMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements);
             Console.WriteLine("GeneIter:" + _geneIterator);
-            
-			//_geneIterator = 70;
+            _geneIterator = 470;
 
 		    // Sets content for state doAction
 		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements);
 	        Console.WriteLine("GeneIter:" + _geneIterator);
+			_geneIterator = 580;
+
 			_secondStateDoStateActionMethodContent = CreateStateMethodContent(genes, MinStatements);
 			Console.WriteLine("GeneIter:" + _geneIterator);
 		}
@@ -126,9 +132,9 @@ namespace GeneticAlgorithmForStrings {
 			
 		    for (var i = geneIter; i < _numberOfVariables; i++) {
 				var gene = genes.GetGene(_geneIterator++);
-				var type = _variableDictionary.ElementAt(GetNumberFromSingleGene(gene, 0) % _variableDictionary.Count).Key;
-				var valueList = _variableDictionary.ElementAt(GetNumberFromSingleGene(gene, 0) % _variableDictionary.Count).Value;
-				var value = valueList[GetNumberFromDoubleGene(genes.GetGene(_geneIterator++), genes.GetGene(_geneIterator++), 0) % valueList.Count];
+				var type = _variableDictionary.ElementAt(GeneToNumber(gene) % _variableDictionary.Count).Key;
+				var valueList = _variableDictionary.ElementAt(GeneToNumber(gene) % _variableDictionary.Count).Value;
+				var value = valueList[GenesToNumber(genes, 2, 0) % valueList.Count];
 				
 			    if (i > geneIter) {
 				    variableDeclarations += "\n";
@@ -152,7 +158,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		private string CreateStateMethodContent(Individual genes, int minStatements) {
 			var contents = "";
-			var statements = GetNumberFromSingleGene(genes.GetGene(_geneIterator++), minStatements);
+			var statements = GenesToNumber(genes, 1, minStatements);
 			for (var i = 0; i < statements; i++) {
 				contents += "\n" + GetStatement(genes, 0);
 			}
@@ -213,7 +219,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		private string GetCondition(Individual genes)
 		{
-			var index = GetNumberFromFiveGenes(genes);
+			var index = GenesToNumber(genes, 5, 0);
 			return _transitionsList[index % _transitionsList.Count];
 		}
 		
@@ -298,60 +304,27 @@ namespace GeneticAlgorithmForStrings {
             }
         }
         
-        /// <summary>
-        /// Returns a number based on minNumber and gene. Will vary from minNumber to minNumber + 4
-        /// </summary>
-        /// <param name="gene"></param>
-        /// <param name="minNumber"></param>
-        /// <returns></returns>
-        private static int GetNumberFromSingleGene(char gene, int minNumber) {
-            for (var i = 0; i < Algorithm.AllowedLetters.Length; i++) {
-                if (gene == Algorithm.AllowedLetters[i]) {
-                    return i + minNumber;
-                }
-            }
-            return 0;
-        }
-		
 		/// <summary>
-		/// Returns a number based on minNumber and two genes. Will vary from minNumber to minNumber + 16
-		/// </summary>
-		/// <param name="gene1"></param>
-		/// <param name="gene2"></param>
-		/// <param name="minNumber"></param>
-		/// <returns></returns>
-		private static int GetNumberFromDoubleGene(char gene1, char gene2, int minNumber) {
-			for (var i = 0; i < Algorithm.AllowedLetters.Length; i++) {
-				for (var j = 0; j < Algorithm.AllowedLetters.Length; j++) {
-					if (gene1 == Algorithm.AllowedLetters[i] && gene2 == Algorithm.AllowedLetters[j]) {
-						return Algorithm.AllowedLetters.Length*i + j + minNumber;
-					}
-				}
-			}
-			return 0;
-		}
-
-		/// <summary>
-		/// Returns a number between 0 and 1024 based on next 5 genes
+		/// Returns a number between minNumber and minNumber + 4^numberOfGenes based on genes
 		/// </summary>
 		/// <param name="genes"></param>
+		/// <param name="numberOfGenes"></param>
+		/// <param name="minNumber"></param>
 		/// <returns></returns>
-		private int GetNumberFromFiveGenes(Individual genes) {
-			
-			var gene1 = genes.GetGene(_geneIterator++);
-			var gene2 = genes.GetGene(_geneIterator++);
-			var gene3 = genes.GetGene(_geneIterator++);
-			var gene4 = genes.GetGene(_geneIterator++);
-			var gene5 = genes.GetGene(_geneIterator++);
-			int[] geneNumbers = {GeneToNumber(gene1), GeneToNumber(gene2), GeneToNumber(gene3), GeneToNumber(gene4), GeneToNumber(gene5)};
-			
+		private int GenesToNumber(Individual genes, int numberOfGenes, int minNumber)
+		{
+			var geneL = new List<int>();
 			var num = 0;
-			foreach (var g in geneNumbers)
-			{
+
+			for (var i = 0; i < numberOfGenes; i++) {
+				geneL.Add(GeneToNumber(genes.GetGene(_geneIterator++)));
+			}
+
+			foreach (var g in geneL) {
 				num *= Algorithm.AllowedLetters.Length;
 				num += g;
 			}
-			return num;
+			return num + minNumber;
 		}
 
 		/// <summary>
@@ -443,10 +416,45 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		private string GetMethodCall(Individual genes)
 		{
-			var index = GetNumberFromDoubleGene(genes.GetGene(_geneIterator++), genes.GetGene(_geneIterator++), 0);
-			return _methodCalls[index % _methodCalls.Length] + ";";
+			//var index = GenesToNumber(genes, 2, 0);
+			//return _methodCalls[index % _methodCalls.Length] + ";";
+
+
+			//Above is old working code based on finished blocks, below is nonfactored almost-pseudo-to-see-if-I-can-make-this-work-code. Ideally, a gene will choose to create or fetch a method call.
+
+			
+			//Make RoboMethod list, and fill it with RoboMethods. Extract from here what type it needs, and where it needs it. 
+
+			var roboMethodList = new List<RoboMethod>
+			{
+				new RoboMethod("None", new List<RoboMethodTypes>()),
+				new RoboMethod("OneInt", new List<RoboMethodTypes>() {RoboMethodTypes.Int}),
+				new RoboMethod("IntAndFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Int, RoboMethodTypes.Float}),
+				new RoboMethod("DoubBoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
+				new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
+			};
+
+			
+			var geneNum = GenesToNumber(genes, 1, 0);
+			var returnString = roboMethodList[geneNum].MethodName + "(";
+
+
+			while (roboMethodList[geneNum].TypeRequired.Count > 0)
+			{
+				var rType = roboMethodList[geneNum].TypeRequired.Dequeue();
+
+				if (rType.Equals(RoboMethodTypes.Int)) returnString += "0"; //FetchInt();
+				if (rType.Equals(RoboMethodTypes.Float)) returnString += "0.0f"; //FetchFloat();
+				if (rType.Equals(RoboMethodTypes.Double)) returnString += "0.0"; //FetchDouble();
+
+				if (roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's none left to fill, don't put comma.
+			}
+			
+			returnString += ");";
+			return returnString;
 		}
 
+		
 		#endregion HelperMethods
 
 		#region ReturnMethods
