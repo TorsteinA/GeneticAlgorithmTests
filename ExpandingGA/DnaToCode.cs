@@ -462,13 +462,13 @@ namespace GeneticAlgorithmForStrings {
 
 		private string FetchFloat(Individual genes)
 		{
-			//Return genesToNumer Normalized between two values I have to find out .ToString();
+			//TODO Return genesToNumer Normalized between two values I have to find out .ToString();
 			return "42.0f";
 		}
 
 		private string FetchInt(Individual genes)
 		{
-			//Same as float, but higher numbers?
+			//TODO Same as float, but higher numbers?
 			return "23";
 		}
 		
