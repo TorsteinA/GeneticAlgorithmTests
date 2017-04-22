@@ -10,55 +10,6 @@ namespace GeneticAlgorithmForStrings {
         {
 			//TODO When changing project to create many generations of bots, use e: drive on desktop computer because HDD space.
 			
-
-			/*
-//			*** DnaToCode testing ***
-
-			var indiv = new Individual();
-			indiv.GenerateIndividual();
-			var dnaTranslator = new DnaToCode(indiv);
-
-	        Console.WriteLine();
-	        Console.WriteLine("DNA");
-	        Console.WriteLine(indiv.ToString());
-	        Console.WriteLine("Length: " + indiv.Size());
-			Console.WriteLine();
-			Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Variable declarations");
-			Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetVariableDeclarations());
-	        Console.WriteLine();
-			Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Variable Initialisations");
-			Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetVariableInitialisations());
-	        Console.WriteLine();
-	        Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Transition State1 -> State2");
-	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine("if( " + dnaTranslator.GetFirstToSecondStateTransitionContent() + " ) {//Do things}");
-	        Console.WriteLine();
-	        Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Transition State2 -> State1");
-	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine("if( " + dnaTranslator.GetSecondToFirstStateTransitionContent() + " ) {//Do things}");
-	        Console.WriteLine();
-			Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Enter States");
-			Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State1");
-	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetFirstStateEnterMethodContent());
-	        Console.WriteLine();
-	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State2");
-	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetSecondStateEnterMethodContent());
-	        Console.WriteLine();
-	        Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- Leave States");
-	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State1");
-	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetFirstStateLeaveMethodContent());
-	        Console.WriteLine();
-	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State2");
-	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetSecondStateLeaveMethodContent());
-	        Console.WriteLine();
-	        Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("- State Actions");
-	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State1");
-	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetFirstStateDoStateActionMethodContent());
-	        Console.WriteLine();
-	        Console.ForegroundColor = ConsoleColor.Cyan; Console.WriteLine("- State2");
-	        Console.ForegroundColor = ConsoleColor.White; Console.WriteLine(dnaTranslator.GetSecondStateDoStateActionMethodContent());
-	        Console.WriteLine();
-			*/
-
-
 			
 //			*** FileCreator testing ***
 	        var indiv = new Individual();
