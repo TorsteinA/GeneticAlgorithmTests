@@ -1,12 +1,16 @@
-﻿namespace GeneticAlgorithmForStrings {
+﻿using System;
+
+namespace GeneticAlgorithmForStrings {
     internal class Population {
         readonly Individual[] _individuals;
-        
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="populationSize"></param>
-		/// <param name="initialise"></param>
+
+        private readonly Random _rnd = new Random();
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="populationSize"></param>
+        /// <param name="initialise"></param>
         internal Population(int populationSize, bool initialise)
         {
             _individuals = new Individual[populationSize];
@@ -14,9 +18,18 @@
             if (!initialise) return;
             for(var i = 0; i < Size(); i++) {
                 var newIndividdual = new Individual();
-                newIndividdual.GenerateIndividual();
+                newIndividdual.GenerateIndividual(_rnd);
                 SaveIndividual(i, newIndividdual);
             }
+        }
+
+        /// <summary>
+        /// Constructor that creates population from array of individuals.
+        /// </summary>
+        /// <param name="individuals"></param>
+        internal Population(Individual[] individuals)
+        {
+            _individuals = individuals;
         }
 
 		/// <summary>

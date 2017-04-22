@@ -31,11 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build.Tasks.v4.0" />
-    <Reference Include="robocode">
-      <HintPath>C:\robocode\libs\robocode.dll</HintPath>
-    </Reference>
     <Reference Include="robocode, Version=1.9.2.6, Culture=neutral, PublicKeyToken=43c1c8ae0e25a953">
-      <HintPath>bin\Debug\robocode.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\robocode\libs\robocode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,6 +52,7 @@
     <Compile Include="FSM\States\Flee.cs" />
     <Compile Include="FSM\States\Idle.cs" />
     <Compile Include="FSM\States\Ram.cs" />
+    <Compile Include="NuGetRobot.cs" />
     <Compile Include="Utility\Battlefield.cs" />
     <Compile Include="Utility\DebugDrawer.cs" />
     <Compile Include="Utility\LinqExtensions.cs" />
@@ -76,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FSM\GeneralBehavior\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

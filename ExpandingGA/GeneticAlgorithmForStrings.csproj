@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileCreation\PopulationFileCreator.cs" />
+    <Compile Include="FileHandling\PopulationFileHandler.cs" />
     <Compile Include="GeneratedRobotClassesExample.cs" />
     <Compile Include="GeneticAlgorithm\Algorithm.cs" />
     <Compile Include="FileCreation\BattleFileCreator.cs" />
@@ -62,8 +62,8 @@
     <Compile Include="GeneticAlgorithm\Program.cs" />
     <Compile Include="RoboMethodTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FileCreation\RobotFileCreator.cs" />
-    <Compile Include="FileCreation\RobotStateFileCreator.cs" />
+    <Compile Include="FileHandling\RobotFileCreator.cs" />
+    <Compile Include="FileHandling\RobotStateFileCreator.cs" />
     <Compile Include="RoboMethod.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,18 +4,17 @@ namespace GeneticAlgorithmForStrings {
 	internal class Individual
 	{
 
-	    private readonly char[] _genes = new char[Algorithm.DefaultGeneLength];
+	    private char[] _genes = new char[Algorithm.DefaultGeneLength];
 		private int _fitness = 0;
-		private readonly Random _rnd = new Random();
 
 	    /// <summary>
 		/// create a random individual
 		/// </summary>
-		internal void GenerateIndividual()
+		internal void GenerateIndividual(Random random)
         {
             for (var i = 0; i < Size(); i++) {
-				//int gene = (int)Math.Round((double)rnd.Next() % Algorithm.randomGeneRange);
-				var gene = Algorithm.AllowedLetters[_rnd.Next(Algorithm.AllowedLetters.Length)];
+				//int gene = (int)Math.Round((double)random.Next() % Algorithm.randomGeneRange);
+				var gene = Algorithm.AllowedLetters[random.Next(Algorithm.AllowedLetters.Length)];
                 _genes[i] = gene;
             }
         }
@@ -40,6 +39,16 @@ namespace GeneticAlgorithmForStrings {
             _genes[index] = value;
             _fitness = 0;
         }
+
+        /// <summary>
+        /// Sets entire genome
+        /// </summary>
+        /// <param name="genes"></param>
+	    internal void SetGenes(char[] genes)
+	    {
+	        _genes = genes;
+	        _fitness = 0;
+	    }
 
 		/// <summary>
 		/// Length of Genes
