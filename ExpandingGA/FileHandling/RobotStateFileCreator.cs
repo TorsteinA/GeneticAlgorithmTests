@@ -21,6 +21,7 @@ namespace GeneticAlgorithmForStrings {
 		{
 			return "using System;" +
 			       "\nusing System.Drawing;" +
+                   "\nusing Alvtor_Hartho_15;" +
 			       $"\nnamespace {FileCreator.NameSpace} {{" +
 			       "\n\tpublic class State" + stateNumber + " : State {" +
 			       "\n\t\tpublic State" + stateNumber + "(Garics ourRobot){" +

@@ -28,6 +28,9 @@
 						"\nusing Robocode;" +
 						"\nusing Santom;" +
 						"\nusing Alvtor_Hartho_15;" +
+                        "\nusing Alvtor_Hartho_15.FSM;" +
+                        "\nusing ExampleSetup.Robocode;" +
+
 //						"\nusing Microsoft.CSharp;" +
 			            "\n";
 
@@ -38,11 +41,11 @@
 
 			var runMethod = "\n\t\tpublic override void Run() {" +
 			                "\n\t\t\tEnemy = new EnemyData();" +
-			                "\n\t\t\t_stateManager = new StateManagerScript(new State0(this));" +
+			                "\n\t\t\tStateManager = new StateManagerScript(new State0(this));" +
 			                "\n" + _dnaTranslator.GetVariableInitialisations() +
 							"\n" +
 			 			    "\n\t\t\twhile (true) {" +
-			                "\n\t\t\t_stateManager.FrameCheck();" +
+			                "\n\t\t\tStateManager.FrameCheck();" +
 			 			    "\n\t\t\tExecute();" +
 			                "\n\t\t\tOldEnemy = Enemy;" +
 			                "\n\t\t\t}" +
