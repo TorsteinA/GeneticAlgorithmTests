@@ -106,10 +106,77 @@ namespace GeneticAlgorithmForStrings {
 			Console.WriteLine("GeneIter:" + _geneIterator);
 		}
 
-		/// <summary>
-		/// Initialises transitionslist and fills it with transitions based on number of variables this bot has. 
-		/// </summary>
-		private void SetTransitions()
+        /// <summary>
+        /// Sets up variable lists. Holds all variables robot can access
+        /// </summary>
+        private void SetupVariableLists() {
+
+            _doubleVarList = new List<string>
+            {
+                "X",
+                "Y",
+                "Velocity",
+                "Energy",
+                "Heading",
+                "Height",
+                "Width",
+                "RadarHeading",	//RadarHeading only uses degrees. Always using degrees because this isn't the only case. (Though only using radians would be preferable)
+				"GunHeat",
+                "GunHeading",
+                "BattleFieldWidth",
+                "BattleFieldHeight",
+                "Enemy.Distance",
+                "Enemy.Energy",
+                "Enemy.Position.X",
+                "Enemy.Position.Y",
+                "Enemy.Velocity",
+                "Enemy.Acceleration",
+                "Enemy.BearingDegrees",
+                "Enemy.HeadingDegrees",
+                "Enemy.TurnRateDegrees"
+            };
+
+            _intVarList = new List<string>
+            {
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "42",
+                "420",
+                "9999999"
+            };
+
+            _floatVarList = new List<string>
+            {
+                "0.001f",
+                "1.1f",
+                "5.5f",
+                "3.2f",
+                "9.9f",
+                "3.1415928f",		//Pi
+				"1.618f",			//Phi
+				"2.718281828459f",	//Euler's number
+				"1.41421f"			//Pythagoras' constant
+			};
+
+            // Adding lists to dictionary
+            _variableDictionary.Add("double", _doubleVarList);  //Having only 3 lists doubles chance of first element (with 4-letter dna), which is preferable here
+            _variableDictionary.Add("float", _floatVarList);
+            _variableDictionary.Add("int", _intVarList);
+        }
+        
+        /// <summary>
+        /// Initialises transitionslist and fills it with transitions based on number of variables this bot has. 
+        /// </summary>
+        private void SetTransitions()
 		{
 			_transitionsList = new List<string>();
 			
@@ -237,70 +304,6 @@ namespace GeneticAlgorithmForStrings {
 #endregion CreateCodeContent
 
 		#region HelperMethods
-		
-		private void SetupVariableLists() {
-			
-			_doubleVarList = new List<string>
-			{
-				"ourRobot.X",
-				"ourRobot.Y",
-				"ourRobot.Velocity",
-				"ourRobot.Energy",
-				"ourRobot.Heading",
-				"ourRobot.Height",
-				"ourRobot.Width",
-				"ourRobot.RadarHeading",	//RadarHeading only uses degrees. Always using degrees because this isn't the only case. (Though only using radians would be preferable)
-				"ourRobot.GunHeat",
-				"ourRobot.GunHeading",
-				"ourRobot.BattleFieldWidth",
-				"ourRobot.BattleFieldHeight",
-				"ourRobot.Enemy.Distance",
-				"ourRobot.Enemy.Energy",
-				"ourRobot.Enemy.Position.X",
-				"ourRobot.Enemy.Position.Y",
-				"ourRobot.Enemy.Velocity",
-				"ourRobot.Enemy.Acceleration",
-				"ourRobot.Enemy.BearingDegrees",
-				"ourRobot.Enemy.HeadingDegrees",
-				"ourRobot.Enemy.TurnRateDegrees"
-			};
-			
-			_intVarList = new List<string>
-			{
-				"0",
-				"1",
-				"2",
-				"3",
-				"4",
-				"5",
-				"6",
-				"7",
-				"8",
-				"9",
-				"10",
-				"42",
-				"420",
-				"9999999"
-			};
-
-			_floatVarList = new List<string>
-			{
-				"0.001",
-				"1.1",
-				"5.5",
-				"3.2",
-				"9.9",
-				"3.1415928",		//Pi
-				"1.618",			//Phi
-				"2.718281828459",	//Euler's number
-				"1.41421"			//Pythagoras' constant
-			};
-			
-			// Adding lists to dictionary
-			_variableDictionary.Add("double", _doubleVarList);	//Having only 3 lists doubles chance of first element (with 4-letter dna), which is preferable here
-			_variableDictionary.Add("float", _floatVarList);
-			_variableDictionary.Add("int", _intVarList);
-		}
 		
 		/// <summary>
 		/// Sets how many variables the robot gets to play with
@@ -444,8 +447,8 @@ namespace GeneticAlgorithmForStrings {
 				var rType = _roboMethodList[geneNum].TypeRequired.Dequeue();
 
 				if (rType.Equals(RoboMethodTypes.Int)) returnString += FetchInt(genes);
-				if (rType.Equals(RoboMethodTypes.Float)) returnString += FetchFloat(genes);
-				if (rType.Equals(RoboMethodTypes.Double)) returnString += FetchDouble(genes);
+				else if (rType.Equals(RoboMethodTypes.Float)) returnString += FetchFloat(genes);
+				else if (rType.Equals(RoboMethodTypes.Double)) returnString += "OurRobot." + FetchDouble(genes);
 
 				if (_roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's no params left to fill, don't put comma.
 			}
@@ -455,25 +458,38 @@ namespace GeneticAlgorithmForStrings {
 		}
 
 
-		private string FetchDouble(Individual genes) 
-        {
-            //TODO Same as float, but higher numbers?	
-            return "23.0";
+	    private string FetchInt(Individual genes)
+	    {
+	        var gene = genes.GetGene(_geneIterator++);  //Used to decide to fetch og create int
+
+	        if (GeneToNumber(gene) >= 2)
+	        {
+	            return GenesToNumber(genes, 3, -32).ToString();
+	        }
+	        List<string> list;
+	        _variableDictionary.TryGetValue("Int", out list);
+
+	        return list != null ? list[GenesToNumber(genes, 3, 0) % list.Count] : "0.0";
+	    }
+
+	    private string FetchFloat(Individual genes)
+		{
+            List<string> list;
+            _variableDictionary.TryGetValue("Float", out list);
+
+            return list != null ? list[GenesToNumber(genes, 3, 0) % list.Count] : "0.0f";
         }
 
-        private string FetchFloat(Individual genes)
-		{
-			//TODO Return genesToNumer Normalized between two values I have to find out .ToString();
-			return "42.0f";
-		}
 
-		private string FetchInt(Individual genes)
-		{
-            return GenesToNumber(genes, 3, -32).ToString();
-        }
+	    private string FetchDouble(Individual genes)
+	    {
+	        List<string> list;
+	        _variableDictionary.TryGetValue("Double", out list);
 
+	        return list != null ? list[GenesToNumber(genes, 3, 0) % list.Count] : "0.0";
+	    }
 
-#endregion HelperMethods
+	    #endregion HelperMethods
 
         #region ReturnMethods
 
