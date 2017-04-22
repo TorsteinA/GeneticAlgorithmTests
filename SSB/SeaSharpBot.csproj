@@ -30,18 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="jni4net.n-0.8.7.0">
-      <HintPath>C:\robocode\robots\SeaSharpBot\jni4net.n-0.8.7.0.dll</HintPath>
-    </Reference>
     <Reference Include="robocode, Version=1.9.2.6, Culture=neutral, PublicKeyToken=43c1c8ae0e25a953, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\robocode\libs\robocode.dll</HintPath>
-    </Reference>
-    <Reference Include="robocode.control">
-      <HintPath>C:\robocode\robots\SeaSharpBot\robocode.control.dll</HintPath>
-    </Reference>
-    <Reference Include="robocode.dotnet.nhost-1.9.2.6">
-      <HintPath>C:\robocode\libs\robocode.dotnet.nhost-1.9.2.6.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

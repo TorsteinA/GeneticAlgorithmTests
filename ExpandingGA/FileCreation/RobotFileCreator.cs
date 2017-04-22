@@ -17,7 +17,7 @@
 			//Creates state files.
 			RobotStateFileCreator.CreateStateFiles(filePath, generation, individual, _dnaTranslator);
 		}
-		
+
 		internal static string GetFileText(int generation, int individual) {
 			var imports = $"using System;" +
 //						"\nusing System.CodeDom.Compiler;" +
@@ -26,21 +26,26 @@
 						"\nusing System.Linq;" +
 						"\nusing System.Text;" +
 						"\nusing Robocode;" +
+						"\nusing Santom;" +
+						"\nusing Alvtor_Hartho_15;" +
+                        "\nusing Alvtor_Hartho_15.FSM;" +
+                        "\nusing ExampleSetup.Robocode;" +
+
 //						"\nusing Microsoft.CSharp;" +
 			            "\n";
 
 			var classInfo = $"\nnamespace {FileCreator.NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +
-			                "\nclass " + FileCreator.GetRobotName(generation, individual) + " : Garics {";
+			                "\nclass " + FileCreator.GetRobotName(generation, individual) + " : Alvtor_Hartho_15.Garics {";
 
 			var fields = "\n" + _dnaTranslator.GetVariableDeclarations();
 
 			var runMethod = "\n\t\tpublic override void Run() {" +
 			                "\n\t\t\tEnemy = new EnemyData();" +
-			                "\n\t\t\t_stateManager = new StateManagerScript(new State0(this));" +
+			                "\n\t\t\tStateManager = new StateManagerScript(new State0(this));" +
 			                "\n" + _dnaTranslator.GetVariableInitialisations() +
 							"\n" +
 			 			    "\n\t\t\twhile (true) {" +
-			                "\n\t\t\t_stateManager.FrameCheck();" +
+			                "\n\t\t\tStateManager.FrameCheck();" +
 			 			    "\n\t\t\tExecute();" +
 			                "\n\t\t\tOldEnemy = Enemy;" +
 			                "\n\t\t\t}" +
@@ -53,7 +58,7 @@
 			                       "\n\t\t\tvar enemyY = (int)(Y + Math.Cos(angleToEnemy) * e.Distance);" +
 			                       "\n\t\t\tEnemy.SetEnemyData(e, new Point2D(enemyX, enemyY));" +
 			                       "\n\t\t}";
-						
+
 			const string end = "\n\t}" +
 			                   "\n}";
 

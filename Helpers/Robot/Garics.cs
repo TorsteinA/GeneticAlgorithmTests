@@ -3,17 +3,17 @@ using Robocode;
 using Santom;
 using Tomtom;
 using Tomtom.Utility;
-using SeaSharpBot.FSM;
 using static System.Math;
 using ExampleSetup.Robocode;
+using Alvtor_Hartho_15.FSM;
 
 namespace Alvtor_Hartho_15
 {
     public abstract class Garics : AdvancedRobot {
-		internal EnemyData Enemy { get; set; }
-		internal EnemyData OldEnemy;
-		internal double OldEnemyHeading;
-		internal StateManagerScript StateManager;
+		public EnemyData Enemy { get; set; }
+        public EnemyData OldEnemy;
+        public double OldEnemyHeading;
+        public StateManagerScript StateManager;
 
         #region Properties
 
@@ -37,7 +37,7 @@ namespace Alvtor_Hartho_15
         public double Firepower
         {
             get { return _firepower; }
-            set => _firepower = value.Clamp(0.1, 3);
+            set { _firepower = value.Clamp(0.1, 3); }
         }
 
         public double BulletSpeed => 20 - 3 * Firepower;

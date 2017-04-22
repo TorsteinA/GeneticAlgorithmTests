@@ -26,15 +26,26 @@ namespace GeneticAlgorithmForStrings {
 					            _firstToSecondStateTransitionContent,	        //String with contents of transition from first to second
 					            _secondToFirstStateTransitionContent;           //String with contents of transition from second to first
 
-		private readonly string[] _methodCalls = {								//String array with method calls robot can use. All calls from this array are called from a state class. 
+		private readonly string[] _finishedMethodCalls = {								//String array with method calls robot can use. All calls from this array are called from a state class. 
 			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",	
             "ourRobot.Fire(500 / ourRobot.Enemy.Distance)",								
             "CircularTargetFire()",							                            
             "ourRobot.TurnRight()", //Needs parameters							       
             "TestMethod()",
             "Example()" };
-		
-		private readonly Dictionary<string, List<string>> _variableDictionary = new Dictionary<string, List<string>>();		// Block for variable contents. Check helpermethod SetupVariableLists to see/edit values
+
+        private readonly List<RoboMethod> _roboMethodList = new List<RoboMethod>
+            {
+                new RoboMethod("None", new List<RoboMethodTypes>()),
+                new RoboMethod("OneInt", new List<RoboMethodTypes>() {RoboMethodTypes.Int}),
+                new RoboMethod("IntAndFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Int, RoboMethodTypes.Float}),
+                new RoboMethod("DoubDoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
+                new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
+            };
+
+
+
+        private readonly Dictionary<string, List<string>> _variableDictionary = new Dictionary<string, List<string>>();		// Block for variable contents. Check helpermethod SetupVariableLists to see/edit values
 		
 		private List<string> _intVarList, 
 							 _floatVarList, 
@@ -67,7 +78,7 @@ namespace GeneticAlgorithmForStrings {
 	        Console.WriteLine("GeneIter:" + _geneIterator);
 			_geneIterator = 30;
 			
-			// Sets content for state Enter
+			// Sets content for state Enter                                                           //TODO Recalculate gene use      v
 			_firstStateEnterMethodContent = CreateStateMethodContent(genes, MinEnterLeaveStatements); //Worst Case use of genes = 1+6((1+5)*3) = 109
 			Console.WriteLine("GeneIter:" + _geneIterator);
 	        _geneIterator = 140;
@@ -158,7 +169,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		private string CreateStateMethodContent(Individual genes, int minStatements) {
 			var contents = "";
-			var statements = GenesToNumber(genes, 1, minStatements);
+			var statements = GenesToNumber(genes, 2, minStatements);
 			for (var i = 0; i < statements; i++) {
 				contents += "\n" + GetStatement(genes, 0);
 			}
@@ -185,11 +196,11 @@ namespace GeneticAlgorithmForStrings {
             for (var i = 0; i <= geneChars.Length; i++) {
                 for (var j = 0; j <= geneChars.Length; i++)
                 {
-	                if (gene1 == geneChars[i] && gene2 == geneChars[j])
-		                if ((geneChars.Length * i + j) > _numberOfVariables)
-		                {
-			                transitionContent = _transitionsList[(geneChars.Length * i + j)];
-		                }
+                    if (gene1 != geneChars[i] || gene2 != geneChars[j]) continue;
+                    if ((geneChars.Length * i + j) > _numberOfVariables)
+                    {
+                        transitionContent = _transitionsList[(geneChars.Length * i + j)];
+                    }
                 }
             }
             if (depth >= depthLimit) return transitionContent;
@@ -410,57 +421,47 @@ namespace GeneticAlgorithmForStrings {
 		}
 
 		/// <summary>
-		/// Returns a method call from _methodcalls using 2 genes. If _methodCalls have more than 16 elements, refactor.
+		/// Returns a method call from _methodcalls using 2 genes. If _finishedMethodCalls have more than 16 elements, refactor.
 		/// </summary>
 		/// <param name="genes"></param>
 		/// <returns></returns>
 		private string GetMethodCall(Individual genes)
 		{
 			//var index = GenesToNumber(genes, 2, 0);
-			//return _methodCalls[index % _methodCalls.Length] + ";";
+			//return _finishedMethodCalls[index % _finishedMethodCalls.Length] + ";";
 
 
-			//Above is old working code based on finished blocks, below is nonfactored almost-pseudo-to-see-if-I-can-make-this-work-code. 
+			//Above is old working code based on finished blocks, below is new 
 			//Ideally, a gene will choose to create or fetch a method call.
 			
-			var roboMethodList = new List<RoboMethod>
-			{
-				new RoboMethod("None", new List<RoboMethodTypes>()),
-				new RoboMethod("OneInt", new List<RoboMethodTypes>() {RoboMethodTypes.Int}),
-				new RoboMethod("IntAndFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Int, RoboMethodTypes.Float}),
-				new RoboMethod("DoubDoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
-				new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
-			};
-
+			
 			
 			var geneNum = GenesToNumber(genes, 1, 0);	//Use more genes when it works properly. Maybe use modulo to not index out of range
-			var returnString = roboMethodList[geneNum].MethodName + "(";
+			var returnString = _roboMethodList[geneNum].MethodName + "(";
 			
-			while (roboMethodList[geneNum].TypeRequired.Count > 0)
+			while (_roboMethodList[geneNum].TypeRequired.Count > 0)
 			{
-				var rType = roboMethodList[geneNum].TypeRequired.Dequeue();
+				var rType = _roboMethodList[geneNum].TypeRequired.Dequeue();
 
 				if (rType.Equals(RoboMethodTypes.Int)) returnString += FetchInt(genes);
 				if (rType.Equals(RoboMethodTypes.Float)) returnString += FetchFloat(genes);
 				if (rType.Equals(RoboMethodTypes.Double)) returnString += FetchDouble(genes);
 
-				if (roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's no params left to fill, don't put comma.
+				if (_roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's no params left to fill, don't put comma.
 			}
 			
 			returnString += ");";
 			return returnString;
 		}
 
-#endregion HelperMethods
 
-		#region ReturnMethods
+		private string FetchDouble(Individual genes) 
+        {
+            //TODO Same as float, but higher numbers?	
+            return "23.0";
+        }
 
-		private string FetchDouble(Individual genes)
-		{
-			return GenesToNumber(genes, 3, -32).ToString();
-		}
-
-		private string FetchFloat(Individual genes)
+        private string FetchFloat(Individual genes)
 		{
 			//TODO Return genesToNumer Normalized between two values I have to find out .ToString();
 			return "42.0f";
@@ -468,16 +469,19 @@ namespace GeneticAlgorithmForStrings {
 
 		private string FetchInt(Individual genes)
 		{
-			//TODO Same as float, but higher numbers?
-			return "23";
-		}
-		
+            return GenesToNumber(genes, 3, -32).ToString();
+        }
 
-		/// <summary>
-		/// Returns string with variable declarations
-		/// </summary>
-		/// <returns></returns>
-		public string GetVariableDeclarations() {
+
+#endregion HelperMethods
+
+        #region ReturnMethods
+
+        /// <summary>
+        /// Returns string with variable declarations
+        /// </summary>
+        /// <returns></returns>
+        public string GetVariableDeclarations() {
 			return _variableDeclarations;
 		}
         /// <summary>
