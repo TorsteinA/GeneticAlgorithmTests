@@ -6,16 +6,15 @@ namespace GeneticAlgorithmForStrings {
 
 	    private readonly char[] _genes = new char[Algorithm.DefaultGeneLength];
 		private int _fitness = 0;
-		private readonly Random _rnd = new Random();
 
 	    /// <summary>
 		/// create a random individual
 		/// </summary>
-		internal void GenerateIndividual()
+		internal void GenerateIndividual(Random random)
         {
             for (var i = 0; i < Size(); i++) {
-				//int gene = (int)Math.Round((double)rnd.Next() % Algorithm.randomGeneRange);
-				var gene = Algorithm.AllowedLetters[_rnd.Next(Algorithm.AllowedLetters.Length)];
+				//int gene = (int)Math.Round((double)random.Next() % Algorithm.randomGeneRange);
+				var gene = Algorithm.AllowedLetters[random.Next(Algorithm.AllowedLetters.Length)];
                 _genes[i] = gene;
             }
         }

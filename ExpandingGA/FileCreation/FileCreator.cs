@@ -9,7 +9,7 @@ using Microsoft.CSharp;
 namespace GeneticAlgorithmForStrings {
 	internal class FileCreator
 	{
-		private const string FolderName = @"RobotCreator/"; //Root Folder for robots
+		internal const string FolderName = @"RobotCreator/"; //Root Folder for robots
 		internal const string NameSpace = "GARICS",
 							CodeFileExtension = ".cs";
 

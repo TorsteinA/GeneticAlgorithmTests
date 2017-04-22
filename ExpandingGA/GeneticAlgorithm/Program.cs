@@ -8,9 +8,29 @@ namespace GeneticAlgorithmForStrings {
     internal class Program {
         public static void Main(string[] args)
         {
-			//TODO When changing project to create many generations of bots, use e: drive on desktop computer because HDD space.
-			
-			
+            //TODO When changing project to create many generations of bots, use e: drive on desktop computer because HDD space.
+
+            var rnd = new Random();
+
+        //          *** PopulationFileCreator testing ***
+
+        var indivs = new Individual[50];
+
+            for (var i = 0; i < 50; i++)
+            {
+                indivs[i] = new Individual();
+                indivs[i].GenerateIndividual(rnd);
+            }
+
+            var pop = new Population(indivs);
+            var popFile = new PopulationFileCreator(FileCreator.FolderName, 0, pop);
+
+
+
+
+
+
+			/*
 //			*** FileCreator testing ***
 	        var indiv = new Individual();
 	        indiv.GenerateIndividual();
@@ -22,7 +42,7 @@ namespace GeneticAlgorithmForStrings {
 					Console.WriteLine();
 				}
 			}
-			
+			*/
 
 
 
