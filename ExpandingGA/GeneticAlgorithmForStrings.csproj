@@ -62,6 +62,20 @@
     <Compile Include="FileCreation\RobotFileCreator.cs" />
     <Compile Include="FileCreation\RobotStateFileCreator.cs" />
     <Compile Include="RoboMethod.cs" />
+    <Compile Include="Robot\FSM\State.cs" />
+    <Compile Include="Robot\Helpers\Battlefield.cs" />
+    <Compile Include="Robot\Helpers\Direction.cs" />
+    <Compile Include="Robot\Helpers\EnemyData.cs" />
+    <Compile Include="Robot\Helpers\EnemyDataHelpers.cs" />
+    <Compile Include="Robot\Helpers\LinqExtensions.cs" />
+    <Compile Include="Robot\Helpers\MathHelpers.cs" />
+    <Compile Include="Robot\Helpers\Point2D.cs" />
+    <Compile Include="Robot\Helpers\Point2DHelpers.cs" />
+    <Compile Include="Robot\Helpers\ReflectionHelpers.cs" />
+    <Compile Include="Robot\Helpers\RobotVectors.cs" />
+    <Compile Include="Robot\Helpers\UtilsVector.cs" />
+    <Compile Include="Robot\Helpers\Vector2D.cs" />
+    <Compile Include="Robot\Helpers\Vector2DHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
