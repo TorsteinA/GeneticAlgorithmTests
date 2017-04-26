@@ -260,8 +260,7 @@ namespace GeneticAlgorithmForStrings {
 		{
 			var gene1 = GetNextGene();
 			var index = GenesToNumber(GetNecessaryNumberOfGenes(_transitionsList.Count));
-
-
+			
 			var condition = _transitionsList[index % _transitionsList.Count];
 			if (depth >= MaxConditons) return condition;
 
@@ -283,8 +282,7 @@ namespace GeneticAlgorithmForStrings {
 		/// </summary>
 		/// <param name="gene"></param>
 		private void SetNumberOfVariables(char gene) {
-
-            for (var i = 0; i < Algorithm.AllowedLetters.Length; i++) {
+			for (var i = 0; i < Algorithm.AllowedLetters.Length; i++) {
                 if (gene == Algorithm.AllowedLetters[i]) {
                     _numberOfVariables = i + MinVariables;
                 }
@@ -433,6 +431,11 @@ namespace GeneticAlgorithmForStrings {
 			return returnString;
 		}
 
+		/// <summary>
+		/// Returns the minimum number of genes that can cover the entire list
+		/// </summary>
+		/// <param name="listLength"></param>
+		/// <returns></returns>
 		private static int GetNecessaryNumberOfGenes(int listLength)
 		{
 			for (var i = 0; i < 10; i++)
@@ -479,7 +482,7 @@ namespace GeneticAlgorithmForStrings {
 			return list != null ? list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "-1.0";
 	    }
 
-	    #endregion HelperMethods
+#endregion HelperMethods
 
         #region ReturnMethods
 
