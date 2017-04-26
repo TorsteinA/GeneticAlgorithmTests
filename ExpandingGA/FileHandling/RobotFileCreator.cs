@@ -11,7 +11,8 @@
 			FileCreator.CreateFile(
 				filePath,
 				$"{FileCreator.GetRobotName(generation, individual)}{FileCreator.CodeFileExtension}",
-				GetFileText(generation, individual)
+				GetFileText(generation, individual),
+				true
 			);
 
 			//Creates state files.
@@ -45,9 +46,9 @@
 			                "\n" + _dnaTranslator.GetVariableInitialisations() +
 							"\n" +
 			 			    "\n\t\t\twhile (true) {" +
-			                "\n\t\t\tStateManager.FrameCheck();" +
-			 			    "\n\t\t\tExecute();" +
-			                "\n\t\t\tOldEnemy = Enemy;" +
+			                "\n\t\t\t\tStateManager.FrameCheck();" +
+			 			    "\n\t\t\t\tExecute();" +
+			                "\n\t\t\t\tOldEnemy = Enemy;" +
 			                "\n\t\t\t}" +
 			                "\n\t\t}" +
 			                "\n";

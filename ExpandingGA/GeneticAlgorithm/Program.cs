@@ -13,9 +13,10 @@ namespace GeneticAlgorithmForStrings {
             var rnd = new Random();
 
         //          *** PopulationFileHandler testing ***
-            var pop = new Population(50, true);
-            var popFile = new PopulationFileHandler(FileCreator.FolderName, 0, pop);
-//            popFile.CreateFile();
+            var population = new Population(50, true);
+	        var gen = 0;
+//            var popFile = new PopulationFileHandler(FileCreator.FolderName, 0, pop);
+            PopulationFileHandler.CreateFile(System.IO.Path.Combine(FileCreator.FolderName, "Populations"), "Population_Gen" + gen.ToString("D4") + ".txt", population);
 //            popFile.ReadFile(0);
 
             

@@ -10,21 +10,22 @@ namespace GeneticAlgorithmForStrings {
         #region Fields
 
 	    private int _numberOfVariables,										    //How many variables the robot gets to play with.
-	                _geneIterator = 0;										    //always call with ++ when used with genes.GetGene().
+	                _geneIterator;		                                        //always call with ++ when used with genes.GetGene().
+
+		private string _variableDeclarations,                                   //String with variable declarations of robot
+					   _variableInitialisations;                                //String with variable declarations of robot
 
 		private readonly Individual _genes;										//The genes to translate
 
-		private const int MinStatements = 2,								    //Minimum number of statements in each states DoStateAction 
+		private const int StatementNumberSpread = 2,                            //1 means max 4 statements + minStatements, 2 means max 16 statements + minStatements, 3 means max 64 statements + minStatements, etc. 
+						  MinActionStatements = 2,								//Minimum number of statements in each states DoStateAction 
                           MinEnterLeaveStatements = 0,						    //Minimum number of statements in each states EnterState and LeaveState
 					      MinVariables = 5,									    //Minimum number of variables for numberOfVariables.
 					      MaxConditons = 3,									    //Maximum number of conditions bound to same condition
-					      StatementNumberSpread = 2,						    //1 means max 4 statements + minStatements, 2 means max 16 statements + minStatements, 3 means max 64 statements + minStatements, etc. 
 					      GeneAccuracyInt = 3,								    //Number of genes to use when fetching an int
 					      GeneAccuracyFloat = 3,							    //Number of genes to use when fetching a float
 					      GeneAccuracyDouble = 3;							    //Number of genes to use when fetching a double
 
-	    private string _variableDeclarations,		        					//String with variable declarations of robot
-					   _variableInitialisations;		        				//String with variable declarations of robot
 		private readonly string _firstStateEnterMethodContent,					//String with contents of first states enter method
 					            _secondStateEnterMethodContent,					//String with contents of second states enter method
  					            _firstStateLeaveMethodContent,					//String with contents of first states leave method
@@ -34,20 +35,19 @@ namespace GeneticAlgorithmForStrings {
 					            _firstToSecondStateTransitionContent,	        //String with contents of transition from first to second
 					            _secondToFirstStateTransitionContent;           //String with contents of transition from second to first
 
-		private readonly string[] _finishedMethodCalls = {								//String array with method calls robot can use. All calls from this array are called from a state class. 
+		private readonly List<string> _finishedMethodCalls = new List<string> {						//String array with method calls robot can use. All calls from this array are called from a state class. 
 			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",	
             "ourRobot.Fire(500 / ourRobot.Enemy.Distance)",								
             "CircularTargetFire()",
-            "Example()" };
-
-        private readonly List<RoboMethod> _roboMethodList = new List<RoboMethod>
-            {
-                new RoboMethod("None", new List<RoboMethodTypes>()),
-                new RoboMethod("OneInt", new List<RoboMethodTypes>() {RoboMethodTypes.Int}),
-                new RoboMethod("IntAndFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Int, RoboMethodTypes.Float}),
-                new RoboMethod("DoubDoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
-                new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
-            };
+            "Example()"
+		};
+		private readonly List<RoboMethod> _roboMethodList = new List<RoboMethod> {
+            new RoboMethod("None", new List<RoboMethodTypes>()),
+            new RoboMethod("OneInt", new List<RoboMethodTypes>() {RoboMethodTypes.Int}),
+            new RoboMethod("IntAndFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Int, RoboMethodTypes.Float}),
+            new RoboMethod("DoubDoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
+            new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
+        };
 		
         private readonly Dictionary<string, List<string>> _variableDictionary = new Dictionary<string, List<string>>();		// Block for variable contents. Check helpermethod SetUpVariableLists to see/edit values
 		
@@ -106,11 +106,11 @@ namespace GeneticAlgorithmForStrings {
 
 
 		    // Sets content for state doAction
-		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(MinStatements);
+		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(MinActionStatements);
 	        Console.WriteLine("GeneIter:" + _geneIterator);
 			_geneIterator = 580;
 
-			_secondStateDoStateActionMethodContent = CreateStateMethodContent(MinStatements);
+			_secondStateDoStateActionMethodContent = CreateStateMethodContent(MinActionStatements);
 			Console.WriteLine("GeneIter:" + _geneIterator);
 		}
 
@@ -199,7 +199,7 @@ namespace GeneticAlgorithmForStrings {
 				var gene = GetNextGene();
 				var type = _variableDictionary.ElementAt(GeneToNumber(gene) % _variableDictionary.Count).Key;
 				var valueList = _variableDictionary.ElementAt(GeneToNumber(gene) % _variableDictionary.Count).Value;
-				var value = valueList[GenesToNumber(GetNecessaryGeneLength(valueList)) % valueList.Count];
+				var value = valueList[GenesToNumber(GetNecessaryNumberOfGenes(valueList.Count)) % valueList.Count];
 				
 			    if (i > geneIter) {
 				    variableDeclarations += "\n";
@@ -259,7 +259,7 @@ namespace GeneticAlgorithmForStrings {
 		private string GetCondition(int depth = 0)
 		{
 			var gene1 = GetNextGene();
-			var index = GenesToNumber(GetNecessaryGeneLength(_transitionsList));
+			var index = GenesToNumber(GetNecessaryNumberOfGenes(_transitionsList.Count));
 
 
 			var condition = _transitionsList[index % _transitionsList.Count];
@@ -411,16 +411,10 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		private string GetMethodCall()
 		{
-			var index = GenesToNumber(GetNecessaryGeneLength(_finishedMethodCalls), 0);
-			return _finishedMethodCalls[index % _finishedMethodCalls.Length] + ";";
-
-
-			//Above is old working code based on finished blocks, below is new 
-			//Ideally, a gene will choose to create or fetch a method call.
+			if (GeneToNumber(GetNextGene()) >= 2)
+				return _finishedMethodCalls[GenesToNumber(GetNecessaryNumberOfGenes(_finishedMethodCalls.Count)) % _finishedMethodCalls.Count] + ";";
 			
-			
-			
-			var geneNum = GenesToNumber(1, 0);	//Use more genes when it works properly. Maybe use modulo to not index out of range
+			var geneNum = GetNecessaryNumberOfGenes(_roboMethodList.Count);
 			var returnString = _roboMethodList[geneNum].MethodName + "(";
 			
 			while (_roboMethodList[geneNum].TypeRequired.Count > 0)
@@ -430,6 +424,7 @@ namespace GeneticAlgorithmForStrings {
 				if (rType.Equals(RoboMethodTypes.Int)) returnString += FetchInt();
 				else if (rType.Equals(RoboMethodTypes.Float)) returnString += FetchFloat();
 				else if (rType.Equals(RoboMethodTypes.Double)) returnString += "OurRobot." + FetchDouble();
+				//TODO add more types to support
 
 				if (_roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's no params left to fill, don't put comma.
 			}
@@ -438,11 +433,11 @@ namespace GeneticAlgorithmForStrings {
 			return returnString;
 		}
 
-		private static int GetNecessaryGeneLength(IReadOnlyCollection<string> list)
+		private static int GetNecessaryNumberOfGenes(int listLength)
 		{
 			for (var i = 0; i < 10; i++)
 			{
-				if (Math.Pow(Algorithm.AllowedLetters.Length, i) < list.Count) continue;
+				if (Math.Pow(Algorithm.AllowedLetters.Length, i) < listLength) continue;
 				return i;
 			}
 			return -1;
@@ -461,7 +456,7 @@ namespace GeneticAlgorithmForStrings {
 	            return GenesToNumber(GeneAccuracyInt, -32).ToString();
 	        }
 			_variableDictionary.TryGetValue("Int", out List<string> list);
-			return list != null ? list[GenesToNumber(GeneAccuracyInt, 0) % list.Count] : "-1";
+			return list != null ? list[GenesToNumber(GeneAccuracyInt) % list.Count] : "-1";
 	    }
 
 		/// <summary>
@@ -471,7 +466,7 @@ namespace GeneticAlgorithmForStrings {
 	    private string FetchFloat()
 		{
 			_variableDictionary.TryGetValue("Float", out List<string> list);
-			return list != null ? list[GenesToNumber(GeneAccuracyFloat, 0) % list.Count] : "-1.0f";
+			return list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] : "-1.0f";
         }
 
 		/// <summary>
@@ -481,7 +476,7 @@ namespace GeneticAlgorithmForStrings {
 		private string FetchDouble()
 	    {
 			_variableDictionary.TryGetValue("Double", out List<string> list);
-			return list != null ? list[GenesToNumber(GeneAccuracyDouble, 0) % list.Count] : "-1.0";
+			return list != null ? list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "-1.0";
 	    }
 
 	    #endregion HelperMethods

@@ -4,31 +4,29 @@ using System.Text;
 
 namespace GeneticAlgorithmForStrings
 {
-    public class PopulationFileHandler
+    public static class PopulationFileHandler
     {
-        internal PopulationFileHandler(string path, int gen, Population population)
+		
+//        internal PopulationFileHandler(string path, int gen, Population population)
+//        {
+//            CreateFile(path, "Population_Gen" + gen + ".txt", population);
+//        }
+        internal static void CreateFile(string filePath, string name, Population population)
         {
-            CreateFile(path, "Population_Gen" + gen + ".txt", population);
-        }
-
-
-        internal static void CreateFile(string filePath, string name, Population population) {
-            var pathIncludingFile = Path.Combine(filePath, name);
             var contents = "";
 
-            Console.WriteLine(!File.Exists(pathIncludingFile) ? "File \"{0}\" Created!" : "File \"{0}\" overwritten!", filePath + name);
-			
-            // Create and write to file.
-            using (var fs = File.Create(pathIncludingFile))
-            {
-				for (var i = 0; i < population.Size(); i++)
-                {
-                    contents += population.GetIndividual(i) + Environment.NewLine;
-                }
-                var info = new UTF8Encoding(true).GetBytes(contents);
-                fs.Write(info, 0, info.Length);
-				fs.Close();
-            }
-        }
-	}
+	        Directory.CreateDirectory(filePath);
+//			
+	        for (var i = 0; i < population.Size(); i++) {
+		        contents += population.GetIndividual(i) + Environment.NewLine;
+	        }
+
+			FileCreator.CreateFile(filePath, name, contents, true);
+		}
+
+	    internal static void ReadFile(int generation)
+	    {
+		    
+	    }
+    }
 }
