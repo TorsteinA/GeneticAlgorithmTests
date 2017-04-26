@@ -15,8 +15,8 @@ namespace GeneticAlgorithmForStrings {
         //          *** PopulationFileHandler testing ***
             var pop = new Population(50, true);
             var popFile = new PopulationFileHandler(FileCreator.FolderName, 0, pop);
-            popFile.CreateFile();
-            popFile.ReadFile(0);
+//            popFile.CreateFile();
+//            popFile.ReadFile(0);
 
             
 
