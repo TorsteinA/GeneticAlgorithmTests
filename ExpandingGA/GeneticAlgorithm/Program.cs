@@ -13,12 +13,13 @@ namespace GeneticAlgorithmForStrings {
             var rnd = new Random();
 
         //          *** PopulationFileHandler testing ***
-            var population = new Population(50, true);
-	        var gen = 0;
-//            var popFile = new PopulationFileHandler(FileCreator.FolderName, 0, pop);
-            PopulationFileHandler.CreateFile(System.IO.Path.Combine(FileCreator.FolderName, "Populations"), "Population_Gen" + gen.ToString("D4") + ".txt", population);
-//            popFile.ReadFile(0);
+	        //            PopulationFileHandler.CreateFile(System.IO.Path.Combine(FileCreator.FolderName, "Populations"), "Population_Gen" + gen.ToString("D4") + ".txt", population);
+	        //            popFile.ReadFile(0);
 
+	        var population = new Population(50, true);
+	        FileCreator fc;
+	        for (int generation = 0; generation < 3; generation++)
+				fc = new FileCreator(generation, population);
             
 
 
@@ -26,7 +27,7 @@ namespace GeneticAlgorithmForStrings {
             /*
 //			*** FileCreator testing ***
             var indiv = new Individual();
-            indiv.GenerateIndividual();
+            indiv.GenerateIndividual(rnd);
 
             for (var generation = 0; generation < 5; generation++) {
                 for (var individual = 0; individual < 5; individual++) {

@@ -14,9 +14,10 @@ namespace GeneticAlgorithmForStrings {
 							CodeFileExtension = ".cs";
 
 		private readonly string _directoryPath,
-								_dllDirectoryPath;
+								_dllDirectoryPath,
+								_populationsDirectoryPath;
 
-		internal FileCreator(int generation, int individual, Individual genes) {
+		/*internal FileCreator(int generation, int individual, Individual genes) {
 
 			_dllDirectoryPath = Path.Combine(FolderName, "DLL");
 			_directoryPath = Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
@@ -25,6 +26,24 @@ namespace GeneticAlgorithmForStrings {
 			Directory.CreateDirectory(_dllDirectoryPath);
 
 			CreateFiles(generation, individual, genes);
+		}*/
+
+		internal FileCreator(int generation, Population population)
+		{
+
+			_dllDirectoryPath = Path.Combine(FolderName, "DLL");
+			_directoryPath = Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
+			_populationsDirectoryPath = Path.Combine(FolderName, "Populations");
+
+			Directory.CreateDirectory(_directoryPath);
+			Directory.CreateDirectory(_dllDirectoryPath);
+			Directory.CreateDirectory(_populationsDirectoryPath);
+
+			PopulationFileHandler.CreateFile(_populationsDirectoryPath, "Population_Gen" + generation.ToString("D4") + ".txt", population);
+			for (var i = 0; i < population.Size(); i++)
+			{
+				CreateFiles(generation, i, population.GetIndividual(i));
+			}
 		}
 
 		private void CreateFiles(int generation, int individual, Individual genes) {

@@ -13,7 +13,6 @@ namespace GeneticAlgorithmForStrings {
 		internal void GenerateIndividual(Random random)
         {
             for (var i = 0; i < Size(); i++) {
-				//int gene = (int)Math.Round((double)random.Next() % Algorithm.randomGeneRange);
 				var gene = Algorithm.AllowedLetters[random.Next(Algorithm.AllowedLetters.Length)];
                 _genes[i] = gene;
             }

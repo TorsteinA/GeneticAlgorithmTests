@@ -14,9 +14,7 @@ namespace GeneticAlgorithmForStrings
         internal static void CreateFile(string filePath, string name, Population population)
         {
             var contents = "";
-
-	        Directory.CreateDirectory(filePath);
-//			
+			
 	        for (var i = 0; i < population.Size(); i++) {
 		        contents += population.GetIndividual(i) + Environment.NewLine;
 	        }
