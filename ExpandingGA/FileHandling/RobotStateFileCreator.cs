@@ -12,7 +12,8 @@ namespace GeneticAlgorithmForStrings {
 				FileCreator.CreateFile(
 					filePath,
 					$"{FileCreator.GetRobotName(generation, individual)}_State{i}{FileCreator.CodeFileExtension}",
-					GetFileText(i, dnaTranslator)
+					GetFileText(i, dnaTranslator),
+					true
 				);
 			}
 		}

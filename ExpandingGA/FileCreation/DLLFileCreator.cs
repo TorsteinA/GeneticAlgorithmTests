@@ -27,7 +27,6 @@ namespace GeneticAlgorithmForStrings
             var results = csc.CompileAssemblyFromSource(parameters,
                 classCodeAsString);
             results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
-
-        }
+		}
     }
 }

@@ -14,17 +14,36 @@ namespace GeneticAlgorithmForStrings {
 							CodeFileExtension = ".cs";
 
 		private readonly string _directoryPath,
-								_dllDirectoryPath;
+								_dllDirectoryPath,
+								_populationsDirectoryPath;
 
-		internal FileCreator(int generation, int individual, Individual genes) {
+		/*internal FileCreator(int generation, int individual, Individual genes) {
 
-			_dllDirectoryPath = System.IO.Path.Combine(FolderName, "DLL");
-			_directoryPath = System.IO.Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
+			_dllDirectoryPath = Path.Combine(FolderName, "DLL");
+			_directoryPath = Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
 
-			System.IO.Directory.CreateDirectory(_directoryPath);
-			System.IO.Directory.CreateDirectory(_dllDirectoryPath);
+			Directory.CreateDirectory(_directoryPath);
+			Directory.CreateDirectory(_dllDirectoryPath);
 
 			CreateFiles(generation, individual, genes);
+		}*/
+
+		internal FileCreator(int generation, Population population)
+		{
+
+			_dllDirectoryPath = Path.Combine(FolderName, "DLL");
+			_directoryPath = Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
+			_populationsDirectoryPath = Path.Combine(FolderName, "Populations");
+
+			Directory.CreateDirectory(_directoryPath);
+			Directory.CreateDirectory(_dllDirectoryPath);
+			Directory.CreateDirectory(_populationsDirectoryPath);
+
+			PopulationFileHandler.CreateFile(_populationsDirectoryPath, "Population_Gen" + generation.ToString("D4") + ".txt", population);
+			for (var i = 0; i < population.Size(); i++)
+			{
+				CreateFiles(generation, i, population.GetIndividual(i));
+			}
 		}
 
 		private void CreateFiles(int generation, int individual, Individual genes) {
@@ -34,26 +53,32 @@ namespace GeneticAlgorithmForStrings {
 			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, GetRobotName(generation, individual));
 		}
 
-		internal static void CreateFile(string filePath, string name, string contents) {
-			var pathIncludingFile = System.IO.Path.Combine(filePath, name);
+		internal static void CreateFile(string filePath, string name, string contents, bool overwrite) {
+			var pathIncludingFile = Path.Combine(filePath, name);
 
-			/** If we don't want to overwrite, the code changes a bit
-			if (!File.Exists(pathIncludingFile)) {
+
+			if (!overwrite)
+			{
+				if (!File.Exists(pathIncludingFile))
+				{
 					Console.WriteLine($"File \"{name}\" created!");
 					File.WriteAllText(pathIncludingFile, contents);
 				}
-				else {
+				else
+				{
 					Console.WriteLine($"File \"{name}\" already exists. Did not overwrite");
 				}
-			*/
-
-			Console.WriteLine(!System.IO.File.Exists(pathIncludingFile) ? "File \"{0}\" Created!" : "File \"{0}\" overwritten!", filePath + name);
-
-			// Create and write to file.
-			using (var fs = File.Create(pathIncludingFile)) {
-				var info = new UTF8Encoding(true).GetBytes(contents);
-				fs.Write(info, 0, info.Length);
-				fs.Close();
+			}
+			else
+			{
+				Console.WriteLine(!File.Exists(pathIncludingFile) ? "File \"{0}\" Created!" : "File \"{0}\" overwritten!", filePath + "/" + name);
+				// Create and write to file.
+				using (var fs = File.Create(pathIncludingFile))
+				{
+					var info = new UTF8Encoding(true).GetBytes(contents);
+					fs.Write(info, 0, info.Length);
+					fs.Close();
+				}
 			}
 		}
 

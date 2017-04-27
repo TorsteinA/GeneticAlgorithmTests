@@ -16,7 +16,8 @@ namespace GeneticAlgorithmForStrings {
 				FileCreator.CreateFile(
 					filePath, 
 					$"{robotName}_vs_{enemyRobot}.battle",
-					GetFileText($"{nameSpace}.{robotName}", enemyRobot)
+					GetFileText($"{nameSpace}.{robotName}", enemyRobot),
+					true
 				);
 			}
 		}
