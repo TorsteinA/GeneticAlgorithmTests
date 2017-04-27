@@ -430,17 +430,16 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		private string GetMethodCall(Individual genes)
 		{
-			//var index = GenesToNumber(genes, 2, 0);
-			//return _finishedMethodCalls[index % _finishedMethodCalls.Length] + ";";
+		    var gene = genes.GetGene(_geneIterator++);
 
-
-			//Above is old working code based on finished blocks, below is new 
-			//Ideally, a gene will choose to create or fetch a method call.
-			
-			
-			
-			var geneNum = GenesToNumber(genes, 1, 0);	//Use more genes when it works properly. Maybe use modulo to not index out of range
-			var returnString = _roboMethodList[geneNum].MethodName + "(";
+		    if (gene == 'a' || gene == 'g')
+		    {
+		        var index = GenesToNumber(genes, 2, 0);     // Change if list size increases
+		        return _finishedMethodCalls[index % _finishedMethodCalls.Length] + ";";
+		    }
+            
+            var geneNum = GenesToNumber(genes, 3, 0);       // Change if list size increase
+			var returnString = _roboMethodList[geneNum % _roboMethodList.Count].MethodName + "(";
 			
 			while (_roboMethodList[geneNum].TypeRequired.Count > 0)
 			{
@@ -457,7 +456,11 @@ namespace GeneticAlgorithmForStrings {
 			return returnString;
 		}
 
-
+        /// <summary>
+        /// Returns an int either from list or generated based on genes
+        /// </summary>
+        /// <param name="genes"></param>
+        /// <returns></returns>
 	    private string FetchInt(Individual genes)
 	    {
 	        var gene = genes.GetGene(_geneIterator++);  //Used to decide to fetch og create int
@@ -472,6 +475,11 @@ namespace GeneticAlgorithmForStrings {
 	        return list != null ? list[GenesToNumber(genes, 3, 0) % list.Count] : "0.0";
 	    }
 
+        /// <summary>
+        /// Returns a float from list based on genes
+        /// </summary>
+        /// <param name="genes"></param>
+        /// <returns></returns>
 	    private string FetchFloat(Individual genes)
 		{
             List<string> list;
@@ -480,7 +488,11 @@ namespace GeneticAlgorithmForStrings {
             return list != null ? list[GenesToNumber(genes, 3, 0) % list.Count] : "0.0f";
         }
 
-
+        /// <summary>
+        /// Returns a double from list based on genes
+        /// </summary>
+        /// <param name="genes"></param>
+        /// <returns></returns>
 	    private string FetchDouble(Individual genes)
 	    {
 	        List<string> list;

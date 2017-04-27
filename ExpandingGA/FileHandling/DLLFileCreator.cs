@@ -19,7 +19,7 @@ namespace GeneticAlgorithmForStrings
 
             var csc = new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v4.0" } });
             var parameters =
-                new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll", "Robocode.dll" },
+                new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll", "Robocode.dll", "Helpers.dll" },
                     $"{dllDirPath}/{FileCreator.GetRobotName(generation, individual)}.dll", true)
                 {
                     GenerateExecutable = false,

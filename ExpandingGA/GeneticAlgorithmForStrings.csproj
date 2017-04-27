@@ -49,13 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileHandling\BattleFileCreator.cs" />
+    <Compile Include="FileHandling\FileCreator.cs" />
     <Compile Include="FileHandling\PopulationFileHandler.cs" />
     <Compile Include="GeneratedRobotClassesExample.cs" />
     <Compile Include="GeneticAlgorithm\Algorithm.cs" />
-    <Compile Include="FileCreation\BattleFileCreator.cs" />
-    <Compile Include="FileCreation\DllFileCreator.cs" />
+    <Compile Include="FileHandling\DllFileCreator.cs" />
     <Compile Include="DnaToCode.cs" />
-    <Compile Include="FileCreation\FileCreator.cs" />
     <Compile Include="GeneticAlgorithm\FitnessCalc.cs" />
     <Compile Include="GeneticAlgorithm\Individual.cs" />
     <Compile Include="GeneticAlgorithm\Population.cs" />
