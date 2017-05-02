@@ -2,14 +2,9 @@
     internal class FitnessCalc {
 
 
-	    private static int _newSolution;
+	    private static int _robotSolution;    //Not sure about type yet, or even if variable is needed at all.
 
-
-	    internal static void GetRobotSolution()
-	    {
-		    //TODO implement? Is it even needed
-	    }
-
+        
 	    internal static void SetRobotSolution()
 	    {
 		    //TODO implement if needed
@@ -20,7 +15,7 @@
 		/// </summary>
 		/// <param name="individual"></param>
 		/// <returns></returns>
-		internal static int GetRobotFitness(Individual individual) 
+		internal static float GetRobotFitness(Individual individual) 
 		{
 			//TODO implement method
 			//Sends call to robot match handler class to start match
@@ -28,13 +23,18 @@
 				//Let genes decide how many threads?
 			//Returns score after match(es)
 
-			return 0;
+		    var score = RoboCodeMatchHandler.RunMatches(individual);
+
+
+
+			return 0.0f;
 		}
 
 	    internal static float GetMaxRobotFitness()
 	    {
 			//Returns max score based on robocode match parameters.
-		    return 1000;	//TODO Fix 
+	        return RoboCodeMatchHandler.GetMaxScore();
+
 	    }
 
 
@@ -48,9 +48,10 @@
 
 
 
+        //Old contents of FitnessCalt.cs below.
 
 
-
+            
 	    static char[] _solution;
 
 		/// <summary>

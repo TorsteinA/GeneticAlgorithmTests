@@ -52,19 +52,20 @@
     <Compile Include="FileCreation\PopulationFileHandler.cs" />
     <Compile Include="FileCreation\BattleFileCreator.cs" />
     <Compile Include="FileHandling\FileCreator.cs" />
+    <Compile Include="FileHandling\RoboCodeMatchHandler.cs" />
     <Compile Include="GeneratedRobotClassesExample.cs" />
     <Compile Include="GeneticAlgorithm\Algorithm.cs" />
     <Compile Include="FileCreation\DllFileCreator.cs" />
-    <Compile Include="DnaToCode.cs" />
+    <Compile Include="DNA Translation\DnaToCode.cs" />
     <Compile Include="GeneticAlgorithm\FitnessCalc.cs" />
     <Compile Include="GeneticAlgorithm\Individual.cs" />
     <Compile Include="GeneticAlgorithm\Population.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="RoboMethodTypes.cs" />
+    <Compile Include="DNA Translation\RoboMethodTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileHandling\RobotFileCreator.cs" />
     <Compile Include="FileHandling\RobotStateFileCreator.cs" />
-    <Compile Include="RoboMethod.cs" />
+    <Compile Include="DNA Translation\RoboMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

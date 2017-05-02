@@ -41,6 +41,7 @@ namespace GeneticAlgorithmForStrings {
             "CircularTargetFire()",
             "Example()"
 		};
+
 		private readonly List<RoboMethod> _roboMethodList = new List<RoboMethod> {
             new RoboMethod("None", new List<RoboMethodTypes>()),
             new RoboMethod("OneInt", new List<RoboMethodTypes>() {RoboMethodTypes.Int}),
