@@ -11,10 +11,10 @@ namespace GeneticAlgorithmForStrings {
 			//TODO When changing project to create many generations of bots, use e: drive on desktop computer because HDD space.
 
 
-			Algorithm.RunGeneticAlgorithm();
+			//Algorithm.RunGeneticAlgorithm();
 
 
-			/*** Testing File creation ***
+			//*** Testing File creation ***
             var rnd = new Random();
 			var population = new Population(50, true);
 	        FileCreator fc;
@@ -27,7 +27,7 @@ namespace GeneticAlgorithmForStrings {
 	        {
 		        Console.WriteLine(line);
 	        }
-			*/
+			//*/
 
 
 

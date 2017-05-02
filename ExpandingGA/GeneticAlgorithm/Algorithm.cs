@@ -5,14 +5,14 @@ namespace GeneticAlgorithmForStrings {
 
         /* GA parameters */
 		//Tweak. Algorithm tries to create this solution
-        internal static readonly string Solution = "Got my Genetic Algorithm to work with sentences now! \nWop Wop Wop Wop!\n:D :D :D\n:D :D\n:D\n:D :D\n:D :D :D\n\nDen klarer å skrive ord som \"Pokémon\" også! \\m/";
+//        internal static readonly string Solution = "Got my Genetic Algorithm to work with sentences now! \nWop Wop Wop Wop!\n:D :D :D\n:D :D\n:D\n:D :D\n:D :D :D\n\nDen klarer å skrive ord som \"Pokémon\" også! \\m/";
 
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
 	    internal static readonly int PopulationSize = 500;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
-		internal static readonly string AllowedLetters = "abcdefghijklmnopqrstuvwxyzæøåèéêëàáâäíìîïùúûüABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÈÉÊËÀÁÂÄÍÌÎÏÙÚÛÜ0123456789 ,.:!?¨^~'*;-_/()=&%¤¤#|§\"\\\n\t";	// agct";
+		internal static readonly string AllowedLetters = "agct";  //abcdefghijklmnopqrstuvwxyzæøåèéêëàáâäíìîïùúûüABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÈÉÊËÀÁÂÄÍÌÎÏÙÚÛÜ0123456789 ,.:!?¨^~'*;-_/()=&%¤¤#|§\"\\\n\t";	// agct";
         //DNA length
         internal static int DefaultGeneLength = 1000;
 
@@ -25,6 +25,7 @@ namespace GeneticAlgorithmForStrings {
 
         private static readonly Random Rnd = new Random();
 
+		/*
 	    internal static void RunGeneticAlgorithm()
 	    {
 			FitnessCalc.SetSolution(Solution);
@@ -72,7 +73,7 @@ namespace GeneticAlgorithmForStrings {
 		    Console.WriteLine();
 		    Console.WriteLine();
 		}
-
+		*/
 
 		/// <summary>
 		/// Evolve a population

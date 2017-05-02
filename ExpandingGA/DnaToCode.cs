@@ -452,13 +452,15 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 	    private string FetchInt()
 	    {
-	        var gene = GetNextGene();  //Used to decide to fetch og create int
+	        var gene = GetNextGene();  //Used to decide to fetch or create int
 
 	        if (GeneToNumber(gene) >= 2)
 	        {
 	            return GenesToNumber(GeneAccuracyInt, -32).ToString();
 	        }
-			_variableDictionary.TryGetValue("Int", out List<string> list);
+
+		    List<string> list;
+			_variableDictionary.TryGetValue("Int", out list);
 			return list != null ? list[GenesToNumber(GeneAccuracyInt) % list.Count] : "-1";
 	    }
 
@@ -468,7 +470,8 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 	    private string FetchFloat()
 		{
-			_variableDictionary.TryGetValue("Float", out List<string> list);
+			List<string> list;
+			_variableDictionary.TryGetValue("Float", out list);
 			return list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] : "-1.0f";
         }
 
@@ -478,7 +481,8 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		private string FetchDouble()
 	    {
-			_variableDictionary.TryGetValue("Double", out List<string> list);
+		    List<string> list;
+			_variableDictionary.TryGetValue("Double", out list);
 			return list != null ? list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "-1.0";
 	    }
 
