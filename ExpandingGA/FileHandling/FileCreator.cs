@@ -1,45 +1,31 @@
 ﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using Microsoft.CSharp;
 
 namespace GeneticAlgorithmForStrings {
 	internal class FileCreator
 	{
-		internal const string FolderName = @"RobotCreator/"; //Root Folder for robots
-		internal const string NameSpace = "Alvtor_Hartho_15",
+		internal const string RootFolderName = @"RobotCreator/",	//Root Folder for robots
+							PopulationsFolderName = "Populations",	//Folder for robot populations.
+							DllFolderName = "DLL",					//Folder for robot Dll's.
+							NameSpace = "Alvtor_Hartho_15",
 							CodeFileExtension = ".cs";
 
 		private readonly string _directoryPath,
-								_dllDirectoryPath,
-								_populationsDirectoryPath;
+								_dllDirectoryPath;
 
-		/*internal FileCreator(int generation, int individual, Individual genes) {
-
-			_dllDirectoryPath = Path.Combine(FolderName, "DLL");
-			_directoryPath = Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
-
-			Directory.CreateDirectory(_directoryPath);
-			Directory.CreateDirectory(_dllDirectoryPath);
-
-			CreateFiles(generation, individual, genes);
-		}*/
+		private static DnaToCode _dnaTranslator;
 
 		internal FileCreator(int generation, Population population)
 		{
-
-			_dllDirectoryPath = Path.Combine(FolderName, "DLL");
-			_directoryPath = Path.Combine(FolderName, "Robots_gen" + generation.ToString("D4"));
-			_populationsDirectoryPath = Path.Combine(FolderName, "Populations");
+			_dllDirectoryPath = Path.Combine(RootFolderName, DllFolderName);
+			_directoryPath = Path.Combine(RootFolderName, GetRobotFolderName(generation));
 
 			Directory.CreateDirectory(_directoryPath);
 			Directory.CreateDirectory(_dllDirectoryPath);
-			Directory.CreateDirectory(_populationsDirectoryPath);
+			Directory.CreateDirectory(Path.Combine(RootFolderName, PopulationsFolderName));
 
-			PopulationFileHandler.CreateFile(_populationsDirectoryPath, "Population_Gen" + generation.ToString("D4") + ".txt", population);
+			PopulationFileHandler.CreateFile(generation, population);
 			for (var i = 0; i < population.Size(); i++)
 			{
 				CreateFiles(generation, i, population.GetIndividual(i));
@@ -47,10 +33,11 @@ namespace GeneticAlgorithmForStrings {
 		}
 
 		private void CreateFiles(int generation, int individual, Individual genes) {
-			RobotFileCreator.CreateRobotFiles(_directoryPath, generation, individual, genes);						//The robot itself
-			//TODO:		AddConstantClasses();							//Classes that won't change between individuals that robot needs to work.
-			DllFileCreator.CreateDll(_dllDirectoryPath, generation, individual);
-			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, GetRobotName(generation, individual));
+			_dnaTranslator = new DnaToCode(genes);	//In later iteration, replace with Factory
+			RobotFileCreator.CreateRobotFiles(_directoryPath, generation, individual, genes, _dnaTranslator);
+			RobotStateFileCreator.CreateStateFiles(_directoryPath, generation, individual, _dnaTranslator);
+			DllFileCreator.CreateDll(_dllDirectoryPath, generation, individual, _dnaTranslator);
+			BattleFileCreator.CreateBattleFiles(_directoryPath, NameSpace, RobotFileCreator.GetRobotName(generation, individual));
 		}
 
 		internal static void CreateFile(string filePath, string name, string contents, bool overwrite) {
@@ -82,8 +69,9 @@ namespace GeneticAlgorithmForStrings {
 			}
 		}
 
-		internal static string GetRobotName(int generation , int individualNumber) {
-            return "Robot_g" + generation.ToString("D4") + "_i" + individualNumber.ToString("D4");
+		private static string GetRobotFolderName(int generation)
+		{
+			return "Robots_gen" + generation.ToString("D4");
 		}
 	}
 }

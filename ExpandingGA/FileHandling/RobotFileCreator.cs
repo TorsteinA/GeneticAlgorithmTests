@@ -2,24 +2,17 @@
 {
 	internal class RobotFileCreator
 	{
-		private static DnaToCode _dnaTranslator;
-		internal static void CreateRobotFiles(string filePath, int generation, int individual, Individual genes) {
-			//Create gene translator
-			_dnaTranslator = new DnaToCode(genes);
-
+		internal static void CreateRobotFiles(string filePath, int generation, int individual, Individual genes, DnaToCode dnaTranslator) {
 			//Create Robot_gX_iY.cs
 			FileCreator.CreateFile(
 				filePath,
-				$"{FileCreator.GetRobotName(generation, individual)}{FileCreator.CodeFileExtension}",
-				GetFileText(generation, individual),
+				$"{GetRobotName(generation, individual)}{FileCreator.CodeFileExtension}",
+				GetFileText(generation, individual, dnaTranslator),
 				true
 			);
-
-			//Creates state files.
-			RobotStateFileCreator.CreateStateFiles(filePath, generation, individual, _dnaTranslator);
 		}
 
-		internal static string GetFileText(int generation, int individual) {
+		internal static string GetFileText(int generation, int individual, DnaToCode dnaTranslator) {
 			var imports = $"using System;" +
 //						"\nusing System.CodeDom.Compiler;" +
 						"\nusing System.Collections.Generic;" +
@@ -36,14 +29,14 @@
 			            "\n";
 
 			var classInfo = $"\nnamespace {FileCreator.NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +
-			                "\nclass " + FileCreator.GetRobotName(generation, individual) + " : Alvtor_Hartho_15.Garics {";
+			                "\nclass " + GetRobotName(generation, individual) + " : Alvtor_Hartho_15.Garics {";
 
-			var fields = "\n" + _dnaTranslator.GetVariableDeclarations();
+			var fields = "\n" + dnaTranslator.GetVariableDeclarations();
 
 			var runMethod = "\n\t\tpublic override void Run() {" +
 			                "\n\t\t\tEnemy = new EnemyData();" +
 			                "\n\t\t\tStateManager = new StateManagerScript(new State0(this));" +
-			                "\n" + _dnaTranslator.GetVariableInitialisations() +
+			                "\n" + dnaTranslator.GetVariableInitialisations() +
 							"\n" +
 			 			    "\n\t\t\twhile (true) {" +
 			                "\n\t\t\t\tStateManager.FrameCheck();" +
@@ -64,6 +57,10 @@
 			                   "\n}";
 
 			return imports + classInfo + fields + runMethod + methods + end;
+		}
+
+		internal static string GetRobotName(int generation, int individualNumber) {
+			return "Robot_g" + generation.ToString("D4") + "_i" + individualNumber.ToString("D4");
 		}
 	}
 }
