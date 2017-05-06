@@ -22,7 +22,7 @@ namespace GeneticAlgorithmForStrings
 			    new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll", "Helpers.dll"},
 				    $"{dllDirPath}/{RobotFileCreator.GetRobotName(generation, individual)}.dll", true)
 			    {
-				    GenerateExecutable = false,
+				    GenerateExecutable = false
 			    };
 		    var results = csc.CompileAssemblyFromSource(parameters,
 			    classCodeAsString);
