@@ -34,17 +34,17 @@ namespace GeneticAlgorithmForStrings {
 
 		private void CreateFiles(int generation, int individual, Individual genes) {
 			// assign robot name
-			var robotName = RobotFileCreator.GetRobotName(generation, individual);
+			var robotId = RobotFileCreator.GetRobotId(generation, individual);
 
 			// create dir path and directory
-			var robotDirectoryPath = Path.Combine(_directoryPath, robotName);
+			var robotDirectoryPath = Path.Combine(_directoryPath, robotId);
 			Directory.CreateDirectory(robotDirectoryPath);
 
 			_dnaTranslator = new DnaToCode(genes);	//In later iteration, replace with Factory
-			RobotFileCreator.CreateRobotFiles(robotDirectoryPath, generation, individual, genes, _dnaTranslator);
-			RobotStateFileCreator.CreateStateFiles(robotDirectoryPath, generation, individual, _dnaTranslator);
-			DllFileCreator.CreateDll(_dllDirectoryPath, generation, individual, _dnaTranslator);
-			BattleFileCreator.CreateBattleFiles(robotDirectoryPath, NameSpace, robotName);
+			RobotFileCreator.CreateRobotFiles(robotDirectoryPath, robotId, genes, _dnaTranslator);
+			RobotStateFileCreator.CreateStateFiles(robotDirectoryPath, robotId, _dnaTranslator);
+			DllFileCreator.CreateDll(_dllDirectoryPath, robotDirectoryPath, robotId, _dnaTranslator);
+			BattleFileCreator.CreateBattleFiles(robotDirectoryPath, NameSpace, robotId);
 		}
 
 		internal static void CreateFile(string filePath, string name, string contents, bool overwrite) {

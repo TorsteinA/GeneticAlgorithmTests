@@ -36,8 +36,8 @@ namespace GeneticAlgorithmForStrings {
 					            _secondToFirstStateTransitionContent;           //String with contents of transition from second to first
 
 		private readonly List<string> _finishedMethodCalls = new List<string> {						//String array with method calls robot can use. All calls from this array are called from a state class. 
-			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",	
-            "ourRobot.Fire(500 / ourRobot.Enemy.Distance)",								
+			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",
+            "OurRobot.Fire(500 / OurRobot.Enemy.Distance)",
             "CircularTargetFire()",
             "Example()"
 		};
@@ -190,7 +190,7 @@ namespace GeneticAlgorithmForStrings {
 		{
 			SetUpVariableLists();
 
-			var variableDeclarations = "";
+			var variableDeclarations = "public ";
 		    var variableInitialisations = "";
 			var geneIter = _geneIterator;
 
@@ -203,12 +203,12 @@ namespace GeneticAlgorithmForStrings {
 				var value = valueList[GenesToNumber(GetNecessaryNumberOfGenes(valueList.Count)) % valueList.Count];
 				
 			    if (i > geneIter) {
-				    variableDeclarations += "\n";
+				    variableDeclarations += "\npublic ";
 				    variableInitialisations += "\n";
 				}
 				
-				variableDeclarations += type + " v" + i + ";";
-			    variableInitialisations += "v" + i + " = " + value + ";";
+				variableDeclarations += type + " V" + i + " { get; set; }";
+			    variableInitialisations += "V" + i + " = " + value + ";";
 				
 		    }
 			_variableDeclarations = variableDeclarations;
@@ -221,16 +221,16 @@ namespace GeneticAlgorithmForStrings {
 		private void SetTransitions() {
 			_transitionsList = new List<string>();
 
-			for (var i = 0; i <= _numberOfVariables; i++) {
-				for (var j = 0; j <= _numberOfVariables; j++) {
+			for (var i = 0; i < _numberOfVariables; i++) {
+				for (var j = 0; j < _numberOfVariables; j++) {
 					if (i == j) continue;   //Comparing a variable with itself is not going to be the best solution, so we skip those.
 
-					_transitionsList.Add("v" + i + "<" + "v" + j);
-					_transitionsList.Add("v" + i + ">" + "v" + j);
-					_transitionsList.Add("v" + i + "<=" + "v" + j);
-					_transitionsList.Add("v" + i + ">=" + "v" + j);
-					_transitionsList.Add("v" + i + "==" + "v" + j);
-					_transitionsList.Add("v" + i + "!=" + "v" + j);
+					_transitionsList.Add("OurRobot.V" + i + "<" + "OurRobot.V" + j);
+					_transitionsList.Add("OurRobot.V" + i + ">" + "OurRobot.V" + j);
+					_transitionsList.Add("OurRobot.V" + i + "<=" + "OurRobot.V" + j);
+					_transitionsList.Add("OurRobot.V" + i + ">=" + "OurRobot.V" + j);
+					_transitionsList.Add("OurRobot.V" + i + "==" + "OurRobot.V" + j);
+					_transitionsList.Add("OurRobot.V" + i + "!=" + "OurRobot.V" + j);
 				}
 			}
 			//Max transitions in _transitionsList with 6 comparators and 8 variables is 432 transitions
@@ -265,11 +265,13 @@ namespace GeneticAlgorithmForStrings {
 			var condition = _transitionsList[index % _transitionsList.Count];
 			if (depth >= MaxConditons) return condition;
 
-			if (GeneToNumber(gene1) == 0)
-				condition += " && " + GetCondition(++depth);
-			else if (GeneToNumber(gene1) == 1)
-			{
-				condition += " || " + GetCondition(++depth);
+			switch (GeneToNumber(gene1)) {
+				case 0:
+					condition += " && " + GetCondition(++depth);
+					break;
+				case 1:
+					condition += " || " + GetCondition(++depth);
+					break;
 			}
 			return condition;
 		}
@@ -411,10 +413,10 @@ namespace GeneticAlgorithmForStrings {
 		private string GetMethodCall()
 		{
 			if (GeneToNumber(GetNextGene()) >= 2)
-				return _finishedMethodCalls[GenesToNumber(GetNecessaryNumberOfGenes(_finishedMethodCalls.Count)) % _finishedMethodCalls.Count] + ";";
+				return "/*" +_finishedMethodCalls[GenesToNumber(GetNecessaryNumberOfGenes(_finishedMethodCalls.Count)) % _finishedMethodCalls.Count] + ";*/";
 			
 			var geneNum = GetNecessaryNumberOfGenes(_roboMethodList.Count);
-			var returnString = _roboMethodList[geneNum].MethodName + "(";
+			var returnString ="/*" + _roboMethodList[geneNum].MethodName + "(";
 			
 			while (_roboMethodList[geneNum].TypeRequired.Count > 0)
 			{
@@ -428,7 +430,7 @@ namespace GeneticAlgorithmForStrings {
 				if (_roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's no params left to fill, don't put comma.
 			}
 			
-			returnString += ");";
+			returnString += ");*/";
 			return returnString;
 		}
 
