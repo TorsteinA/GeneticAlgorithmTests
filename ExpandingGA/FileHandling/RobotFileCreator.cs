@@ -2,17 +2,17 @@
 {
 	internal class RobotFileCreator
 	{
-		internal static void CreateRobotFiles(string filePath, int generation, int individual, Individual genes, DnaToCode dnaTranslator) {
+		internal static void CreateRobotFiles(string filePath, string robotId, Individual genes, DnaToCode dnaTranslator) {
 			//Create Robot_gX_iY.cs
 			FileCreator.CreateFile(
 				filePath,
-				$"{GetRobotName(generation, individual)}{FileCreator.CodeFileExtension}",
-				GetFileText(generation, individual, dnaTranslator),
+				$"{robotId}{FileCreator.CodeFileExtension}",
+				GetFileText(robotId, dnaTranslator),
 				true
 			);
 		}
 
-		internal static string GetFileText(int generation, int individual, DnaToCode dnaTranslator) {
+		internal static string GetFileText(string robotId, DnaToCode dnaTranslator) {
 			var imports = $"using System;" +
 //						"\nusing System.CodeDom.Compiler;" +
 						"\nusing System.Collections.Generic;" +
@@ -29,7 +29,7 @@
 			            "\n";
 
 			var classInfo = $"\nnamespace {FileCreator.NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +
-			                "\nclass " + GetRobotName(generation, individual) + " : Alvtor_Hartho_15.Garics {";
+			                "\npublic class " + robotId + " : Alvtor_Hartho_15.Garics {";
 
 			var fields = "\n" + dnaTranslator.GetVariableDeclarations();
 
@@ -59,7 +59,7 @@
 			return imports + classInfo + fields + runMethod + methods + end;
 		}
 
-		internal static string GetRobotName(int generation, int individualNumber) {
+		internal static string GetRobotId(int generation, int individualNumber) {
 			return "Robot_g" + generation.ToString("D4") + "_i" + individualNumber.ToString("D4");
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.CSharp;
 
@@ -8,25 +9,30 @@ namespace GeneticAlgorithmForStrings
 {
     internal class DllFileCreator
     {
-	    internal static void CreateDll(string dllDirPath, int generation, int individual, DnaToCode dnaTranslator)
+	    private const string FileExtension = "cs";
+
+	    internal static void CreateDll(string dllDirPath, string robotDirPath, string robotId, DnaToCode dnaTranslator, int numberOfStates = 2)
 	    {
+		    var robotPath = Path.Combine(robotDirPath, robotId); // the path to the robot including dirs
+		    var files = new string[numberOfStates+1]; // initialise array to hold all states and robot
+		    files[numberOfStates] = $"{robotPath}.{FileExtension}"; //add robot to the array
 
-		    var classCodeAsString = RobotFileCreator.GetFileText(generation, individual, dnaTranslator);
-		    //			classCodeAsString += ...
-
-		    // TODO: add state files etc if they don't get included automatically.
-		    //TODO:		AddConstantClasses();							//Classes that won't change between individuals that robot needs to work.
+		    for (var i = 0; i < numberOfStates; i++) // add states to the array
+		    {
+			    files[i] = $"{robotPath}_state{i}.{FileExtension}";
+		    }
 
 		    var csc = new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v4.0"}});
 		    var parameters =
-			    new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll", "Helpers.dll"},
-				    $"{dllDirPath}/{RobotFileCreator.GetRobotName(generation, individual)}.dll", true)
+			    new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll", "Helpers.dll", "System.Drawing"},
+				    $"{dllDirPath}/{robotId}.dll", true)
 			    {
 				    GenerateExecutable = false
 			    };
-		    var results = csc.CompileAssemblyFromSource(parameters,
-			    classCodeAsString);
-		    results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
+		    var results = csc.CompileAssemblyFromFile(parameters,
+			    files);
+		    results.Errors.Cast<CompilerError>().ToList().
+			    ForEach(error => Console.WriteLine($"Error in file {error.FileName}: {error.ErrorText} ({error.Line}, {error.Column})"));
 	    }
     }
 }
