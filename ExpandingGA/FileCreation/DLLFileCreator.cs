@@ -15,17 +15,17 @@ namespace GeneticAlgorithmForStrings
 	    {
 		    var robotPath = Path.Combine(robotDirPath, robotId); // the path to the robot including dirs
 		    var files = new string[numberOfStates+1]; // initialise array to hold all states and robot
-		    files[numberOfStates] = $"{robotPath}.{FileExtension}"; //add robot to the array
+		    files[0] = $"{robotPath}.{FileExtension}"; //add robot to the array
 
 		    for (var i = 0; i < numberOfStates; i++) // add states to the array
 		    {
-			    files[i] = $"{robotPath}_state{i}.{FileExtension}";
+			    files[i+1] = $"{robotPath}_state{i}.{FileExtension}";
 		    }
 
 		    var csc = new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v4.0"}});
 		    var parameters =
-			    new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll", "Helpers.dll", "System.Drawing"},
-				    $"{dllDirPath}/{robotId}.dll", true)
+			    new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll", "Helpers.dll", "System.Drawing.dll"},
+				    $"{dllDirPath}/Alvtor_Hartho_15-{robotId}.dll", true)
 			    {
 				    GenerateExecutable = false
 			    };
