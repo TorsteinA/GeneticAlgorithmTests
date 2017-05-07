@@ -32,6 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Alvtor_Hartho_15-Robot_g0000_i0000, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>bin\Debug\RobotCreator\DLL\Alvtor_Hartho_15-Robot_g0000_i0000.dll</HintPath>
+    </Reference>
+    <Reference Include="Alvtor_Hartho_15-Robot_g0000_i0000, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>bin\Debug\RobotCreator\DLL\Alvtor_Hartho_15-Robot_g0000_i0000.dll</HintPath>
+    </Reference>
+    <Reference Include="Alvtor_Hartho_15-Robot_g0000_i0001, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>bin\Debug\RobotCreator\DLL\Alvtor_Hartho_15-Robot_g0000_i0001.dll</HintPath>
+    </Reference>
     <Reference Include="Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\Helpers\obj\Debug\Helpers.dll</HintPath>
     </Reference>
@@ -75,13 +84,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SampleFiles" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Helpers\Helpers.csproj">
       <Project>{fd3fc0d5-03cd-43e7-9d15-69cf50f3022b}</Project>
       <Name>Helpers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SampleFiles" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

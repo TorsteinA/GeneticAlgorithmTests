@@ -37,7 +37,7 @@ namespace PG4500_2017_Exam1
         public double Firepower
         {
             get { return _firepower; }
-            set { _firepower = value.Clamp(0.1, 3);}
+            set { _firepower = value.Clamp(0.1, 3); }
         }
 
         public double BulletSpeed => 20 - 3 * Firepower;

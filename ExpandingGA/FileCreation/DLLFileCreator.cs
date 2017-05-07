@@ -32,7 +32,7 @@ namespace GeneticAlgorithmForStrings
 		    var results = csc.CompileAssemblyFromFile(parameters,
 			    files);
 		    results.Errors.Cast<CompilerError>().ToList().
-			    ForEach(error => Console.WriteLine($"Error in file {error.FileName}: {error.ErrorText} ({error.Line}, {error.Column})"));
+			    ForEach(error => Console.WriteLine($"Error in file {error.FileName}: {error.ErrorText} ({error.Line}, {error.Column})")); // log errors in console
 	    }
     }
 }

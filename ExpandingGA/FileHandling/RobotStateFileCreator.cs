@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace GeneticAlgorithmForStrings {
 	internal class RobotStateFileCreator {
 
+		private static Random Random { get; set; } = new Random(); // for random colors
+
 		internal static void CreateStateFiles(string filePath, string robotId, DnaToCode dnaTranslator) {
 			for (var i = 0; i <= 1; i++) {
 				FileCreator.CreateFile(
@@ -43,7 +45,8 @@ namespace {FileCreator.NameSpace}
 
 		public override void EnterState()
 		{{
-			OurRobot.BodyColor = Color.Green;
+//			OurRobot.BodyColor = Color.{(stateNumber == 0 ? "Green" : "Red")};
+			OurRobot.BodyColor = Color.FromArgb({Random.Next(256)}, {Random.Next(256)}, {Random.Next(256)});
 			{(stateNumber == 0 ? dnaTranslator.GetFirstStateEnterMethodContent() : dnaTranslator.GetSecondStateEnterMethodContent())}
 		}}
 
