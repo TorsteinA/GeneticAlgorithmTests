@@ -22,17 +22,31 @@ namespace GeneticAlgorithmForStrings
 			    files[i+1] = $"{robotPath}_state{i}.{FileExtension}";
 		    }
 
-		    var csc = new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v4.0"}});
-		    var parameters =
-			    new CompilerParameters(new[] {"mscorlib.dll", "System.Core.dll", "Robocode.dll", "Helpers.dll", "System.Drawing.dll"},
-				    $"{dllDirPath}/Alvtor_Hartho_15-{robotId}.dll", true)
+
+		    var parameters = new CompilerParameters
+		    {
+			    GenerateInMemory = false, // save assembly as physical file
+			    IncludeDebugInformation = true, // generate debug info
+			    TreatWarningsAsErrors = true, // treat warnings as errors — this might cause breakage with empty if statements and loops
+			    CompilerOptions = "/optimize", //optimize output
+			    MainClass = robotId, // Specify the class that contains the Main method of the exe. Probably useless with dlls
+			    OutputAssembly = $"{dllDirPath}/Alvtor_Hartho_15-{robotId}.dll", //output string
+			    GenerateExecutable = false, //create .dll, not .exe
+			    ReferencedAssemblies =
 			    {
-				    GenerateExecutable = false
-			    };
-		    var results = csc.CompileAssemblyFromFile(parameters,
-			    files);
-		    results.Errors.Cast<CompilerError>().ToList().
-			    ForEach(error => Console.WriteLine($"Error in file {error.FileName}: {error.ErrorText} ({error.Line}, {error.Column})")); // log errors in console
+				    "mscorlib.dll",
+				    "System.Core.dll",
+				    "Robocode.dll",
+				    "Helpers.dll",
+				    "System.Drawing.dll"
+			    }
+		    };
+
+		    var codeProvider = new CSharpCodeProvider(new Dictionary<string, string> {{"CompilerVersion", "v4.0"}}); // create provider and generate results
+		    var results = codeProvider.CompileAssemblyFromFile(parameters, files);
+
+		    results.Errors.Cast<CompilerError>().ToList().ForEach(error =>
+				Console.WriteLine($"Error in file {error.FileName}: {error.ErrorText} ({error.Line}, {error.Column})")); // log errors in console
 	    }
     }
 }
