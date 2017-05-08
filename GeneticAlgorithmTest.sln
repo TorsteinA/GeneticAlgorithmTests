@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomtom", "Tomtom\Tomtom.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{FD3FC0D5-03CD-43E7-9D15-69CF50F3022B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotTesting", "BotTesting\BotTesting.csproj", "{4B263F0D-4322-4DC4-AF43-B89160710086}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FD3FC0D5-03CD-43E7-9D15-69CF50F3022B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD3FC0D5-03CD-43E7-9D15-69CF50F3022B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD3FC0D5-03CD-43E7-9D15-69CF50F3022B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B263F0D-4322-4DC4-AF43-B89160710086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B263F0D-4322-4DC4-AF43-B89160710086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B263F0D-4322-4DC4-AF43-B89160710086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B263F0D-4322-4DC4-AF43-B89160710086}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

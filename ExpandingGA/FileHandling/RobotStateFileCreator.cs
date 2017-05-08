@@ -45,8 +45,8 @@ namespace {FileCreator.NameSpace}
 
 		public override void EnterState()
 		{{
-//			OurRobot.BodyColor = Color.{(stateNumber == 0 ? "Green" : "Red")};
-			OurRobot.BodyColor = Color.FromArgb({Random.Next(256)}, {Random.Next(256)}, {Random.Next(256)});
+			OurRobot.BodyColor = Color.{(stateNumber == 0 ? "Green" : "Red")};
+//			OurRobot.BodyColor = Color.FromArgb({Random.Next(256)}, {Random.Next(256)}, {Random.Next(256)});
 			{(stateNumber == 0 ? dnaTranslator.GetFirstStateEnterMethodContent() : dnaTranslator.GetSecondStateEnterMethodContent())}
 		}}
 

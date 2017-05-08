@@ -2,7 +2,10 @@
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using ExampleSetup.Robocode;
 using Microsoft.CSharp;
+using Tomtom;
 
 namespace GeneticAlgorithmForStrings
 {
@@ -13,7 +16,8 @@ namespace GeneticAlgorithmForStrings
 	    internal static void CreateDll(string dllDirPath, string robotDirPath, string robotId, DnaToCode dnaTranslator, int numberOfStates = 2)
 	    {
 		    var robotPath = Path.Combine(robotDirPath, robotId); // the path to the robot, including dirs
-		    var files = new string[numberOfStates+1]; // initialise array to hold all states and robot
+//		    var files = new string[numberOfStates+1]; // initialise array to hold all states and robot
+		    var files = new string[20]; // initialise array to hold all states and robot
 		    files[0] = $"{robotPath}.{FileExtension}"; //add robot to the array
 
 		    for (var i = 0; i < numberOfStates; i++) // add states to the array
@@ -21,6 +25,30 @@ namespace GeneticAlgorithmForStrings
 			    files[i+1] = $"{robotPath}_state{i}.{FileExtension}";
 		    }
 
+		    const string helpersPath = @"./Helpers/";
+
+		    string[] dependencies =
+		    {
+			    "EnemyDataHelpers",
+			    "StateManagerScript",
+			    "State",
+			    "Garics",
+			    "Battlefield",
+			    "Direction",
+			    "EnemyData",
+			    "Point2D",
+			    "Point2DHelpers",
+			    "Vector2D",
+			    "Vector2DHelpers",
+			    "UtilsVector",
+			    "RobotVectors",
+			    "MathHelpers"
+		    };
+
+		    for (var i = 0; i < dependencies.Length; i++)
+		    {
+			    files[i + 3] = $"{helpersPath}{dependencies[i]}.{FileExtension}";
+		    }
 
 		    var parameters = new CompilerParameters
 		    {
@@ -36,7 +64,8 @@ namespace GeneticAlgorithmForStrings
 				    "mscorlib.dll",
 				    "System.Core.dll",
 				    "Robocode.dll",
-				    "Helpers.dll",
+				    "System.net", // For helpers
+//				    "Helpers.dll",
 				    "System.Drawing.dll"
 			    }
 		    };
@@ -46,7 +75,22 @@ namespace GeneticAlgorithmForStrings
 		    var results = codeProvider.CompileAssemblyFromFile(parameters, files);
 
 		    results.Errors.Cast<CompilerError>().ToList().ForEach(error =>
-				Console.WriteLine($"Error in file {error.FileName}: {error.ErrorText} ({error.Line}, {error.Column})")); // log errors in console
+				Console.WriteLine($"Error: {error.FileName}: {error.ErrorText} ({error.Line}, {error.Column})")); // log errors in console
+
+		    // try loading the assembly
+		    try
+		    {
+//			    Assembly.LoadFrom("./Helpers.dll");
+			    Assembly.LoadFrom($"{dllDirPath}/Alvtor_Hartho_15-{robotId}.dll");
+		    }
+		    catch (Exception ex)
+		    {
+			    Console.WriteLine($"Caught exception: {ex.Message}");
+			    var typeLoadException = ex as ReflectionTypeLoadException;
+			    var loaderExceptions  = typeLoadException?.LoaderExceptions;
+			    if (loaderExceptions != null) Console.WriteLine(loaderExceptions);
+		    }
+
 	    }
     }
 }
