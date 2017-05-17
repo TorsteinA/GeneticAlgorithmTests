@@ -5,9 +5,9 @@ namespace Alvtor_Hartho_15
 {
     public class State1 : State
     {
-        public Robot_g0000_i0000 OurRobot { get; set; }
+        public BotZero OurRobot { get; set; }
 
-        public State1(Robot_g0000_i0000 ourRobot) : base(ourRobot)
+        public State1(BotZero ourRobot) : base(ourRobot)
         {
             OurRobot = ourRobot;
         }

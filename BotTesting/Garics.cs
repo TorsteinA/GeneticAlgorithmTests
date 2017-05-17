@@ -36,8 +36,8 @@ namespace Alvtor_Hartho_15
 
         public double Firepower
         {
-            get => _firepower;
-            set => _firepower = value.Clamp(0.1, 3);
+            get { return _firepower; }
+            set { _firepower = value.Clamp(0.1, 3); }
         }
 
         public double BulletSpeed => 20 - 3 * Firepower;

@@ -7,7 +7,7 @@ using ExampleSetup.Robocode;
 
 namespace Alvtor_Hartho_15
 { //GARICS: Genetic Algorithm Robot in C Sharp
-    public class Robot_g0000_i0000 : Garics
+    public class BotZero : Garics
     {
         public float V0 { get; set; }
         public double V1 { get; set; }
@@ -20,6 +20,16 @@ namespace Alvtor_Hartho_15
 
         public override void Run()
         {
+            #region My First Robot
+
+            TurnLeft(Heading - 90);
+            TurnGunRight(90);
+
+            #endregion
+
+
+            #region GARICS
+
             Console.WriteLine("Entered run method");
             BodyColor = Color.Pink;
             Enemy = new EnemyData();
@@ -33,21 +43,55 @@ namespace Alvtor_Hartho_15
             V6 = X;
             V7 = 9999999;
 
+            #endregion
+
             while (true)
             {
+                #region My first robot
+
+                // Move our robot 5000 pixels ahead
+                Ahead(5000);
+
+                // Turn the robot 90 degrees
+                TurnRight(90);
+
+
+                #endregion
+
+                #region GARICS
+
                 StateManager.FrameCheck();
                 SetFire(3);
-                Execute();
+                Execute ();
                 OldEnemy = Enemy;
+
+                #endregion
             }
+        }
+
+        // The main method of your robot containing robot logics
+        public override void Run()
+        {
+            // -- Initialization of the robot --
+
+            // Here we turn the robot to point upwards, and move the gun 90 degrees
+
         }
 
         public override void OnScannedRobot(ScannedRobotEvent e)
         {
+            #region My First Robot
+            Fire(1);
+            #endregion
+
+            #region GARICS
+
             var angleToEnemy = HeadingRadians + e.BearingRadians;
             var enemyX = (int) (X + Math.Sin(angleToEnemy) * e.Distance);
             var enemyY = (int) (Y + Math.Cos(angleToEnemy) * e.Distance);
             Enemy.SetEnemyData(e, new Point2D(enemyX, enemyY));
+
+            #endregion
         }
     }
 }
