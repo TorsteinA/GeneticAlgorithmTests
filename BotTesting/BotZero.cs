@@ -20,20 +20,9 @@ namespace Alvtor_Hartho_15
 
         public override void Run()
         {
-            #region My First Robot
+            #region Necessary properties
 
-            TurnLeft(Heading - 90);
-            TurnGunRight(90);
-
-            #endregion
-
-
-            #region GARICS
-
-            Console.WriteLine("Entered run method");
-            BodyColor = Color.Pink;
             Enemy = new EnemyData();
-            StateManager = new StateManagerScript(new State0(this));
             V0 = 9.9f;
             V1 = Enemy.Distance;
             V2 = 420;
@@ -45,37 +34,43 @@ namespace Alvtor_Hartho_15
 
             #endregion
 
+            #region My First Robot
+
+            TurnLeft(Heading - 90);
+            TurnGunRight(90);
+
+            #endregion
+
+            #region GARICS
+
+            Console.WriteLine("Entered run method");
+            BodyColor = Color.Pink;
+//            StateManager = new StateManagerScript(new State0(this));
+
+            #endregion
+
             while (true)
             {
                 #region My first robot
 
                 // Move our robot 5000 pixels ahead
-                Ahead(5000);
+//                Ahead(5000);
 
                 // Turn the robot 90 degrees
-                TurnRight(90);
+//                TurnRight(90);
 
 
                 #endregion
 
                 #region GARICS
 
-                StateManager.FrameCheck();
+//                StateManager.FrameCheck();
                 SetFire(3);
                 Execute ();
                 OldEnemy = Enemy;
 
                 #endregion
             }
-        }
-
-        // The main method of your robot containing robot logics
-        public override void Run()
-        {
-            // -- Initialization of the robot --
-
-            // Here we turn the robot to point upwards, and move the gun 90 degrees
-
         }
 
         public override void OnScannedRobot(ScannedRobotEvent e)

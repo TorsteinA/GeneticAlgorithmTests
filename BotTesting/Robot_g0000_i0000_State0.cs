@@ -9,6 +9,7 @@ namespace Alvtor_Hartho_15
 
         public State0(BotZero ourRobot) : base(ourRobot)
         {
+            OurRobot.BodyColor = Color.LavenderBlush;
             OurRobot = ourRobot;
         }
 
