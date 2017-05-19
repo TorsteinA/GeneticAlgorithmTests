@@ -32,18 +32,18 @@ namespace Alvtor_Hartho_15
             {
 /*OurRobot.Fire(500 / OurRobot.Enemy.Distance);*/
             }
-            while (OurRobot.V6 >= OurRobot.V1)
+            if (OurRobot.V6 >= OurRobot.V1)
             {
-                while (OurRobot.V0 > OurRobot.V4)
+                if (OurRobot.V0 > OurRobot.V4)
                 {
 /*IntAndFloat();*/
                 }
             }
-            while (OurRobot.V1 > OurRobot.V5 && OurRobot.V7 == OurRobot.V6)
+            if (OurRobot.V1 > OurRobot.V5 && OurRobot.V7 == OurRobot.V6)
             {
 /*OurRobot.Fire(500 / OurRobot.Enemy.Distance);*/
             }
-            while (OurRobot.V3 < OurRobot.V0 && OurRobot.V3 > OurRobot.V5 && OurRobot.V2 == OurRobot.V7 ||
+            if (OurRobot.V3 < OurRobot.V0 && OurRobot.V3 > OurRobot.V5 && OurRobot.V2 == OurRobot.V7 ||
                    OurRobot.V2 <= OurRobot.V1)
             {
 /*CircularTargetFire();*/
@@ -53,9 +53,9 @@ namespace Alvtor_Hartho_15
             {
 /*OurRobot.Fire(500 / OurRobot.Enemy.Distance);*/
             }
-            while (OurRobot.V4 > OurRobot.V0 || OurRobot.V3 == OurRobot.V6)
+            if (OurRobot.V4 > OurRobot.V0 || OurRobot.V3 == OurRobot.V6)
             {
-                while (OurRobot.V5 > OurRobot.V1 || OurRobot.V5 == OurRobot.V1)
+                if (OurRobot.V5 > OurRobot.V1 || OurRobot.V5 == OurRobot.V1)
                 {
 /*IntAndFloat();*/
                 }
@@ -63,13 +63,13 @@ namespace Alvtor_Hartho_15
 /*IntAndFloat();*/
             if (OurRobot.V1 >= OurRobot.V7)
             {
-                while (OurRobot.V0 <= OurRobot.V2 || OurRobot.V5 > OurRobot.V3 || OurRobot.V1 != OurRobot.V3 ||
+                if (OurRobot.V0 <= OurRobot.V2 || OurRobot.V5 > OurRobot.V3 || OurRobot.V1 != OurRobot.V3 ||
                        OurRobot.V3 < OurRobot.V4)
                 {
 /*OurRobot.Fire(500 / OurRobot.Enemy.Distance);*/
                 }
             }
-            while (OurRobot.V6 <= OurRobot.V2)
+            if (OurRobot.V6 <= OurRobot.V2)
             {
 /*Example();*/
             }
@@ -81,7 +81,7 @@ namespace Alvtor_Hartho_15
 /*IntAndFloat();*/
 /*KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);*/
 /*OurRobot.Fire(500 / OurRobot.Enemy.Distance);*/
-            while (OurRobot.V5 == OurRobot.V3 || OurRobot.V4 >= OurRobot.V1 && OurRobot.V6 < OurRobot.V1 ||
+            if (OurRobot.V5 == OurRobot.V3 || OurRobot.V4 >= OurRobot.V1 && OurRobot.V6 < OurRobot.V1 ||
                    OurRobot.V6 != OurRobot.V7)
             {
 /*KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);*/
@@ -90,14 +90,14 @@ namespace Alvtor_Hartho_15
 /*IntAndFloat();*/
 /*KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);*/
 /*IntAndFloat();*/
-            while (OurRobot.V3 > OurRobot.V7)
+            if (OurRobot.V3 > OurRobot.V7)
             {
                 if (OurRobot.V5 != OurRobot.V7)
                 {
 /*Example();*/
                 }
             }
-            while (OurRobot.V7 >= OurRobot.V3)
+            if (OurRobot.V7 >= OurRobot.V3)
             {
 /*CircularTargetFire();*/
             }
@@ -115,12 +115,12 @@ namespace Alvtor_Hartho_15
         public override void ExitState()
         {
 /*IntAndFloat();*/
-            while (OurRobot.V7 <= OurRobot.V0)
+            if (OurRobot.V7 <= OurRobot.V0)
             {
 /*Example();*/
             }
 /*KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);*/
-            while (OurRobot.V2 == OurRobot.V6)
+            if (OurRobot.V2 == OurRobot.V6)
             {
 /*KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians);*/
             }
@@ -134,20 +134,20 @@ namespace Alvtor_Hartho_15
                     }
                 }
             }
-            while (OurRobot.V6 != OurRobot.V5)
+            if (OurRobot.V6 != OurRobot.V5)
             {
 /*OurRobot.Fire(500 / OurRobot.Enemy.Distance);*/
             }
-            while (OurRobot.V4 <= OurRobot.V6)
+            if (OurRobot.V4 <= OurRobot.V6)
             {
-                while (OurRobot.V1 <= OurRobot.V5 && OurRobot.V3 > OurRobot.V2 ||
+                if (OurRobot.V1 <= OurRobot.V5 && OurRobot.V3 > OurRobot.V2 ||
                        OurRobot.V6 >= OurRobot.V3 && OurRobot.V1 != OurRobot.V0)
                 {
 /*IntAndFloat();*/
                 }
             }
 /*Example();*/
-            while (OurRobot.V2 != OurRobot.V1 || OurRobot.V1 != OurRobot.V6 || OurRobot.V3 >= OurRobot.V1)
+            if (OurRobot.V2 != OurRobot.V1 || OurRobot.V1 != OurRobot.V6 || OurRobot.V3 >= OurRobot.V1)
             {
                 if (OurRobot.V7 > OurRobot.V3 || OurRobot.V5 <= OurRobot.V3 || OurRobot.V1 > OurRobot.V5 ||
                     OurRobot.V6 >= OurRobot.V0)
