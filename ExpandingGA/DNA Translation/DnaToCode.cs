@@ -185,7 +185,6 @@ namespace GeneticAlgorithmForStrings {
 		/// <summary>
 		/// Sets content of variables.
 		/// </summary>
-		/// <param name="genes"></param>
 		private void SetVariables()
 		{
 			SetUpVariableLists();

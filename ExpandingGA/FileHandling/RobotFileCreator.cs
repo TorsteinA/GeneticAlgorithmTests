@@ -14,18 +14,11 @@
 
 		internal static string GetFileText(string robotId, DnaToCode dnaTranslator) {
 			var imports = $"using System;" +
-//						"\nusing System.CodeDom.Compiler;" +
-						"\nusing System.Collections.Generic;" +
-						"\nusing System.IO;" +
-						"\nusing System.Linq;" +
-						"\nusing System.Text;" +
+						"\nusing System.Drawing;" +
 						"\nusing Robocode;" +
 						"\nusing Santom;" +
-						"\nusing Alvtor_Hartho_15;" +
                         "\nusing Alvtor_Hartho_15.FSM;" +
                         "\nusing ExampleSetup.Robocode;" +
-
-//						"\nusing Microsoft.CSharp;" +
 			            "\n";
 
 			var classInfo = $"\nnamespace {FileCreator.NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +

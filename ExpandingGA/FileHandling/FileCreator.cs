@@ -65,7 +65,7 @@ namespace GeneticAlgorithmForStrings {
 			}
 			else
 			{
-				Console.WriteLine(!File.Exists(pathIncludingFile) ? "File \"{0}\" Created!" : "File \"{0}\" overwritten!", filePath + "/" + name);
+				Console.WriteLine(!File.Exists(pathIncludingFile) ? "File \"{0}\" Created!" : "File \"{0}\" overwritten!", filePath + "\\" + name);
 				// Create and write to file.
 				using (var fs = File.Create(pathIncludingFile))
 				{
