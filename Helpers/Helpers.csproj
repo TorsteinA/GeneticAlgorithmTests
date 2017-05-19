@@ -46,7 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Robot\FSM\State.cs" />
     <Compile Include="Robot\FSM\StateManagerScript.cs" />
-    <Compile Include="Robot\Garics.cs" />
+    <Compile Include="Robot\Garics\Garics.cs" />
     <Compile Include="Robot\Helpers\Battlefield.cs" />
     <Compile Include="Robot\Helpers\Direction.cs" />
     <Compile Include="Robot\Helpers\EnemyData.cs" />

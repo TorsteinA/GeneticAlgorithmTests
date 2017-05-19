@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -86,17 +87,21 @@ namespace GeneticAlgorithmForStrings
 
 
 
-            Process currentProsess = Process.GetCurrentProcess();
-            string folder = Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName), helpersPath);
+            Process currentProcess = Process.GetCurrentProcess();
+            string folder = Path.Combine(Path.GetDirectoryName(currentProcess.MainModule.FileName), helpersPath);
             string filter = "*.cs";
-            string[] filez = Directory.GetFiles(folder, filter);
-            
-//            Console.WriteLine(Path.GetFullPath(folder));
-            
+//            string[] filez = Directory.GetFiles(folder, filter);
+	        string[] filez1 = Directory.GetFiles(Path.Combine(folder, "Helpers"), filter);
+	        string[] filez2 = Directory.GetFiles(Path.Combine(folder, "FSM"), filter);
+	        string[] filez3 = Directory.GetFiles(Path.Combine(folder, "Garics"), filter);
 
+	        string[] filez = filez1.Concat(filez2.Concat(filez3)).ToArray();
+            
 
 //	        var results = codeProvider.CompileAssemblyFromFile(parameters, files);
 	        var results = codeProvider.CompileAssemblyFromFile(parameters, filez);
+
+	        Console.WriteLine(File.ReadAllText(files[7]));
 
 		    results.Errors.Cast<CompilerError>().ToList().ForEach(error =>
 				Console.WriteLine($"Error: {error.FileName}: {error.ErrorText} ({error.Line}, {error.Column})")); // log errors in console
