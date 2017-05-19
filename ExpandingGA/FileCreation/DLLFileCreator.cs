@@ -25,24 +25,24 @@ namespace GeneticAlgorithmForStrings
 			    files[i+1] = $"{robotPath}_state{i}.{FileExtension}";
 		    }
 
-		    const string helpersPath = @"./Helpers/";
+		    const string helpersPath = @"../../../Helpers/Robot/";
 
 		    string[] dependencies =
 		    {
-			    "EnemyDataHelpers",
-			    "StateManagerScript",
-			    "State",
+			    "Helpers/EnemyDataHelpers",
+			    "FSM/StateManagerScript",
+			    "FSM/State",
 			    "Garics",
-			    "Battlefield",
-			    "Direction",
-			    "EnemyData",
-			    "Point2D",
-			    "Point2DHelpers",
-			    "Vector2D",
-			    "Vector2DHelpers",
-			    "UtilsVector",
-			    "RobotVectors",
-			    "MathHelpers"
+			    "Helpers/Battlefield",
+			    "Helpers/Direction",
+			    "Helpers/EnemyData",
+			    "Helpers/Point2D",
+			    "Helpers/Point2DHelpers",
+			    "Helpers/Vector2D",
+			    "Helpers/Vector2DHelpers",
+			    "Helpers/UtilsVector",
+			    "Helpers/RobotVectors",
+			    "Helpers/MathHelpers"
 		    };
 
 		    for (var i = 0; i < dependencies.Length; i++)
