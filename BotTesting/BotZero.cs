@@ -45,7 +45,7 @@ namespace Alvtor_Hartho_15
 
             Console.WriteLine("Entered run method");
             BodyColor = Color.Pink;
-//            StateManager = new StateManagerScript(new State0(this));
+            StateManager = new StateManagerScript(new State0(this));
 
             #endregion
 
@@ -54,17 +54,17 @@ namespace Alvtor_Hartho_15
                 #region My first robot
 
                 // Move our robot 5000 pixels ahead
-//                Ahead(5000);
+                Ahead(5000);
 
                 // Turn the robot 90 degrees
-//                TurnRight(90);
+                TurnRight(90);
 
-
+                
                 #endregion
 
                 #region GARICS
 
-//                StateManager.FrameCheck();
+                StateManager.FrameCheck();
                 SetFire(3);
                 Execute ();
                 OldEnemy = Enemy;

@@ -13,7 +13,6 @@ namespace Alvtor_Hartho_15.FSM
 		/// <summary>
 		/// State Manager Constructor
 		/// </summary>
-		/// <param name="ourRobot">Reference the the robot in need of a state machine</param>
 		/// <param name="startingState"></param>
 		public StateManagerScript (State startingState) {
             _activeState = startingState;

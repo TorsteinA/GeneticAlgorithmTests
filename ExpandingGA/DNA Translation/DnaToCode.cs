@@ -17,7 +17,7 @@ namespace GeneticAlgorithmForStrings {
 
 		private readonly Individual _genes;										//The genes to translate
 
-		private const int StatementNumberSpread = 2,                            //1 means max 4 statements + minStatements, 2 means max 16 statements + minStatements, 3 means max 64 statements + minStatements, etc. 
+		private const int StatementNumberSpread = 1,                            //1 means max 4 statements + minStatements, 2 means max 16 statements + minStatements, 3 means max 64 statements + minStatements, etc. 
 						  MinActionStatements = 2,								//Minimum number of statements in each states DoStateAction 
                           MinEnterLeaveStatements = 0,						    //Minimum number of statements in each states EnterState and LeaveState
 					      MinVariables = 5,									    //Minimum number of variables for numberOfVariables.
@@ -348,7 +348,6 @@ namespace GeneticAlgorithmForStrings {
 		/// <summary>
 		/// Returns string with a method call, if-statement, or a loop.
 		/// </summary>
-		/// <param name="genes">Genes to use</param>
 		/// <param name="depth">Call with </param>
 		/// <returns></returns>
 		private string GetStatement(int depth = 0)
@@ -362,9 +361,9 @@ namespace GeneticAlgorithmForStrings {
 					else statement += GetMethodCall();
 					break;
 				case 't':
-					if (depth < 2) statement += GetLoop(depth);
-					else statement += GetMethodCall();
-					break;
+					//if (depth < 2) statement += GetLoop(depth);                               //Fjernet loops midlertidig?
+					//else statement += GetMethodCall();
+					//break;
 				case 'c':
 				case 'g':
 					statement += GetMethodCall();
@@ -376,7 +375,6 @@ namespace GeneticAlgorithmForStrings {
 		/// <summary>
 		/// Returns a loop with a condition and statements inside.
 		/// </summary>
-		/// <param name="genes"></param>
 		/// <param name="depth"></param>
 		/// <returns></returns>
 		private string GetLoop(int depth) {
@@ -392,7 +390,6 @@ namespace GeneticAlgorithmForStrings {
 		/// <summary>
 		/// Returns an if-statement with condition and statements inside.
 		/// </summary>
-		/// <param name="genes"></param>
 		/// <param name="depth"></param>
 		/// <returns></returns>
 		private string GetIfStatement(int depth) {
@@ -408,7 +405,6 @@ namespace GeneticAlgorithmForStrings {
 		/// <summary>
 		/// Returns a method call from _methodcalls using 2 genes. If _finishedMethodCalls have more than 16 elements, refactor.
 		/// </summary>
-		/// <param name="genes"></param>
 		/// <returns></returns>
 		private string GetMethodCall()
 		{
