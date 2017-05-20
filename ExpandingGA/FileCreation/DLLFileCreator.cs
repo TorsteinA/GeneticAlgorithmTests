@@ -75,6 +75,7 @@ namespace GeneticAlgorithmForStrings
 				    "mscorlib.dll",
 				    "System.Core.dll",
 				    "Robocode.dll",
+				    "System.dll",
 				    "System.net.dll", // For helpers
 //				    "Helpers.dll",
 				    "System.Drawing.dll"
@@ -95,7 +96,7 @@ namespace GeneticAlgorithmForStrings
 	        string[] filez2 = Directory.GetFiles(Path.Combine(folder, "FSM"), filter);
 	        string[] filez3 = Directory.GetFiles(Path.Combine(folder, "Garics"), filter);
 
-	        string[] filez = filez1.Concat(filez2.Concat(filez3)).ToArray();
+	        string[] filez = filez1.Concat(filez2.Concat(filez3)).ToArray();		//Should probably rename from filez to something more appropriate
             
 
 //	        var results = codeProvider.CompileAssemblyFromFile(parameters, files);
