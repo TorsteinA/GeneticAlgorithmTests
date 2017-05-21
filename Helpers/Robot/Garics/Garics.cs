@@ -18,7 +18,7 @@ namespace Alvtor_Hartho_15
 
         #region Properties
 
-//        public Point2D Position => new Point2D(X, Y);
+        //        public Point2D Position => new Point2D(X, Y);
         public Point2D Position {
             get { return new Point2D(X, Y); }
         }
@@ -107,5 +107,7 @@ namespace Alvtor_Hartho_15
             StopRadius = 100;
             ReverseRadius = 50;
         }
+
+
     }
 }

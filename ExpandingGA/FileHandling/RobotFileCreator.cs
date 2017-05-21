@@ -7,8 +7,8 @@
 			FileCreator.CreateFile(
 				filePath,
 				$"{robotId}{FileCreator.CodeFileExtension}",
-				GetFileText(robotId, dnaTranslator),
-//				GetBotZero(robotId),
+//				GetFileText(robotId, dnaTranslator),
+				GetBotZero(robotId),
 				true
 			);
 		}
@@ -53,14 +53,38 @@
 			return imports + classInfo + fields + runMethod + methods + end;
 		}
 
-	    internal static string GetBotZero(string robotId)
+	    internal static string GetBotZero(string robotId)   //Has assembly info as well
 	    {
 	        return $@"using System;
 using System.Drawing;
+using System.Reflection;
+using System.Runtime.Versioning;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 using Robocode;
 using Santom;
 using Alvtor_Hartho_15.FSM;
 using ExampleSetup.Robocode;
+
+/*
+[assembly: AssemblyVersion(""1.0.0.0"")]
+[assembly: AssemblyTitle(""GARICS"")]
+[assembly: TargetFramework("".NETFramework,Version = v4.6.1"", FrameworkDisplayName = "".NET Framework 4.6.1"")]
+[assembly: AssemblyDescription("""")]
+[assembly: Debuggable(
+    DebuggableAttribute.DebuggingModes.Default | 
+    DebuggableAttribute.DebuggingModes.DisableOptimizations | 
+    DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints | 
+    DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
+[assembly: AssemblyConfiguration("""")]
+[assembly: AssemblyCompany("""")]
+[assembly: AssemblyProduct(""GARICS"")]
+[assembly: AssemblyCopyright(""Copyright © Torstein Alvern & Thomas Hartmann 2017"")]
+[assembly: AssemblyTrademark("""")]
+[assembly: ComVisible(false)]
+[assembly: AssemblyFileVersion(""1.0.0.0"")]
+[assembly:Guid(""{System.Guid.NewGuid()}"")]
+*/
 
 namespace Alvtor_Hartho_15
 {{ //GARICS: Genetic Algorithm Robot in C Sharp
@@ -101,7 +125,7 @@ namespace Alvtor_Hartho_15
             #region GARICS
 
             BodyColor = Color.Pink;
-            StateManager = new StateManagerScript(new State0(this));
+            //StateManager = new StateManagerScript(new State0(this));                            -----------------------------Remember to uncomment---------------------------------
 
             #endregion
 
@@ -119,7 +143,7 @@ namespace Alvtor_Hartho_15
 
                 #region GARICS
 
-                StateManager.FrameCheck();
+                //StateManager.FrameCheck();                            -----------------------------Remember to uncomment---------------------------------
                 SetFire(3);
                 Execute();
                 OldEnemy = Enemy;
