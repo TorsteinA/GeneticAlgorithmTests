@@ -21,6 +21,7 @@
                         "\nusing Alvtor_Hartho_15.FSM;" +
                         "\nusing ExampleSetup.Robocode;" +
 			            "\n";
+            
 
 			var classInfo = $"\nnamespace {FileCreator.NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +
 			                "\npublic class " + robotId + " : Alvtor_Hartho_15.Garics {";
@@ -50,7 +51,7 @@
 			const string end = "\n\t}" +
 			                   "\n}";
 
-			return imports + classInfo + fields + runMethod + methods + end;
+			return imports + GetRobotAssemblyInfo() + classInfo + fields + runMethod + methods + end;
 		}
 
 	    internal static string GetBotZero(string robotId)   //Has assembly info as well
@@ -66,25 +67,7 @@ using Santom;
 using Alvtor_Hartho_15.FSM;
 using ExampleSetup.Robocode;
 
-/*
-[assembly: AssemblyVersion(""1.0.0.0"")]
-[assembly: AssemblyTitle(""GARICS"")]
-[assembly: TargetFramework("".NETFramework,Version = v4.6.1"", FrameworkDisplayName = "".NET Framework 4.6.1"")]
-[assembly: AssemblyDescription("""")]
-[assembly: Debuggable(
-    DebuggableAttribute.DebuggingModes.Default | 
-    DebuggableAttribute.DebuggingModes.DisableOptimizations | 
-    DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints | 
-    DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
-[assembly: AssemblyConfiguration("""")]
-[assembly: AssemblyCompany("""")]
-[assembly: AssemblyProduct(""GARICS"")]
-[assembly: AssemblyCopyright(""Copyright © Torstein Alvern & Thomas Hartmann 2017"")]
-[assembly: AssemblyTrademark("""")]
-[assembly: ComVisible(false)]
-[assembly: AssemblyFileVersion(""1.0.0.0"")]
-[assembly:Guid(""{System.Guid.NewGuid()}"")]
-*/
+{GetRobotAssemblyInfo()}
 
 namespace Alvtor_Hartho_15
 {{ //GARICS: Genetic Algorithm Robot in C Sharp
@@ -173,5 +156,27 @@ namespace Alvtor_Hartho_15
 		internal static string GetRobotId(int generation, int individualNumber) {
 			return "Robot_g" + generation.ToString("D4") + "_i" + individualNumber.ToString("D4");
 		}
+
+        internal static string GetRobotAssemblyInfo()
+        {
+            return $@"[assembly: AssemblyVersion(""1.0.0.0"")]
+[assembly: AssemblyTitle(""GARICS"")]
+[assembly: TargetFramework("".NETFramework, Version = v4.6.1"", FrameworkDisplayName = "".NET Framework 4.6.1"")]
+[assembly: AssemblyDescription("""")]
+[assembly: Debuggable(
+    DebuggableAttribute.DebuggingModes.Default |
+    DebuggableAttribute.DebuggingModes.DisableOptimizations |
+    DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints |
+    DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
+[assembly: AssemblyConfiguration("""")]
+[assembly: AssemblyCompany("""")]
+[assembly: AssemblyProduct(""GARICS"")]
+[assembly: AssemblyCopyright(""Copyright © Torstein Alvern & Thomas Hartmann 2017"")]
+[assembly: AssemblyTrademark("""")]
+[assembly: ComVisible(false)]
+[assembly: AssemblyFileVersion(""1.0.0.0"")]
+[assembly: Guid(""{ System.Guid.NewGuid() }"")]
+";
+        }
 	}
 }
