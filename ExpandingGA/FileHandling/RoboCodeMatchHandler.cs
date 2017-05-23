@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using net.sf.jni4net.jni;
 using Robocode;
 using Robocode.Control;
 using Robocode.Control.Events;
+using RobotSpecification = robocode.control.RobotSpecification;
 
 namespace GeneticAlgorithmForStrings
 {
@@ -33,13 +35,20 @@ namespace GeneticAlgorithmForStrings
         private double RunMatch(string battle)
         {
             double result = 0.0;
-
+            
             //Run one robocode battle based on battleFile from directory!
+
+            
+
+
+
+
+
 
 
             // Create the RobocodeEngine
             RobocodeEngine engine = new RobocodeEngine("C:\\robocode"); // Run from C:\Robocode
-//            RobocodeEngine engine = new RobocodeEngine("C:\\Users\\torstein\\Source\\Repos\\GeneticAlgorithmTests\\ExpandingGA\\bin\\Debug"); // Run from C:\Robocode
+//            RobocodeEngine engine = new RobocodeEngine("C:\\Users\\torstein\\Source\\Repos\\GeneticAlgorithmTests\\ExpandingGA\\bin\\Debug"); // Run from local bin/debug
 
             // Add battle event handlers
             engine.BattleCompleted += new BattleCompletedEventHandler(BattleCompleted);
@@ -57,8 +66,7 @@ namespace GeneticAlgorithmForStrings
             int numberOfRounds = 5;
             BattlefieldSpecification battlefield = new BattlefieldSpecification(800, 600); // 800x600
 //            RobotSpecification[] selectedRobots = engine.GetLocalRepository("sample.RamFire,sample.Corners");           //------ Add battle files somehow ----
-            var selectedRobots = engine.GetLocalRepository("sample.RamFire,sample.Corners");             //------ Add battle files somehow ----
-
+            var selectedRobots = engine.GetLocalRepository("sample.RamFire,sample.Corners");                              //------ Add battle files somehow ----
             BattleSpecification battleSpec = new BattleSpecification(numberOfRounds, battlefield, selectedRobots);
 
             // Run our specified battle and let it run till it is over
@@ -67,7 +75,18 @@ namespace GeneticAlgorithmForStrings
             // Cleanup our RobocodeEngine
             engine.Close();
 
-                        return result;
+
+
+
+
+
+
+
+
+
+
+
+            return result;
         }
 
         /// <summary>

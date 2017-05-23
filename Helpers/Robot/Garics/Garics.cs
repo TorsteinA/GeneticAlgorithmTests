@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Robocode;
 using Santom;
 using Tomtom;
@@ -108,6 +110,22 @@ namespace Alvtor_Hartho_15
             ReverseRadius = 50;
         }
 
+        public override void OnBattleEnded(BattleEndedEvent evnt)
+        {
+            var filePath = "C:\\Users\\torstein\\Source\\Repos\\GeneticAlgorithmTests\\ExpandingGA\\bin\\Debug\\RobotCreator\\Robots_gen0000\\Robot_g0000_i0000";
+            var name = "matchResult.csv";
+            var contents = "1,2,3,4";
+            var pathIncludingFile = Path.Combine(filePath, name);
 
+            
+                if (!File.Exists(pathIncludingFile)) {
+                    Out.WriteLine("File \"{0}\" created! at {1}", name, pathIncludingFile);
+                    File.WriteAllText(pathIncludingFile, contents);
+                }
+                else {
+                    Out.WriteLine("File \"{name}\" already exists. Did not overwrite");
+                }
+            
+        }
     }
 }

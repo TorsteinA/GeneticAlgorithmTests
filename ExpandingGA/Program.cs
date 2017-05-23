@@ -16,26 +16,31 @@ namespace GeneticAlgorithmForStrings
             //Algorithm.RunGeneticAlgorithm();
 
 
-            //*** Testing the match handling ***
+            /*** Testing the match handling ***
             Individual indiv = new Individual();
             var score = FitnessCalc.GetRobotFitness(indiv);
             Console.WriteLine(score);
+            */
 
 
-            /*** Testing File creation ***\
+
+
+            //*** Testing File creation ***\
             var rnd = new Random();
-            var population = new Population(50, true);
+            var population = new Population(10, true);
             FileCreator fc;
             for (int generation = 0; generation < 2; generation++)
                 fc = new FileCreator(generation, population);
+            
+//            var testLines = PopulationFileHandler.ReadFile(1);
+//
+//            foreach (var line in testLines)
+//            {
+//                Console.WriteLine(line);
+//            }
+            //*/
 
-            var testLines = PopulationFileHandler.ReadFile(1);
 
-            foreach (var line in testLines)
-            {
-                Console.WriteLine(line);
-            }
-            */
 
 
             //*** Genetic Algorithm for strings ***\

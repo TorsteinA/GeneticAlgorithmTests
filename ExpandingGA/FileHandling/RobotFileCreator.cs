@@ -1,4 +1,6 @@
-﻿namespace GeneticAlgorithmForStrings
+﻿using System;
+
+namespace GeneticAlgorithmForStrings
 {
 	internal class RobotFileCreator
 	{
@@ -21,9 +23,8 @@
                         "\nusing Alvtor_Hartho_15.FSM;" +
                         "\nusing ExampleSetup.Robocode;" +
 			            "\n";
-            
 
-			var classInfo = $"\nnamespace {FileCreator.NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +
+		    var classInfo = $"\nnamespace {FileCreator.NameSpace} {{    //GARICS: Genetic Algorithm Robot in C Sharp" +
 			                "\npublic class " + robotId + " : Alvtor_Hartho_15.Garics {";
 
 			var fields = "\n" + dnaTranslator.GetVariableDeclarations();
