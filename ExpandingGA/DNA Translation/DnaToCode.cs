@@ -238,9 +238,7 @@ namespace GeneticAlgorithmForStrings {
 		/// <summary>
 		/// Creates a string with the contents of a method
 		/// </summary>
-		/// <param name="genes"></param>
 		/// <param name="minStatements"></param>
-		/// <param name="block"></param>
 		/// <returns></returns>
 		private string CreateStateMethodContent(int minStatements) {
 			var contents = "";
@@ -302,7 +300,6 @@ namespace GeneticAlgorithmForStrings {
 		/// <summary>
 		/// Returns a number between minNumber and minNumber + 4^numberOfGenes based on genes
 		/// </summary>
-		/// <param name="genes"></param>
 		/// <param name="numberOfGenes"></param>
 		/// <param name="minNumber"></param>
 		/// <returns></returns>

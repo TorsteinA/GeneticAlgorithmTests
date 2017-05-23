@@ -46,7 +46,7 @@ namespace GeneticAlgorithmForStrings {
 			DllFileCreator.CreateDll(_dllDirectoryPath, robotDirectoryPath, robotId, _dnaTranslator);
 			BattleFileCreator.CreateBattleFiles(robotDirectoryPath, NameSpace, robotId);
 		}
-
+        
 		internal static void CreateFile(string filePath, string name, string contents, bool overwrite) {
 			var pathIncludingFile = Path.Combine(filePath, name);
 

@@ -15,7 +15,7 @@
 		/// </summary>
 		/// <param name="individual"></param>
 		/// <returns></returns>
-		internal static float GetRobotFitness(Individual individual) 
+		internal static double GetRobotFitness(Individual individual) 
 		{
 			//TODO implement method
 			//Sends call to robot match handler class to start match
@@ -23,18 +23,18 @@
 				//Let genes decide how many threads?
 			//Returns score after match(es)
 
-		    var score = RoboCodeMatchHandler.RunMatches(individual);
-
-
-
-			return 0.0f;
+		    //var score = RoboCodeMatchHandler.RunMatches(individual, "");
+            RoboCodeMatchHandler rcmh = new RoboCodeMatchHandler(individual, "");
+		    var score = rcmh.GetScore();
+            
+			return score;
 		}
 
-	    internal static float GetMaxRobotFitness()
+	    internal float GetMaxRobotFitness()
 	    {
 			//Returns max score based on robocode match parameters.
-	        return RoboCodeMatchHandler.GetMaxScore();
-
+	        //return RoboCodeMatchHandler.GetMaxScore();
+	        return 10000;
 	    }
 
 
