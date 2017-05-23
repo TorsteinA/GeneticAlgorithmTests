@@ -2,7 +2,7 @@
 {
 	internal class RobotFileCreator
 	{
-		internal static void CreateRobotFiles(string filePath, string robotId, Individual genes, DnaToCode dnaTranslator) {
+		internal void CreateRobotFiles(string filePath, string robotId, DnaToCode dnaTranslator) {
 			//Create Robot_gX_iY.cs
 			FileCreator.CreateFile(
 				filePath,
@@ -13,7 +13,7 @@
 			);
 		}
 
-		internal static string GetFileText(string robotId, DnaToCode dnaTranslator) {
+		internal string GetFileText(string robotId, DnaToCode dnaTranslator) {
 			var imports = $"using System;" +
 						"\nusing System.Drawing;" +
 						"\nusing Robocode;" +

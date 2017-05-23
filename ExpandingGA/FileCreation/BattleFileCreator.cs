@@ -11,7 +11,7 @@ namespace GeneticAlgorithmForStrings {
 		//Number of rounds per battle
 		private const int NumberOfRounds = 10;
 
-		internal static void CreateBattleFiles(string filePath, string nameSpace, string robotName) {
+		internal void CreateBattleFiles(string filePath, string nameSpace, string robotName) {
 			foreach (var enemyRobot in EnemyRobots) {
 				FileCreator.CreateFile(
 					filePath, 

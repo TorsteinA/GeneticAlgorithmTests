@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GeneticAlgorithmForStrings {
 	internal class FileCreator
@@ -14,8 +16,6 @@ namespace GeneticAlgorithmForStrings {
 		private readonly string _directoryPath,
 								_dllDirectoryPath;
 
-		private static DnaToCode _dnaTranslator;
-
 		internal FileCreator(int generation, Population population)
 		{
 			_dllDirectoryPath = Path.Combine(RootFolderName, DllFolderName);
@@ -26,10 +26,18 @@ namespace GeneticAlgorithmForStrings {
 			Directory.CreateDirectory(Path.Combine(RootFolderName, PopulationsFolderName));
 
 			PopulationFileHandler.CreateFile(generation, population);
+
+			var tasks = new Task[population.Size()];
+
 			for (var i = 0; i < population.Size(); i++)
 			{
-				CreateFiles(generation, i, population.GetIndividual(i));
+				Console.WriteLine($"Starting bot {i}");
+				var individual = i;
+				tasks[individual] = Task.Factory.StartNew(() => CreateFiles(generation, individual, population.GetIndividual(individual)));
 			}
+
+			Task.WaitAll(tasks); // wait for all tasks to finish
+			Console.WriteLine($"Finished generation {generation:D4}");
 		}
 
 		private void CreateFiles(int generation, int individual, Individual genes) {
@@ -40,11 +48,16 @@ namespace GeneticAlgorithmForStrings {
 			var robotDirectoryPath = Path.Combine(_directoryPath, robotId);
 			Directory.CreateDirectory(robotDirectoryPath);
 
-			_dnaTranslator = new DnaToCode(genes);	//In later iteration, replace with Factory
-			RobotFileCreator.CreateRobotFiles(robotDirectoryPath, robotId, genes, _dnaTranslator);
-			RobotStateFileCreator.CreateStateFiles(robotDirectoryPath, robotId, _dnaTranslator);
-			DllFileCreator.CreateDll(_dllDirectoryPath, robotDirectoryPath, robotId, _dnaTranslator);
-			BattleFileCreator.CreateBattleFiles(robotDirectoryPath, NameSpace, robotId);
+			var dllFileCreator = new DllFileCreator();
+			var battleFileCreator = new BattleFileCreator();
+			var robotFileCreator = new RobotFileCreator();
+			var stateCreator = new RobotStateFileCreator();
+
+			var dnaTranslator = new DnaToCode(genes);	//In later iteration, replace with Factory
+			robotFileCreator.CreateRobotFiles(robotDirectoryPath, robotId, dnaTranslator);
+			stateCreator.CreateStateFiles(robotDirectoryPath, robotId, dnaTranslator);
+			dllFileCreator.CreateDll(_dllDirectoryPath, robotDirectoryPath, robotId, dnaTranslator);
+			battleFileCreator.CreateBattleFiles(robotDirectoryPath, NameSpace, robotId);
 		}
 
 		internal static void CreateFile(string filePath, string name, string contents, bool overwrite) {

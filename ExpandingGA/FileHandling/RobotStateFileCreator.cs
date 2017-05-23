@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace GeneticAlgorithmForStrings {
 	internal class RobotStateFileCreator {
 
-		private static Random Random { get; set; } = new Random(); // for random colors
+		private static Random Random { get; } = new Random(); // for random colors
 
-		internal static void CreateStateFiles(string filePath, string robotId, DnaToCode dnaTranslator) {
+		internal void CreateStateFiles(string filePath, string robotId, DnaToCode dnaTranslator) {
 			for (var i = 0; i <= 1; i++) {
 				FileCreator.CreateFile(
 					filePath,

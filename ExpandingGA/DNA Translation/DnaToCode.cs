@@ -68,13 +68,13 @@ namespace GeneticAlgorithmForStrings {
         public DnaToCode(Individual genes)
         {
 	        _genes = genes;
-	        Console.WriteLine("GeneIter:" + _geneIterator);
+//	        Console.WriteLine("GeneIter:" + _geneIterator);
 
 	        SetVariables();    //uses max 19 genes with 4-letter genes and minVariables = 5
 			SetTransitions();
 
 			//Set geneIterator to specific number to let next gene start at the same place each time and not get messed up by mutations in variables
-	        Console.WriteLine("GeneIter:" + _geneIterator);
+//	        Console.WriteLine("GeneIter:" + _geneIterator);
 			_geneIterator = 20;
 			
 
@@ -82,37 +82,37 @@ namespace GeneticAlgorithmForStrings {
 			_firstToSecondStateTransitionContent = GetCondition(); //uses 5 genes TODO Recalculate max gene use.
 			_secondToFirstStateTransitionContent = GetCondition(); //uses 5 genes 
 
-	        Console.WriteLine("GeneIter:" + _geneIterator);
+//	        Console.WriteLine("GeneIter:" + _geneIterator);
 			_geneIterator = 30;
 			
 
 			// Sets content for state Enter                                                           //TODO Recalculate gene use      v
 			_firstStateEnterMethodContent = CreateStateMethodContent(MinEnterLeaveStatements); //Worst Case use of genes = 1+6((1+5)*3) = 109
-			Console.WriteLine("GeneIter:" + _geneIterator);
+//			Console.WriteLine("GeneIter:" + _geneIterator);
 	        _geneIterator = 140;
 
 			_secondStateEnterMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);
-			Console.WriteLine("GeneIter:" + _geneIterator);
+//			Console.WriteLine("GeneIter:" + _geneIterator);
 			_geneIterator = 250;
             
 
 			// Sets content for state Leave
 			_firstStateLeaveMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);
-	        Console.WriteLine("GeneIter:" + _geneIterator);
+//	        Console.WriteLine("GeneIter:" + _geneIterator);
 	        _geneIterator = 360;
 
 			_secondStateLeaveMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);
-            Console.WriteLine("GeneIter:" + _geneIterator);
+//            Console.WriteLine("GeneIter:" + _geneIterator);
             _geneIterator = 470;
 
 
 		    // Sets content for state doAction
 		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(MinActionStatements);
-	        Console.WriteLine("GeneIter:" + _geneIterator);
+//	        Console.WriteLine("GeneIter:" + _geneIterator);
 			_geneIterator = 580;
 
 			_secondStateDoStateActionMethodContent = CreateStateMethodContent(MinActionStatements);
-			Console.WriteLine("GeneIter:" + _geneIterator);
+//			Console.WriteLine("GeneIter:" + _geneIterator);
 		}
 
         /// <summary>
