@@ -7,8 +7,8 @@
 			FileCreator.CreateFile(
 				filePath,
 				$"{robotId}{FileCreator.CodeFileExtension}",
-//				GetFileText(robotId, dnaTranslator),
-				GetBotZero(robotId),
+				GetFileText(robotId, dnaTranslator),
+//				GetBotZero(robotId),
 				true
 			);
 		}
@@ -51,10 +51,10 @@
 			const string end = "\n\t}" +
 			                   "\n}";
 
-			return imports + GetRobotAssemblyInfo() + classInfo + fields + runMethod + methods + end;
+			return imports + /*GetRobotAssemblyInfo() +*/ classInfo + fields + runMethod + methods + end;
 		}
 
-	    internal static string GetBotZero(string robotId)   //Has assembly info as well
+	    internal static string GetBotZero(string robotId)
 	    {
 	        return $@"using System;
 using System.Drawing;

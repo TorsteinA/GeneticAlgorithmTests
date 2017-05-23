@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>bin\Debug\Helpers.dll</HintPath>
-    </Reference>
     <Reference Include="robocode, Version=1.8.3.0, Culture=neutral, PublicKeyToken=43c1c8ae0e25a953, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\robocode\libs\robocode.dll</HintPath>
@@ -79,6 +76,10 @@
     <Folder Include="SampleFiles\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{fd3fc0d5-03cd-43e7-9d15-69cf50f3022b}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Helpers\Helpers.csproj">
       <Project>{fd3fc0d5-03cd-43e7-9d15-69cf50f3022b}</Project>
       <Name>Helpers</Name>
