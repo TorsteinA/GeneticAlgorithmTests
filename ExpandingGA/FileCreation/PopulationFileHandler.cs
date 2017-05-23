@@ -38,9 +38,7 @@ namespace GeneticAlgorithmForStrings
 				throw;
 			}
 		}
-		private static string GetFileName(int generation)
-	    {
-		    return "Population_Gen" + generation.ToString("D4") + ".txt";
-	    }
+
+	    private static string GetFileName(int generation) => $"Population_Gen{generation:D4}.txt";
 	}
 }

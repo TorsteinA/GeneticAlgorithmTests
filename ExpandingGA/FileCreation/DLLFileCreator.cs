@@ -15,7 +15,7 @@ namespace GeneticAlgorithmForStrings
     {
 	    private const string FileExtension = "cs";
 
-	    internal static void CreateDll(string dllDirPath, string robotDirPath, string robotId, DnaToCode dnaTranslator, int numberOfStates = 2)
+	    internal void CreateDll(string dllDirPath, string robotDirPath, string robotId, DnaToCode dnaTranslator, int numberOfStates = 2)
 	    {
 		    var robotPath = Path.Combine(robotDirPath, robotId); // the path to the robot, including dirs
 	        var dllPath = Path.Combine(dllDirPath, $"Alvtor_Hartho_15-{robotId}.dll");
