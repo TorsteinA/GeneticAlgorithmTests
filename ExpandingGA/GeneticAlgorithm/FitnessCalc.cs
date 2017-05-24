@@ -16,15 +16,9 @@ namespace GeneticAlgorithmForStrings {
 
             var resultsFile = Directory.GetFiles(path, $"{individual.RobotId}.results").FirstOrDefault();
 
-		    try
-		    {
-			    return int.Parse(File.ReadLines(resultsFile).Skip(2).Take(1).First() ?? "-100");
-		    }
-		    catch (Exception e)
-		    {
-			    Console.WriteLine("something went wrong and the fitness could not be read: " + e);
-			    throw;
-		    }
+		    if (resultsFile == null) return -200;
+
+		    return int.Parse(File.ReadLines(resultsFile).Skip(2).Take(1).First() ?? "-100");
 		}
 
 	    internal static float GetMaxRobotFitness()
