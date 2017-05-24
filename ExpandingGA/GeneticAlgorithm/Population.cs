@@ -13,14 +13,15 @@ namespace GeneticAlgorithmForStrings
         /// </summary>
         /// <param name="populationSize"></param>
         /// <param name="initialise"></param>
-        internal Population(int populationSize, bool initialise)
+        /// <param name="generation"></param>
+        internal Population(int populationSize, bool initialise, int generation)
         {
             _individuals = new Individual[populationSize];
             //Initialize population
             if (!initialise) return;
             for (var i = 0; i < Size(); i++)
             {
-                var newIndividdual = new Individual();
+                var newIndividdual = new Individual(generation, i);
                 newIndividdual.GenerateIndividual(_rnd);
                 SaveIndividual(i, newIndividdual);
             }

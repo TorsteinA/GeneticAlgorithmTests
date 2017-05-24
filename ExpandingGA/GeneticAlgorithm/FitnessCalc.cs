@@ -1,31 +1,20 @@
-﻿namespace GeneticAlgorithmForStrings {
+﻿using System.IO;
+using System.Linq;
+
+namespace GeneticAlgorithmForStrings {
     internal class FitnessCalc {
-
-        /*
-	    private static int _robotSolution;    //Not sure about type yet, or even if variable is needed at all.
-
         
-	    internal static void SetRobotSolution()
-	    {
-		    //TODO implement if needed
-	    }*/
-		
 	    /// <summary>
 		/// Runs a series of matches with the individual against other bots to get a score.
 		/// </summary>
 		/// <param name="individual"></param>
 		/// <returns></returns>
-		internal static double GetRobotFitness(Individual individual) 
-		{
-			//TODO implement method
-			//Sends call to robot match handler class to start match
-			//Let matches run in separate threads?
-				//Let genes decide how many threads?
-			//Returns score after match(es)
+		internal static double GetRobotFitness(Individual individual)
+	    {
+	        const string path = @"C:\robocode\robots\.data\Alvtor_Hartho_15";
 
-		    //var score = RoboCodeMatchHandler.RunMatches(individual, "");
-            RoboCodeMatchHandler matchHandler = new RoboCodeMatchHandler(individual, "");
-		    var score = matchHandler.GetScore();
+            var files = Directory.GetFiles(path, $"{individual.RobotId}.results").FirstOrDefault();
+            //TODO read line 3
             
 			return score;
 		}
