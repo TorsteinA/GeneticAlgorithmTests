@@ -1,14 +1,14 @@
 ﻿namespace GeneticAlgorithmForStrings {
     internal class FitnessCalc {
 
-
+        /*
 	    private static int _robotSolution;    //Not sure about type yet, or even if variable is needed at all.
 
         
 	    internal static void SetRobotSolution()
 	    {
 		    //TODO implement if needed
-	    }
+	    }*/
 		
 	    /// <summary>
 		/// Runs a series of matches with the individual against other bots to get a score.
@@ -24,8 +24,8 @@
 			//Returns score after match(es)
 
 		    //var score = RoboCodeMatchHandler.RunMatches(individual, "");
-            RoboCodeMatchHandler rcmh = new RoboCodeMatchHandler(individual, "");
-		    var score = rcmh.GetScore();
+            RoboCodeMatchHandler matchHandler = new RoboCodeMatchHandler(individual, "");
+		    var score = matchHandler.GetScore();
             
 			return score;
 		}
@@ -36,18 +36,7 @@
 	        //return RoboCodeMatchHandler.GetMaxScore();
 	        return 10000;
 	    }
-
-        internal void Mat()
-        {
-            
-        }
-
-
-
-
-
-
-
+        
 
 
 
