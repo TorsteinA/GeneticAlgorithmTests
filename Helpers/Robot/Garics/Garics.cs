@@ -120,13 +120,51 @@ namespace Alvtor_Hartho_15
 
         public override void OnBattleEnded(BattleEndedEvent evnt)
         {
-            var contents = "1,2,3,4";
+            Console.WriteLine("-- Battle has completed --");
+            var fileName = GetType().Name + "_results.dat";
+            var totalScore = evnt.Results.Score; // NOTE: this will be modified further
+            var battleCount = 1; // this battle has completed
 
-            var file = GetDataFile(GetType().Name + "_results.csv");
+            try // grab data from file
+            {
+                using (var file = GetDataFile(fileName))
+                {
+                    if (file.Length != 0)
+                    {
+                        using (var reader = new StreamReader(file))
+                        {
+                            totalScore += int.Parse(reader.ReadLine());
+                            battleCount += int.Parse(reader.ReadLine());
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("File reading failed. It might not have any data yet. Exception message: " + e);
+            }
 
-            var info = new UTF8Encoding(true).GetBytes(contents);
-            file.Write(info, 0, info.Length);
-            file.Close();
+            var avgScore = totalScore / battleCount;
+
+            try
+            {
+                using (var file = GetDataFile(fileName))
+                {
+                    file.SetLength(0);
+                    using (var writer = new StreamWriter(file))
+                    {
+                        writer.WriteLine(totalScore); // total score from all battles
+                        writer.WriteLine(battleCount); // number of battles
+                        writer.WriteLine(avgScore); // avg battle score
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("could not write data to file: " + e);
+            }
+
+            Console.WriteLine("My average battle score is " + avgScore);
         }
     }
 }
