@@ -27,7 +27,7 @@ namespace GeneticAlgorithmForStrings {
 		    }
 		}
 
-	    internal float GetMaxRobotFitness()
+	    internal static float GetMaxRobotFitness()
 	    {
 			return 10000;   //Arbitrary large large number larger than what the robot can realistically do. 
 	    }

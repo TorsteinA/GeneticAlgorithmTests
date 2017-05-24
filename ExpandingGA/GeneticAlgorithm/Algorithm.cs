@@ -32,7 +32,8 @@ namespace GeneticAlgorithmForStrings {
 	        var generationCount = 0;
 	        var myPop = new Population(PopulationSize, true, generationCount);
 
-	        while (myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxFitness()) {
+	        while (true)//myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxRobotFitness()) 
+            {
 			    generationCount++;
 
 //			    Console.WriteLine();
@@ -85,7 +86,7 @@ namespace GeneticAlgorithmForStrings {
         {
             var newPopulation = new Population(pop.Size(), false, generationCount);
 
-            //TODO Add file creator here?
+            FileCreator fc = new FileCreator(generationCount, pop);
 
             // Keep our best individual
             if (Elitism) 
@@ -96,8 +97,11 @@ namespace GeneticAlgorithmForStrings {
 
             // Loop over the population size and create new individuals with crossover
             for (var i = elitismOffset; i < pop.Size(); i++) {
-                var individual1 = TournamentSelection(pop);
-                var individual2 = TournamentSelection(pop);
+//                var individual1 = TournamentSelection(pop);
+//                var individual2 = TournamentSelection(pop);
+                var individual1 = NaturalSelection(pop);
+                var individual2 = NaturalSelection(pop);
+
                 var newIndividual = Crossover(individual1, individual2, generationCount, i);
                 newPopulation.SaveIndividual(i, newIndividual);
             }
@@ -107,6 +111,16 @@ namespace GeneticAlgorithmForStrings {
                 Mutate(newPopulation.GetIndividual(i));
             
             return newPopulation;
+        }
+
+        /// <summary>
+        /// Select random individual from population
+        /// </summary>
+        /// <param name="pop"></param>
+        /// <returns></returns>
+        private static Individual NaturalSelection(Population pop)
+        {
+            return pop.GetIndividual(Rnd.Next(pop.Size()));
         }
 
         /// <summary>
