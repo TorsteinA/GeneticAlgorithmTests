@@ -16,16 +16,16 @@ namespace GeneticAlgorithmForStrings
             //Algorithm.RunGeneticAlgorithm();
 
 
-            //*** Testing the match handling ***
+            /*** Testing the match handling ***
             Individual indiv = new Individual();
             var score = FitnessCalc.GetRobotFitness(indiv);
             Console.WriteLine(score);
-            //*/
+            */
 
 
 
 
-            /*** Testing File creation ***\
+            //*** Testing File creation ***\
             var rnd = new Random();
             var population = new Population(1, true);
             FileCreator fc;
@@ -38,7 +38,7 @@ namespace GeneticAlgorithmForStrings
 //            {
 //                Console.WriteLine(line);
 //            }
-            */
+           // */
 
 
 
