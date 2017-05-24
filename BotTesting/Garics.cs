@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Robocode;
 using Santom;
 using Tomtom;
@@ -9,13 +10,16 @@ using Alvtor_Hartho_15.FSM;
 
 namespace Alvtor_Hartho_15
 {
-    public abstract class Garics : AdvancedRobot {
-		public EnemyData Enemy { get; set; }
+    public abstract class Garics : AdvancedRobot
+    {
+        #region Properties
+
+        public EnemyData Enemy { get; set; }
         public EnemyData OldEnemy;
         public double OldEnemyHeading;
         public StateManagerScript StateManager;
+        public string FilePath { get; set; }
 
-        #region Properties
 
         public Point2D Position => new Point2D(X, Y);
 
@@ -71,6 +75,15 @@ namespace Alvtor_Hartho_15
         public double TurnRadius => Velocity / Sin(TurningRate);
 
         #endregion
+
+        #endregion
+
+        #region Constructor
+
+        protected Garics(string filePath)
+        {
+            FilePath = filePath;
+        }
 
         #endregion
     }

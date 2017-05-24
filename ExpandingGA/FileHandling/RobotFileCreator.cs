@@ -9,13 +9,13 @@ namespace GeneticAlgorithmForStrings
 			FileCreator.CreateFile(
 				filePath,
 				$"{robotId}{FileCreator.CodeFileExtension}",
-				GetFileText(robotId, dnaTranslator),
+				GetFileText(robotId, filePath, dnaTranslator),
 //				GetBotZero(robotId),
 				true
 			);
 		}
 
-		internal string GetFileText(string robotId, DnaToCode dnaTranslator) {
+		internal string GetFileText(string robotId, string filePath, DnaToCode dnaTranslator) {
 			var imports = $"using System;" +
 						"\nusing System.Drawing;" +
 						"\nusing Robocode;" +

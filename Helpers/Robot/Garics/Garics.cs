@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Security.Permissions;
 using System.Text;
 using Robocode;
 using Santom;
@@ -13,12 +15,13 @@ using Alvtor_Hartho_15.FSM;
 namespace Alvtor_Hartho_15
 {
     public abstract class Garics : AdvancedRobot {
+        #region Properties
 		public EnemyData Enemy { get; set; }
         public EnemyData OldEnemy;
         public double OldEnemyHeading;
         public StateManagerScript StateManager;
+        public string FilePath { get; set; }
 
-        #region Properties
 
         //        public Point2D Position => new Point2D(X, Y);
         public Point2D Position {
@@ -105,6 +108,11 @@ namespace Alvtor_Hartho_15
 
         protected Garics()
         {
+            InitializeValues();
+        }
+
+        private void InitializeValues()
+        {
             SlowRadius = 150;
             StopRadius = 100;
             ReverseRadius = 50;
@@ -112,20 +120,13 @@ namespace Alvtor_Hartho_15
 
         public override void OnBattleEnded(BattleEndedEvent evnt)
         {
-            var filePath = "C:\\Users\\torstein\\Source\\Repos\\GeneticAlgorithmTests\\ExpandingGA\\bin\\Debug\\RobotCreator\\Robots_gen0000\\Robot_g0000_i0000";
-            var name = "matchResult.csv";
             var contents = "1,2,3,4";
-            var pathIncludingFile = Path.Combine(filePath, name);
 
-            
-                if (!File.Exists(pathIncludingFile)) {
-                    Out.WriteLine("File \"{0}\" created! at {1}", name, pathIncludingFile);
-                    File.WriteAllText(pathIncludingFile, contents);
-                }
-                else {
-                    Out.WriteLine("File \"{name}\" already exists. Did not overwrite");
-                }
-            
+            var file = GetDataFile(GetType().Name + "_results.csv");
+
+            var info = new UTF8Encoding(true).GetBytes(contents);
+            file.Write(info, 0, info.Length);
+            file.Close();
         }
     }
 }

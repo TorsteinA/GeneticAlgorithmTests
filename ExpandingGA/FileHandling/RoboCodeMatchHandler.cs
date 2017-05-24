@@ -37,15 +37,6 @@ namespace GeneticAlgorithmForStrings
             double result = 0.0;
             
             //Run one robocode battle based on battleFile from directory!
-
-            
-
-
-
-
-
-
-
             // Create the RobocodeEngine
             RobocodeEngine engine = new RobocodeEngine("C:\\robocode"); // Run from C:\Robocode
 //            RobocodeEngine engine = new RobocodeEngine("C:\\Users\\torstein\\Source\\Repos\\GeneticAlgorithmTests\\ExpandingGA\\bin\\Debug"); // Run from local bin/debug
