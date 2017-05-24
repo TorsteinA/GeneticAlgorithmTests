@@ -68,6 +68,7 @@ namespace GeneticAlgorithmForStrings {
 			RoboCodeMatchHandler.RunBattles(dirPathFull);
 
 			// read results and pick the best bots
+			// todo: get elites
 
 		}
         

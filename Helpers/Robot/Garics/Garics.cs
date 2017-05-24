@@ -133,6 +133,7 @@ namespace Alvtor_Hartho_15
         {
             Console.WriteLine("-- Battle has completed --");
             var fileName = GetType().Name + ".results";
+
             var totalScore = evnt.Results.Score; // NOTE: this will be modified further
             var battleCount = 1; // this battle has completed
 
