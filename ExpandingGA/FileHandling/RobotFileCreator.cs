@@ -154,9 +154,8 @@ namespace Alvtor_Hartho_15
 }}";
 	    }
 
-		internal static string GetRobotId(int generation, int individualNumber) {
-			return "Robot_g" + generation.ToString("D4") + "_i" + individualNumber.ToString("D4");
-		}
+		internal static string GetRobotId(int generation, int individualNumber) =>
+			$"Robot_g{generation:D4}_i{individualNumber:D4}";
 
         internal static string GetRobotAssemblyInfo()
         {
