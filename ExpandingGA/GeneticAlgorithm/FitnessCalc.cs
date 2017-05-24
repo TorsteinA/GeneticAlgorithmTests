@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace GeneticAlgorithmForStrings {
@@ -13,10 +14,17 @@ namespace GeneticAlgorithmForStrings {
 	    {
 	        const string path = @"C:\robocode\robots\.data\Alvtor_Hartho_15";
 
-            var files = Directory.GetFiles(path, $"{individual.RobotId}.results").FirstOrDefault();
-            //TODO read line 3
-            
-			return score;
+            var resultsFile = Directory.GetFiles(path, $"{individual.RobotId}.results").FirstOrDefault();
+
+		    try
+		    {
+			    return int.Parse(File.ReadLines(resultsFile).Skip(2).Take(1).First() ?? "-100");
+		    }
+		    catch (Exception e)
+		    {
+			    Console.WriteLine("something went wrong and the fitness could not be read: " + e);
+			    throw;
+		    }
 		}
 
 	    internal float GetMaxRobotFitness()
