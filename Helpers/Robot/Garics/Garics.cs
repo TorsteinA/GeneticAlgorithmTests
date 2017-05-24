@@ -156,7 +156,7 @@ namespace Alvtor_Hartho_15
                 Console.WriteLine("File reading failed. It might not have any data yet. Exception message: " + e);
             }
 
-            var avgScore = totalScore / battleCount;
+            var avgScore = (double)totalScore / battleCount; // get a double value
 
             try
             {

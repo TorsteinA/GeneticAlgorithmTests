@@ -66,10 +66,6 @@ namespace GeneticAlgorithmForStrings {
 
 			// run battles
 			RoboCodeMatchHandler.RunBattles(dirPathFull);
-
-			// read results and pick the best bots
-			// todo: get elites
-
 		}
         
 		internal static void CreateFile(string filePath, string name, string contents, bool overwrite) {
