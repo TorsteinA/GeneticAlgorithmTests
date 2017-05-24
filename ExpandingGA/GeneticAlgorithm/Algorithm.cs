@@ -25,64 +25,67 @@ namespace GeneticAlgorithmForStrings {
 
         private static readonly Random Rnd = new Random();
 
-		/*
+		
 	    internal static void RunGeneticAlgorithm()
 	    {
-			FitnessCalc.SetSolution(Solution);
-		    var myPop = new Population(PopulationSize, true);
-		    var generationCount = 0;
+			//FitnessCalc.SetSolution(Solution);
+	        var generationCount = 0;
+	        var myPop = new Population(PopulationSize, true, generationCount);
 
-		    while (myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxFitness()) {
+	        while (myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxFitness()) {
 			    generationCount++;
 
-			    Console.WriteLine();
-			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-			    Console.Write("Generation: ");
-			    Console.ForegroundColor = ConsoleColor.White;
-			    Console.Write(generationCount);
-			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-			    Console.Write(", \t Fittest score: ");
-			    Console.ForegroundColor = ConsoleColor.White;
-			    Console.Write(myPop.GetFittest().GetFitness() + "/" + FitnessCalc.GetMaxFitness());
-			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-			    Console.WriteLine(", \t Genes of fittest: ");
-			    Console.ForegroundColor = ConsoleColor.White;
-			    Console.WriteLine(myPop.GetFittest().ToString());
+//			    Console.WriteLine();
+//			    Console.ForegroundColor = ConsoleColor.DarkYellow;
+//			    Console.Write("Generation: ");
+//			    Console.ForegroundColor = ConsoleColor.White;
+//			    Console.Write(generationCount);
+//			    Console.ForegroundColor = ConsoleColor.DarkYellow;
+//			    Console.Write(", \t Fittest score: ");
+//			    Console.ForegroundColor = ConsoleColor.White;
+//			    Console.Write(myPop.GetFittest().GetFitness() + "/" + FitnessCalc.GetMaxFitness());
+//			    Console.ForegroundColor = ConsoleColor.DarkYellow;
+//			    Console.WriteLine(", \t Genes of fittest: ");
+//			    Console.ForegroundColor = ConsoleColor.White;
+//			    Console.WriteLine(myPop.GetFittest().ToString());
 
-			    myPop = EvolvePopulation(myPop);
+			    myPop = EvolvePopulation(myPop, generationCount);
 		    }
 
-		    Console.WriteLine();
-		    Console.ForegroundColor = ConsoleColor.Green;
-		    Console.WriteLine("Solution Found!");
-		    Console.Write("Generation: ");
-		    Console.ForegroundColor = ConsoleColor.Yellow;
-		    Console.WriteLine(generationCount);
-		    Console.WriteLine();
-		    Console.ForegroundColor = ConsoleColor.Red;
-		    Console.WriteLine("MyPop Genes:    ");
-		    Console.ForegroundColor = ConsoleColor.White;
-		    Console.Write(myPop.GetFittest());
-		    Console.ForegroundColor = ConsoleColor.Red;
-		    Console.WriteLine();
-		    Console.WriteLine();
-		    Console.WriteLine("Solution Genes: ");
-		    Console.ForegroundColor = ConsoleColor.White;
-		    Console.Write(Solution);
-		    Console.WriteLine();
-		    Console.WriteLine();
-		    Console.WriteLine();
+//		    Console.WriteLine();
+//		    Console.ForegroundColor = ConsoleColor.Green;
+//		    Console.WriteLine("Solution Found!");
+//		    Console.Write("Generation: ");
+//		    Console.ForegroundColor = ConsoleColor.Yellow;
+//		    Console.WriteLine(generationCount);
+//		    Console.WriteLine();
+//		    Console.ForegroundColor = ConsoleColor.Red;
+//		    Console.WriteLine("MyPop Genes:    ");
+//		    Console.ForegroundColor = ConsoleColor.White;
+//		    Console.Write(myPop.GetFittest());
+//		    Console.ForegroundColor = ConsoleColor.Red;
+//		    Console.WriteLine();
+//		    Console.WriteLine();
+//		    Console.WriteLine("Solution Genes: ");
+//		    Console.ForegroundColor = ConsoleColor.White;
+//		    //Console.Write(Solution);
+//		    Console.WriteLine();
+//		    Console.WriteLine();
+//		    Console.WriteLine();
 		}
-		*/
 
-		/// <summary>
-		/// Evolve a population
-		/// </summary>
-		/// <param name="pop">Population to evolve</param>
-		/// <returns>Evolved population</returns>
-		internal static Population EvolvePopulation(Population pop)
+
+        /// <summary>
+        /// Evolve a population
+        /// </summary>
+        /// <param name="pop">Population to evolve</param>
+        /// <param name="generationCount"></param>
+        /// <returns>Evolved population</returns>
+        internal static Population EvolvePopulation(Population pop, int generationCount)
         {
-            var newPopulation = new Population(pop.Size(), false);
+            var newPopulation = new Population(pop.Size(), false, generationCount);
+
+            //TODO Add file creator here?
 
             // Keep our best individual
             if (Elitism) 

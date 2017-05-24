@@ -6,6 +6,12 @@ namespace GeneticAlgorithmForStrings {
 
 	    private char[] _genes = new char[Algorithm.DefaultGeneLength];
 		private int _fitness = 0;
+	    public string RobotId { get; set; }
+
+	    internal Individual(int generation, int individual)
+	    {
+	        RobotId = RobotFileCreator.GetRobotId(generation, individual);
+	    }
 
 	    /// <summary>
 		/// create a random individual
