@@ -21,18 +21,12 @@ namespace GeneticAlgorithmForStrings {
 
 	    internal float GetMaxRobotFitness()
 	    {
-			//Returns max score based on robocode match parameters.
-	        //return RoboCodeMatchHandler.GetMaxScore();
-	        return 10000;
+			return 10000;   //Arbitrary large large number larger than what the robot can realistically do. 
 	    }
         
 
-
-
         //Old contents of FitnessCalt.cs below.
-
-
-            
+        /*
 	    static char[] _solution;
 
 		/// <summary>
@@ -75,5 +69,6 @@ namespace GeneticAlgorithmForStrings {
 		    var maxFitness = _solution.Length;
 		    return maxFitness;
 	    }
+        */
     }
 }

@@ -27,7 +27,7 @@ namespace GeneticAlgorithmForStrings
 
             //*** Testing File creation ***\
             var rnd = new Random();
-            var population = new Population(1, true);
+            var population = new Population(1, true, 0);
             FileCreator fc;
             for (int generation = 0; generation < 1; generation++)
                 fc = new FileCreator(generation, population);

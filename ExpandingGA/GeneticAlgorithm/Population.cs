@@ -27,6 +27,19 @@ namespace GeneticAlgorithmForStrings
             }
         }
 
+        internal Population(int populationSize, bool initialise) {
+            _individuals = new Individual[populationSize];
+            //Initialize population
+            if (!initialise) return;
+            for (var i = 0; i < Size(); i++) {
+                var newIndividdual = new Individual();
+                newIndividdual.GenerateIndividual(_rnd);
+                SaveIndividual(i, newIndividdual);
+            }
+        }
+
+
+
         /// <summary>
         /// Constructor that creates population from array of individuals.
         /// </summary>

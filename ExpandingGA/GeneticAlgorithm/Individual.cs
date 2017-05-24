@@ -12,7 +12,7 @@ namespace GeneticAlgorithmForStrings {
 	    {
 	        RobotId = RobotFileCreator.GetRobotId(generation, individual);
 	    }
-
+        
 	    /// <summary>
 		/// create a random individual
 		/// </summary>

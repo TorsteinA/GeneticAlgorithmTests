@@ -96,10 +96,10 @@ namespace GeneticAlgorithmForStrings {
 
             // Loop over the population size and create new individuals with crossover
             for (var i = elitismOffset; i < pop.Size(); i++) {
-                var indiv1 = TournamentSelection(pop);
-                var indiv2 = TournamentSelection(pop);
-                var newIndiv = Crossover(indiv1, indiv2);
-                newPopulation.SaveIndividual(i, newIndiv);
+                var individual1 = TournamentSelection(pop);
+                var individual2 = TournamentSelection(pop);
+                var newIndividual = Crossover(individual1, individual2, generationCount, i);
+                newPopulation.SaveIndividual(i, newIndividual);
             }
 
             // Mutate population
@@ -109,21 +109,23 @@ namespace GeneticAlgorithmForStrings {
             return newPopulation;
         }
 
-		/// <summary>
-		/// Crossover individuals
-		/// </summary>
-		/// <param name="indiv1">Parent individual 1</param>
-		/// <param name="indiv2">Parent individual 2</param>
-		/// <returns>Child individual</returns>
-		private static Individual Crossover(Individual indiv1, Individual indiv2)
+        /// <summary>
+        /// Crossover individuals
+        /// </summary>
+        /// <param name="indiv1">Parent individual 1</param>
+        /// <param name="indiv2">Parent individual 2</param>
+        /// <param name="generation"></param>
+        /// <param name="individual"></param>
+        /// <returns>Child individual</returns>
+        private static Individual Crossover(Individual indiv1, Individual indiv2, int generation, int individual)
         {
-            var newSol = new Individual();
+            var newIndividual = new Individual(generation, individual);
             // Loop through genes
             for (var i = 0; i < indiv1.Size(); i++) {
                 // Crossover
-                newSol.SetGene(i, Rnd.NextDouble() <= UniformRate ? indiv1.GetGene(i) : indiv2.GetGene(i));
+                newIndividual.SetGene(i, Rnd.NextDouble() <= UniformRate ? indiv1.GetGene(i) : indiv2.GetGene(i));
             }
-            return newSol;
+            return newIndividual;
         }
 
 		/// <summary>
