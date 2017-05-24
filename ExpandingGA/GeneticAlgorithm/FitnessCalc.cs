@@ -18,7 +18,7 @@ namespace GeneticAlgorithmForStrings {
 
 		    if (resultsFile == null) return -200;
 
-		    return int.Parse(File.ReadLines(resultsFile).Skip(2).Take(1).First() ?? "-100");
+		    return double.Parse(File.ReadLines(resultsFile).Skip(2).Take(1).First() ?? "-100");
 		}
 
 	    internal static float GetMaxRobotFitness()

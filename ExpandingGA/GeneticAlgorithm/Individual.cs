@@ -5,7 +5,7 @@ namespace GeneticAlgorithmForStrings {
 	{
 
 	    private char[] _genes = new char[Algorithm.DefaultGeneLength];
-		private int _fitness = 0;
+		private double _fitness = 0;
 	    public string RobotId { get; set; }
 
 	    internal Individual(int generation, int individual)
@@ -68,10 +68,10 @@ namespace GeneticAlgorithmForStrings {
 		/// Fitness of individual
 		/// </summary>
 		/// <returns>Fitness</returns>
-        internal int GetFitness()
+        internal double GetFitness()
         {
             if (_fitness == 0) {
-                _fitness = FitnessCalc.GetFitness(this);
+                _fitness = FitnessCalc.GetRobotFitness(this);
             }
             return _fitness;
         }

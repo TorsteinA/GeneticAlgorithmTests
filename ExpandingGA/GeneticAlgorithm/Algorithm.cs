@@ -8,7 +8,7 @@ namespace GeneticAlgorithmForStrings {
 //        internal static readonly string Solution = "Got my Genetic Algorithm to work with sentences now! \nWop Wop Wop Wop!\n:D :D :D\n:D :D\n:D\n:D :D\n:D :D :D\n\nDen klarer å skrive ord som \"Pokémon\" også! \\m/";
 
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-	    internal static readonly int PopulationSize = 500;
+	    internal static readonly int PopulationSize = 5;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
@@ -17,7 +17,7 @@ namespace GeneticAlgorithmForStrings {
         internal static int DefaultGeneLength = 1000;
 
         //Crossover tournament population size
-        private const int TournamentSize = 40;
+        //private const int TournamentSize = 40;
         //How much DNA to take from each parent. Should stay at 0.5
         private const double UniformRate = 0.5;
         //Keep copy of best individual next generation, or just random?
@@ -35,44 +35,24 @@ namespace GeneticAlgorithmForStrings {
 	        while (true)//myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxRobotFitness()) 
             {
 			    generationCount++;
+                var fittestBot = myPop.GetFittest();
 
-//			    Console.WriteLine();
-//			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-//			    Console.Write("Generation: ");
-//			    Console.ForegroundColor = ConsoleColor.White;
-//			    Console.Write(generationCount);
-//			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-//			    Console.Write(", \t Fittest score: ");
-//			    Console.ForegroundColor = ConsoleColor.White;
-//			    Console.Write(myPop.GetFittest().GetFitness() + "/" + FitnessCalc.GetMaxFitness());
-//			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-//			    Console.WriteLine(", \t Genes of fittest: ");
-//			    Console.ForegroundColor = ConsoleColor.White;
-//			    Console.WriteLine(myPop.GetFittest().ToString());
+			    Console.WriteLine();
+			    Console.ForegroundColor = ConsoleColor.DarkYellow;
+			    Console.Write("Generation: ");
+			    Console.ForegroundColor = ConsoleColor.White;
+			    Console.Write(generationCount);
+			    Console.ForegroundColor = ConsoleColor.DarkYellow;
+			    Console.Write(", \t Fittest score: ");
+			    Console.ForegroundColor = ConsoleColor.White;
+			    Console.Write(fittestBot.GetFitness());
+			    Console.ForegroundColor = ConsoleColor.DarkYellow;
+			    Console.Write(", \t Fittest Bot ID: ");
+			    Console.ForegroundColor = ConsoleColor.White;
+			    Console.Write(fittestBot.RobotId + "\n");
 
 			    myPop = EvolvePopulation(myPop, generationCount);
 		    }
-
-//		    Console.WriteLine();
-//		    Console.ForegroundColor = ConsoleColor.Green;
-//		    Console.WriteLine("Solution Found!");
-//		    Console.Write("Generation: ");
-//		    Console.ForegroundColor = ConsoleColor.Yellow;
-//		    Console.WriteLine(generationCount);
-//		    Console.WriteLine();
-//		    Console.ForegroundColor = ConsoleColor.Red;
-//		    Console.WriteLine("MyPop Genes:    ");
-//		    Console.ForegroundColor = ConsoleColor.White;
-//		    Console.Write(myPop.GetFittest());
-//		    Console.ForegroundColor = ConsoleColor.Red;
-//		    Console.WriteLine();
-//		    Console.WriteLine();
-//		    Console.WriteLine("Solution Genes: ");
-//		    Console.ForegroundColor = ConsoleColor.White;
-//		    //Console.Write(Solution);
-//		    Console.WriteLine();
-//		    Console.WriteLine();
-//		    Console.WriteLine();
 		}
 
 
@@ -157,6 +137,7 @@ namespace GeneticAlgorithmForStrings {
             }
         }
 
+        /*
 		/// <summary>
 		/// Select individual for crossover
 		/// </summary>
@@ -175,5 +156,6 @@ namespace GeneticAlgorithmForStrings {
             var fittest = tournament.GetFittest();
             return fittest;
         }
+        */
     }
 }

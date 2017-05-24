@@ -32,7 +32,7 @@ namespace GeneticAlgorithmForStrings {
 
 			for (var i = 0; i < population.Size(); i++)
 			{
-				Console.WriteLine($"Starting bot {i}");
+				//Console.WriteLine($"Starting bot {i}");
 				var individual = i;
 				tasks[individual] = Task.Factory.StartNew(() => CreateFiles(generation, individual, population.GetIndividual(individual)));
 			}
@@ -86,7 +86,7 @@ namespace GeneticAlgorithmForStrings {
 			}
 			else
 			{
-				Console.WriteLine(!File.Exists(pathIncludingFile) ? "File \"{0}\" Created!" : "File \"{0}\" overwritten!", filePath + "\\" + name);
+				//Console.WriteLine(!File.Exists(pathIncludingFile) ? "File \"{0}\" Created!" : "File \"{0}\" overwritten!", filePath + "\\" + name);
 				// Create and write to file.
 				using (var fs = File.Create(pathIncludingFile))
 				{

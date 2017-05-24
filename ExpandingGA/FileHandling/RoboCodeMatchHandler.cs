@@ -120,12 +120,12 @@ namespace GeneticAlgorithmForStrings
         /// <param name="dirPath"></param>
         public static void RunBattles(string dirPath)
         {
-            Console.WriteLine("Running battles, please wait ...");
+            //Console.WriteLine("Running battles, please wait ...");
             var battleFiles = Directory.GetFiles(dirPath, "*.battle");
 
             foreach (var battleFile in battleFiles) // run this singlethreaded to avoid race conditions
             {
-                Console.WriteLine($"Battle: {battleFile}");
+                //Console.WriteLine($"Battle: {battleFile}");
                 var battleCommand = $@"/C java -Xmx512M -cp libs/robocode.jar;libs/jni4net.j-0.8.7.0.jar robocode.Robocode -nodisplay -battle {battleFile}";
 
                 var processInfo = new ProcessStartInfo("cmd.exe", battleCommand)
