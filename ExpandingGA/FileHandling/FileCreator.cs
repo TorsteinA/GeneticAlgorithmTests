@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -48,16 +49,26 @@ namespace GeneticAlgorithmForStrings {
 			var robotDirectoryPath = Path.Combine(_directoryPath, robotId);
 			Directory.CreateDirectory(robotDirectoryPath);
 
+			var dirPathFull = Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
+				robotDirectoryPath);
+
 			var dllFileCreator = new DllFileCreator();
 			var battleFileCreator = new BattleFileCreator();
 			var robotFileCreator = new RobotFileCreator();
 			var stateCreator = new RobotStateFileCreator();
 
 			var dnaTranslator = new DnaToCode(genes);	//In later iteration, replace with Factory
+			// create files, compile robot
 			robotFileCreator.CreateRobotFiles(robotDirectoryPath, robotId, dnaTranslator);
 			stateCreator.CreateStateFiles(robotDirectoryPath, robotId, dnaTranslator);
 			dllFileCreator.CreateDll(_dllDirectoryPath, robotDirectoryPath, robotId, dnaTranslator);
 			battleFileCreator.CreateBattleFiles(robotDirectoryPath, NameSpace, robotId);
+
+			// run battles
+			RoboCodeMatchHandler.RunBattles(dirPathFull);
+
+			// read results and pick the best bots
+
 		}
         
 		internal static void CreateFile(string filePath, string name, string contents, bool overwrite) {
@@ -89,9 +100,6 @@ namespace GeneticAlgorithmForStrings {
 			}
 		}
 
-		private static string GetRobotFolderName(int generation)
-		{
-			return "Robots_gen" + generation.ToString("D4");
-		}
+		private static string GetRobotFolderName(int generation) => $"Robots_gen{generation:D4}";
 	}
 }

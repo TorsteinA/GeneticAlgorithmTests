@@ -10,26 +10,29 @@ using Tomtom;
 using Tomtom.Utility;
 using ExampleSetup.Robocode;
 using Alvtor_Hartho_15.FSM;
+
 //using static System.Math;
 
 namespace Alvtor_Hartho_15
 {
-    public abstract class Garics : AdvancedRobot {
+    public abstract class Garics : AdvancedRobot
+    {
         #region Properties
-		public EnemyData Enemy { get; set; }
+
+        public EnemyData Enemy { get; set; }
         public EnemyData OldEnemy;
         public double OldEnemyHeading;
         public StateManagerScript StateManager;
-        public string FilePath { get; set; }
-
 
         //        public Point2D Position => new Point2D(X, Y);
-        public Point2D Position {
+        public Point2D Position
+        {
             get { return new Point2D(X, Y); }
         }
 
 //        public Vector2D PositionVector => new Vector2D(X, Y); //Position.PointToVector()? Might create too much overhead
-        public Vector2D PositionVector {
+        public Vector2D PositionVector
+        {
             get { return new Vector2D(X, Y); }
         }
 
@@ -41,7 +44,8 @@ namespace Alvtor_Hartho_15
         public Battlefield Battlefield { get; set; }
 
 //        public int Radius => 20;
-        public int Radius {
+        public int Radius
+        {
             get { return 20; }
         }
 
@@ -56,7 +60,8 @@ namespace Alvtor_Hartho_15
         }
 
 //        public double BulletSpeed => 20 - 3 * Firepower;
-        public double BulletSpeed {
+        public double BulletSpeed
+        {
             get { return 20 - 3 * Firepower; }
         }
 
@@ -93,12 +98,14 @@ namespace Alvtor_Hartho_15
         }
 
 //        public double TurningRate => (10 - 0.75 * Math.Abs(Velocity)).DegToRad();
-        public double TurningRate {
+        public double TurningRate
+        {
             get { return (10 - 0.75 * Math.Abs(Velocity)).DegToRad(); }
         }
 
 //        public double TurnRadius => Velocity / Math.Sin(TurningRate);
-        public double TurnRadius {
+        public double TurnRadius
+        {
             get { return Velocity / Math.Sin(TurningRate); }
         }
 
@@ -118,10 +125,14 @@ namespace Alvtor_Hartho_15
             ReverseRadius = 50;
         }
 
+        /// <summary>
+        /// Write match and performance data to file on battle ended
+        /// </summary>
+        /// <param name="evnt">The BattleEndedEvent to get data from</param>
         public override void OnBattleEnded(BattleEndedEvent evnt)
         {
             Console.WriteLine("-- Battle has completed --");
-            var fileName = GetType().Name + "_results.dat";
+            var fileName = GetType().Name + ".results";
             var totalScore = evnt.Results.Score; // NOTE: this will be modified further
             var battleCount = 1; // this battle has completed
 

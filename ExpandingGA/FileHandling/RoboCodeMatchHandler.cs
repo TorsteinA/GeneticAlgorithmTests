@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using net.sf.jni4net.jni;
 using Robocode;
 using Robocode.Control;
@@ -109,6 +111,37 @@ namespace GeneticAlgorithmForStrings
         // Called when the game sends out an error message during the battle
         private static void BattleError(BattleErrorEvent e) {
             Console.WriteLine("Err> " + e.Error);
+        }
+
+        /// <summary>
+        /// Runs all the *.battle files in the specified directory.
+        /// Note: runs them sequentially to avoid race conditions, as we cannot control external programs, i.e. cmd.exe
+        /// </summary>
+        /// <param name="dirPath"></param>
+        public static void RunBattles(string dirPath)
+        {
+            var battleFiles = Directory.GetFiles(dirPath, "*.battle");
+
+            foreach (var battleFile in battleFiles) // run this singlethreaded to avoid race conditions
+            {
+                var battleCommand = $@"/C java -Xmx512M -cp libs/robocode.jar;libs/jni4net.j-0.8.7.0.jar robocode.Robocode -nodisplay -battle {battleFile}";
+
+                var processInfo = new ProcessStartInfo("cmd.exe", battleCommand)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true,
+                    WorkingDirectory = @"C:\robocode"
+                };
+
+                var process = Process.Start(processInfo);
+
+                process.Start();
+                process.WaitForExit();
+            }
+
+            Console.WriteLine("Finished battles in " + dirPath);
         }
     }
 }
