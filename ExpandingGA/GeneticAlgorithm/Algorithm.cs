@@ -26,33 +26,50 @@ namespace GeneticAlgorithmForStrings {
         private static readonly Random Rnd = new Random();
 
 		
-	    internal static void RunGeneticAlgorithm()
+	    internal static void RunGeneticAlgorithm(int fromSavedGeneration)
 	    {
-			//FitnessCalc.SetSolution(Solution);
-	        var generationCount = 0;
-	        var myPop = new Population(PopulationSize, true, generationCount);
+	        int generationCount;
+	        Population myPop;
+
+            if (fromSavedGeneration == 0)
+	        {
+                RoboCodeMatchHandler.ClearResultsFolder();
+	            generationCount = 0;
+	            myPop = new Population(PopulationSize, true, generationCount);
+	        }
+	        else
+	        {
+	            generationCount = fromSavedGeneration;
+	            var individualGenes = PopulationFileHandler.ReadFile(fromSavedGeneration);
+	            var individuals = new Individual[individualGenes.Length];
+	            for (var i = 0; i < individualGenes.Length; i++)
+	            {
+	                individuals[i] = new Individual(generationCount, i);
+	            }
+                myPop = new Population(individuals);
+	        }
 
 	        while (true)//myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxRobotFitness()) 
             {
-			    generationCount++;
+                myPop = EvolvePopulation(myPop, generationCount);
+
                 var fittestBot = myPop.GetFittest();
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("Generation: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(generationCount);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write(", \t Fittest score: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(fittestBot.GetFitness());
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write(", \t Fittest Bot ID: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(fittestBot.RobotId + "\n");
 
-			    Console.WriteLine();
-			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-			    Console.Write("Generation: ");
-			    Console.ForegroundColor = ConsoleColor.White;
-			    Console.Write(generationCount);
-			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-			    Console.Write(", \t Fittest score: ");
-			    Console.ForegroundColor = ConsoleColor.White;
-			    Console.Write(fittestBot.GetFitness());
-			    Console.ForegroundColor = ConsoleColor.DarkYellow;
-			    Console.Write(", \t Fittest Bot ID: ");
-			    Console.ForegroundColor = ConsoleColor.White;
-			    Console.Write(fittestBot.RobotId + "\n");
-
-			    myPop = EvolvePopulation(myPop, generationCount);
-		    }
+                generationCount++;
+            }
 		}
 
 
@@ -66,7 +83,7 @@ namespace GeneticAlgorithmForStrings {
         {
             var newPopulation = new Population(pop.Size(), false, generationCount);
 
-            FileCreator fc = new FileCreator(generationCount, pop);
+            var fc = new FileCreator(generationCount, pop);
 
             // Keep our best individual
             if (Elitism) 

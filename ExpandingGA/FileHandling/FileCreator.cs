@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GeneticAlgorithmForStrings {
 	internal class FileCreator
 	{
-		internal const string RootFolderName = @"RobotCreator",	//Root Folder for robots
+		internal const string RootFolderName = @"RobotCreator",	    //Root Folder for robots
 							PopulationsFolderName = "Populations",	//Folder for robot populations.
 							DllFolderName = "DLL",					//Folder for robot Dll's.
 							NameSpace = "Alvtor_Hartho_15",
