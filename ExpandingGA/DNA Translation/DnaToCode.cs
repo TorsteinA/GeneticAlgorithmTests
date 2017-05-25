@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Deployment.Internal;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -38,16 +39,26 @@ namespace GeneticAlgorithmForStrings {
 		private readonly List<string> _finishedMethodCalls = new List<string> {						//String array with method calls robot can use. All calls from this array are called from a state class. 
 			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",
             "OurRobot.Fire(500 / OurRobot.Enemy.Distance)",
-            "CircularTargetFire()",
-            "Example()"
+            "OurRobot.Fire(1)",
+            "OurRobot.Fire(2)",
+            "OurRobot.Fire(3)",
+            "CircularTargetFire()"
+//            "Example()"
 		};
 
 		private readonly List<RoboMethod> _roboMethodList = new List<RoboMethod> {
-            new RoboMethod("None", new List<RoboMethodTypes>()),
-            new RoboMethod("OneInt", new List<RoboMethodTypes>() {RoboMethodTypes.Int}),
-            new RoboMethod("IntAndFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Int, RoboMethodTypes.Float}),
-            new RoboMethod("DoubDoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
-            new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
+            //new RoboMethod("None", new List<RoboMethodTypes>()),
+            new RoboMethod("SetAhead", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+            new RoboMethod("SetBack", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+            new RoboMethod("Fire", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+            new RoboMethod("SetTurnGunLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+            new RoboMethod("SetTurnGunRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+            new RoboMethod("SetTurnRadarLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+            new RoboMethod("SetTurnRadarRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+            new RoboMethod("SetTurnLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+            new RoboMethod("SetTurnRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double})
+//            new RoboMethod("DoubDoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
+//            new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
         };
 		
         private readonly Dictionary<string, List<string>> _variableDictionary = new Dictionary<string, List<string>>();		// Block for variable contents. Check helpermethod SetUpVariableLists to see/edit values
@@ -126,12 +137,15 @@ namespace GeneticAlgorithmForStrings {
                 "Y",
                 "Velocity",
                 "Energy",
-                "Heading",
+                "HeadingRadians",
                 "Height",
                 "Width",
-                "RadarHeading",	//RadarHeading only uses degrees. Always using degrees because this isn't the only case. (Though only using radians would be preferable)
+				"RadarHeadingRadians",
+				"RadarTurnRemainingRadians",
+				"TurnRemainingRadians",
 				"GunHeat",
-                "GunHeading",
+                "GunHeadingRadians",
+                "GunTurnRemainingRadians",
                 "BattleFieldWidth",
                 "BattleFieldHeight",
                 "Enemy.Distance",
@@ -140,9 +154,9 @@ namespace GeneticAlgorithmForStrings {
                 "Enemy.Position.Y",
                 "Enemy.Velocity",
                 "Enemy.Acceleration",
-                "Enemy.BearingDegrees",
-                "Enemy.HeadingDegrees",
-                "Enemy.TurnRateDegrees"
+                "Enemy.BearingRadians",
+                "Enemy.HeadingRadians",
+                "Enemy.TurnRateRadians",
             };
 
             _intVarList = new List<string>
@@ -159,7 +173,9 @@ namespace GeneticAlgorithmForStrings {
                 "9",
                 "10",
                 "42",
+                "69",
                 "420",
+                "710",
                 "9999999"
             };
 
@@ -405,24 +421,27 @@ namespace GeneticAlgorithmForStrings {
 		private string GetMethodCall()
 		{
 			if (GeneToNumber(GetNextGene()) >= 2)
-				return "/*" +_finishedMethodCalls[GenesToNumber(GetNecessaryNumberOfGenes(_finishedMethodCalls.Count)) % _finishedMethodCalls.Count] + ";*/";
+				return /*"/*" +*/_finishedMethodCalls[GenesToNumber(GetNecessaryNumberOfGenes(_finishedMethodCalls.Count)) % _finishedMethodCalls.Count] + ";"; //removed */ before last "
 			
-			var geneNum = GetNecessaryNumberOfGenes(_roboMethodList.Count);
-			var returnString ="/*" + _roboMethodList[geneNum].MethodName + "(";
-			
-			while (_roboMethodList[geneNum].TypeRequired.Count > 0)
+			var geneNum = /*GenesToNumber(*/GetNecessaryNumberOfGenes(_roboMethodList.Count)/* % _roboMethodList.Count)*/;  //Added GenesToNumber to old code
+			var returnString =/*"/*" + */"OurRobot." + _roboMethodList[geneNum].MethodName + "(";
+
+		    var parameters = _roboMethodList[geneNum].TypeRequired.ToArray();
+            
+			for(var i = 0; i < parameters.Length; i++)
 			{
-				var rType = _roboMethodList[geneNum].TypeRequired.Dequeue();
+				var rType = parameters[i];
 
 				if (rType.Equals(RoboMethodTypes.Int)) returnString += FetchInt();
 				else if (rType.Equals(RoboMethodTypes.Float)) returnString += FetchFloat();
-				else if (rType.Equals(RoboMethodTypes.Double)) returnString += "OurRobot." + FetchDouble();
+				else if (rType.Equals(RoboMethodTypes.Double)) returnString += FetchDouble();
+                else Console.WriteLine("That parameterType isn't supported yet");
 				//TODO add more types to support
 
-				if (_roboMethodList[geneNum].TypeRequired.Count > 0) returnString += ",";	//If there's no params left to fill, don't put comma.
+				if (i < parameters.Length -1) returnString += ",";	//If there's no params left to fill, don't put comma.
 			}
 			
-			returnString += ");*/";
+			returnString += ");"; // had */ before "
 			return returnString;
 		}
 
@@ -455,7 +474,7 @@ namespace GeneticAlgorithmForStrings {
 	        }
 
 		    List<string> list;
-			_variableDictionary.TryGetValue("Int", out list);
+			_variableDictionary.TryGetValue("int", out list);
 			return list != null ? list[GenesToNumber(GeneAccuracyInt) % list.Count] : "-1";
 	    }
 
@@ -466,8 +485,8 @@ namespace GeneticAlgorithmForStrings {
 	    private string FetchFloat()
 		{
 			List<string> list;
-			_variableDictionary.TryGetValue("Float", out list);
-			return list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] : "-1.0f";
+			_variableDictionary.TryGetValue("float", out list);
+			return list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] + "f" : "-1.0f";
         }
 
 		/// <summary>
@@ -476,9 +495,16 @@ namespace GeneticAlgorithmForStrings {
 		/// <returns></returns>
 		private string FetchDouble()
 	    {
-		    List<string> list;
-			_variableDictionary.TryGetValue("Double", out list);
-			return list != null ? list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "-1.0";
+	        List<string> list;
+	        if (GeneToNumber(GetNextGene()) < 2)    //25% chance of choosing a number from the float list instead
+	        {
+	            _variableDictionary.TryGetValue("float", out list);
+	            var b = list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] : "-1.00";
+
+                return b.Substring(0,b.Length-1);
+            }
+	        _variableDictionary.TryGetValue("double", out list);
+			return list != null ? "OurRobot." + list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "-1.0";
 	    }
 
 #endregion HelperMethods

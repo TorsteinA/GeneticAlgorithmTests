@@ -4,7 +4,7 @@ namespace GeneticAlgorithmForStrings {
     internal class Algorithm {
         
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-	    internal static readonly int PopulationSize = 5;
+	    internal static readonly int PopulationSize = 50;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
@@ -90,8 +90,8 @@ namespace GeneticAlgorithmForStrings {
 
             // Loop over the population size and create new individuals with crossover
             for (var i = elitismOffset; i < pop.Size(); i++) {
-                var individual1 = NaturalSelection(pop);
-                var individual2 = NaturalSelection(pop);
+                var individual1 = CustomSelection(pop);
+                var individual2 = CustomSelection(pop);
 
                 var newIndividual = Crossover(individual1, individual2, generationCount, i);
                 newPopulation.SaveIndividual(i, newIndividual);
@@ -112,6 +112,21 @@ namespace GeneticAlgorithmForStrings {
         private static Individual NaturalSelection(Population pop)
         {
             return pop.GetIndividual(Rnd.Next(pop.Size()));
+        }
+
+        /// <summary>
+        /// Select random individual with fitness higher than 0
+        /// </summary>
+        /// <param name="pop"></param>
+        /// <returns></returns>
+        private static Individual CustomSelection(Population pop)
+        {
+            Individual candidate;
+            do
+            {
+                candidate = pop.GetIndividual(Rnd.Next(pop.Size()));
+            } while (candidate.GetFitness() <= 0);  //If we normalize fitness values, we can use a specific rate here
+            return candidate;
         }
 
         /// <summary>
