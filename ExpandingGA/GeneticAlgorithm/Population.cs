@@ -27,7 +27,6 @@ namespace GeneticAlgorithmForStrings
             }
         }
         
-
         /// <summary>
         /// Constructor that creates population from array of individuals.
         /// </summary>

@@ -38,11 +38,13 @@ namespace GeneticAlgorithmForStrings
             Console.WriteLine("Finished battles in " + dirPath);
         }
         
+        /// <summary>
+        /// Clears the folder where the results are stored after matches
+        /// </summary>
         public static void ClearResultsFolder()
         {
-            //Array.ForEach(Directory.GetFiles(@"c:\\robocode\\{FileCreator.NameSpace}\\"), File.Delete);
-            string[] filePaths = Directory.GetFiles(@"c:\robocode\robots\.data\" + FileCreator.NameSpace);
-            foreach (string filePath in filePaths)
+            var filePaths = Directory.GetFiles(@"c:\robocode\robots\.data\" + FileCreator.NameSpace);   //Would love to have these located within the project, but robocode does not allow for this to happen.
+            foreach (var filePath in filePaths)
                 File.Delete(filePath);
         }
     }

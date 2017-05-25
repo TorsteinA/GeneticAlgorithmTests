@@ -2,25 +2,21 @@
 
 namespace GeneticAlgorithmForStrings {
     internal class Algorithm {
-
-        /* GA parameters */
-		//Tweak. Algorithm tries to create this solution
-//        internal static readonly string Solution = "Got my Genetic Algorithm to work with sentences now! \nWop Wop Wop Wop!\n:D :D :D\n:D :D\n:D\n:D :D\n:D :D :D\n\nDen klarer å skrive ord som \"Pokémon\" også! \\m/";
-
+        
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
 	    internal static readonly int PopulationSize = 5;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
-		internal static readonly string AllowedLetters = "agct";  //abcdefghijklmnopqrstuvwxyzæøåèéêëàáâäíìîïùúûüABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÈÉÊËÀÁÂÄÍÌÎÏÙÚÛÜ0123456789 ,.:!?¨^~'*;-_/()=&%¤¤#|§\"\\\n\t";	// agct";
+		internal static readonly string AllowedLetters = "agct";
         //DNA length
         internal static int DefaultGeneLength = 1000;
 
-        //Crossover tournament population size
+        //tournamentSelection population size
         //private const int TournamentSize = 40;
         //How much DNA to take from each parent. Should stay at 0.5
         private const double UniformRate = 0.5;
-        //Keep copy of best individual next generation, or just random?
+        //Keep copy of best individual next generation?
         private const bool Elitism = true;
 
         private static readonly Random Rnd = new Random();
@@ -49,7 +45,7 @@ namespace GeneticAlgorithmForStrings {
                 myPop = new Population(individuals);
 	        }
 
-	        while (true)//myPop.GetFittest().GetFitness() < FitnessCalc.GetMaxRobotFitness()) 
+	        while (true)    //No need for an exit condition in this Genetic Algorithm
             {
                 myPop = EvolvePopulation(myPop, generationCount);
 
@@ -94,8 +90,6 @@ namespace GeneticAlgorithmForStrings {
 
             // Loop over the population size and create new individuals with crossover
             for (var i = elitismOffset; i < pop.Size(); i++) {
-//                var individual1 = TournamentSelection(pop);
-//                var individual2 = TournamentSelection(pop);
                 var individual1 = NaturalSelection(pop);
                 var individual2 = NaturalSelection(pop);
 
@@ -123,18 +117,18 @@ namespace GeneticAlgorithmForStrings {
         /// <summary>
         /// Crossover individuals
         /// </summary>
-        /// <param name="indiv1">Parent individual 1</param>
-        /// <param name="indiv2">Parent individual 2</param>
+        /// <param name="individual1">Parent individual 1</param>
+        /// <param name="individual2">Parent individual 2</param>
         /// <param name="generation"></param>
         /// <param name="individual"></param>
         /// <returns>Child individual</returns>
-        private static Individual Crossover(Individual indiv1, Individual indiv2, int generation, int individual)
+        private static Individual Crossover(Individual individual1, Individual individual2, int generation, int individual)
         {
             var newIndividual = new Individual(generation, individual);
             // Loop through genes
-            for (var i = 0; i < indiv1.Size(); i++) {
+            for (var i = 0; i < individual1.Size(); i++) {
                 // Crossover
-                newIndividual.SetGene(i, Rnd.NextDouble() <= UniformRate ? indiv1.GetGene(i) : indiv2.GetGene(i));
+                newIndividual.SetGene(i, Rnd.NextDouble() <= UniformRate ? individual1.GetGene(i) : individual2.GetGene(i));
             }
             return newIndividual;
         }
