@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mathos.Parser;
 using Microsoft.CSharp;
 
 namespace GeneticAlgorithmForStrings
@@ -17,13 +18,31 @@ namespace GeneticAlgorithmForStrings
             Algorithm.RunGeneticAlgorithm(0);
 
 
+            /*** Testing math expression creation ***
+            var _parser = new MathParser();
+            double c = 256.2;
+            string[] a = {c.ToString(), 2.5.ToString(), 0.0.ToString()};
+            char[] b = "/*".ToCharArray();
+            
+            var returnstring = a[0];
+            for (var i = 1; i < a.Length; i++) {
+                returnstring += $"{b[i-1]}{a[i]}";
+            }
+            Console.WriteLine(returnstring);
+            */
+
+
+
+
+
+
             /*** Testing the match handling ***
             Individual indiv = new Individual();
             var score = FitnessCalc.GetRobotFitness(indiv);
             Console.WriteLine(score);
             */
 
-            
+
 
             /*** Testing File creation ***\
             var rnd = new Random();
@@ -39,7 +58,7 @@ namespace GeneticAlgorithmForStrings
 //                Console.WriteLine(line);
 //            }
             */
-            
+
         }
     }
 }

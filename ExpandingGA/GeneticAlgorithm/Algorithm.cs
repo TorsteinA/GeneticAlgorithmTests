@@ -10,7 +10,7 @@ namespace GeneticAlgorithmForStrings {
 		//Letters that algorithm can make genes with
 		internal static readonly string AllowedLetters = "agct";
         //DNA length
-        internal static int DefaultGeneLength = 1000;
+        internal static int DefaultGeneLength = 1820;
 
         //tournamentSelection population size
         //private const int TournamentSize = 40;
