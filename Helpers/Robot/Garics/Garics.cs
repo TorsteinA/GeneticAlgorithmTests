@@ -19,7 +19,6 @@ namespace Alvtor_Hartho_15
     {
         #region Properties
 
-        public EnemyData Enemy { get; set; }
         public EnemyData OldEnemy;
         public double OldEnemyHeading;
         public StateManagerScript StateManager;

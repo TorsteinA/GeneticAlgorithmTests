@@ -39,12 +39,12 @@ namespace GeneticAlgorithmForStrings {
 					            _secondToFirstStateTransitionContent;           //String with contents of transition from second to first
 
 		private readonly List<string> _finishedMethodCalls = new List<string> {						//String array with method calls robot can use. All calls from this array are called from a state class. 
-			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",
-            "OurRobot.SetFire(500 / OurRobot.Enemy.Distance)",
+//			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.TargetedEnemy.BearingRadians)",
+            "OurRobot.SetFire(500 / OurRobot.TargetedEnemy.Distance)",
             "OurRobot.SetFire(1)",
 //            "OurRobot.SetFire(2)",
             "OurRobot.SetFire(3)",
-            "CircularTargetFire()",
+//            "CircularTargetFire()",
 //            "Example()"
 			"TurnRadar()",
 			"SpinRadar()",
@@ -137,15 +137,15 @@ namespace GeneticAlgorithmForStrings {
                 "GunTurnRemainingRadians",
                 "BattleFieldWidth",
                 "BattleFieldHeight",
-                "Enemy.Distance",
-                "Enemy.Energy",
-                "Enemy.Position.X",
-                "Enemy.Position.Y",
-                "Enemy.Velocity",
-                "Enemy.Acceleration",
-                "Enemy.BearingRadians",
-                "Enemy.HeadingRadians",
-                "Enemy.TurnRateRadians",
+                "TargetedEnemy.Distance",
+                "TargetedEnemy.Energy",
+                "TargetedEnemy.Position.X",
+                "TargetedEnemy.Position.Y",
+                "TargetedEnemy.Velocity",
+                "TargetedEnemy.Acceleration",
+                "TargetedEnemy.BearingRadians",
+                "TargetedEnemy.HeadingRadians",
+                "TargetedEnemy.TurnRateRadians",
             };
 
             _intVarList = new List<string>

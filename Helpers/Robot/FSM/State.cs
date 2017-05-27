@@ -33,12 +33,12 @@ namespace Alvtor_Hartho_15.FSM
 
             var bulletPower = Math.Min(3.0, Garics.Energy);
             var myPos = new Point2D(Garics.X, Garics.Y);
-            var absoluteBearing = Garics.HeadingRadians + Garics.Enemy.BearingRadians;
-            var enemyX = Garics.X + Garics.Enemy.Distance * Math.Sin(absoluteBearing);
-            var enemyY = Garics.Y + Garics.Enemy.Distance * Math.Cos(absoluteBearing);
-            var enemyHeading = Garics.Enemy.HeadingRadians;
+            var absoluteBearing = Garics.HeadingRadians + Garics.TargetedEnemy.BearingRadians;
+            var enemyX = Garics.X + Garics.TargetedEnemy.Distance * Math.Sin(absoluteBearing);
+            var enemyY = Garics.Y + Garics.TargetedEnemy.Distance * Math.Cos(absoluteBearing);
+            var enemyHeading = Garics.TargetedEnemy.HeadingRadians;
             var enemyHeadingChange = enemyHeading - Garics.OldEnemyHeading;
-            var enemyVelocity = Garics.Enemy.Velocity;
+            var enemyVelocity = Garics.TargetedEnemy.Velocity;
             Garics.OldEnemyHeading = enemyHeading;
 
             double deltaTime = 0;
@@ -72,7 +72,7 @@ namespace Alvtor_Hartho_15.FSM
 
             //if we finished aiming, shoot 
             if (Math.Abs(Garics.GunTurnRemainingRadians) < 0.0001)
-                Garics.Fire(Garics.Enemy.Distance < 60 ? 100 : bulletPower);
+                Garics.Fire(Garics.TargetedEnemy.Distance < 60 ? 100 : bulletPower);
         }
 
         // Width lock from robocode wiki translated to C#
@@ -100,7 +100,7 @@ namespace Alvtor_Hartho_15.FSM
 
         public void TurnRadar()
         {
-            if (Garics.Others == 1 && Garics.EnemyDataDictionary.Count == 1)
+            if (Garics.Others == 1 && Garics.TargetedEnemy != null)
             {
                 var radarAngle = Garics.HeadingRadians + Garics.TargetedEnemy.BearingRadians - Garics.RadarHeadingRadians;
                 TurnRadarRadians(radarAngle);
@@ -118,6 +118,8 @@ namespace Alvtor_Hartho_15.FSM
 
         public void TurnGun()
         {
+            if (Garics.TargetedEnemy == null) return;
+
             var angleToEnemy = PredictedAngleStraightLine();
 
             TurnGunRadians(angleToEnemy);
@@ -165,6 +167,7 @@ namespace Alvtor_Hartho_15.FSM
         /// <returns>The vector from this robot to the expected position</returns>
         private Point2D EnemyExpectedPosition(double velocity)
         {
+            if (Garics.TargetedEnemy == null) return new Point2D();
             return Garics.TargetedEnemy.ForwardVector(Garics.TargetedEnemy.Velocity * (Garics.TargetedEnemy.Distance / velocity))
                 .VectorToPoint();
         }
