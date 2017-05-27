@@ -97,5 +97,77 @@ namespace Alvtor_Hartho_15.FSM
           //  Garics.TurnRadarRightRadians(radarTurn);
 
         }
+
+        public void TurnRadar()
+        {
+            if (Garics.Others == 1 && Garics.EnemyDataDictionary.Count == 1)
+            {
+                var radarAngle = Garics.HeadingRadians + Garics.TargetedEnemy.BearingRadians - Garics.RadarHeadingRadians;
+                TurnRadarRadians(radarAngle);
+            }
+            else
+            {
+                SpinRadar();
+            }
+        }
+
+        public void SpinRadar()
+        {
+            Garics.SetTurnRadarRightRadians(double.PositiveInfinity);
+        }
+
+        public void TurnGun()
+        {
+            var angleToEnemy = PredictedAngleStraightLine();
+
+            TurnGunRadians(angleToEnemy);
+        }
+
+        private double PredictedAngleStraightLine()
+        {
+            var expectedVector = new Vector2D(Garics.Position, EnemyExpectedPosition(Garics.BulletSpeed));
+            var vectorToTarget = new Vector2D(Garics.Position, Garics.TargetedEnemy.Position);
+            var angleActualToExpected = expectedVector.Angle(vectorToTarget);
+            var angleToEnemy = Garics.HeadingRadians + angleActualToExpected + Garics.TargetedEnemy.BearingRadians -
+                               Garics.GunHeadingRadians;
+
+            return angleToEnemy;
+        }
+
+
+        /// <summary>
+        /// Turns the gun a specified amount of radians. Normalises the supplied angle to between negative and positive
+        /// pi.
+        /// </summary>
+        /// <param name="gunAngle">The number of radians to turn the gun</param>
+        private void TurnGunRadians(double gunAngle)
+        {
+            Garics.SetTurnGunRightRadians(Utils.NormalRelativeAngle(gunAngle));
+        }
+
+
+        /// <summary>
+        /// Turns the radar a specified amount of radians. Normalises the supplied angle to between negative and positive
+        /// pi.
+        /// </summary>
+        /// <param name="angle">The number of radians to turn the radar</param>
+        private void TurnRadarRadians(double angle)
+        {
+            Garics.SetTurnRadarRightRadians(Utils.NormalRelativeAngle(angle));
+        }
+
+
+        /// <summary>
+        /// Calculates the expected position the enemy would be at when impacted by a projectile travelling at
+        /// the specified velocity. Note: this assumes the enemy keeps the same velocity and goes in a straight line.
+        /// </summary>
+        /// <param name="velocity">The velocity to use in the calculation</param>
+        /// <returns>The vector from this robot to the expected position</returns>
+        private Point2D EnemyExpectedPosition(double velocity)
+        {
+            return Garics.TargetedEnemy.ForwardVector(Garics.TargetedEnemy.Velocity * (Garics.TargetedEnemy.Distance / velocity))
+                .VectorToPoint();
+        }
+
     }
 }

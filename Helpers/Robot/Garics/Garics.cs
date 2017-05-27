@@ -178,5 +178,41 @@ namespace Alvtor_Hartho_15
 
             Console.WriteLine("My average battle score is " + avgScore);
         }
+
+        public Point2D FindTargetPosition(ScannedRobotEvent e)
+        {
+            var angle = HeadingRadians + e.BearingRadians;
+            return new Point2D(PositionVector - Vector2DHelpers.VectorFromAngle(-angle - Math.PI/2, e.Distance));
+        }
+
+        /// <summary>
+        /// Update the enemy data by adding it to or retrieving it from the dictionary, then update its position.
+        /// </summary>
+        /// <param name="e">The ScannedRobotEvent to use</param>
+        protected void UpdateEnemyData(ScannedRobotEvent e)
+        {
+            var targetPosition = FindTargetPosition(e);
+            TargetedEnemy = AddDataToDictionary(e);
+            TargetedEnemy.Position = targetPosition;
+        }
+
+        /// <summary>
+        /// Checks if data dictionary contains the scanned robot, adds it if it doesn't, then updates the
+        /// data of the robot.
+        /// </summary>
+        /// <param name="e">The ScannedRobotEvent from which we get the data</param>
+        /// <returns>The updated enemy data</returns>
+        private EnemyData AddDataToDictionary(ScannedRobotEvent e)
+        {
+            var robotName = e.Name;
+            if (!EnemyDataDictionary.ContainsKey(robotName))
+            {
+                var newData = new EnemyData();
+                EnemyDataDictionary.Add(robotName, newData);
+            }
+            var robotData = EnemyDataDictionary[robotName];
+            robotData.PopulateData(e);
+            return robotData;
+        }
     }
 }

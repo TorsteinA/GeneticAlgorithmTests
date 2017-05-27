@@ -44,8 +44,11 @@ namespace GeneticAlgorithmForStrings {
             "OurRobot.SetFire(1)",
 //            "OurRobot.SetFire(2)",
             "OurRobot.SetFire(3)",
-            "CircularTargetFire()"
+            "CircularTargetFire()",
 //            "Example()"
+			"TurnRadar()",
+			"SpinRadar()",
+			"TurnGun()",
 		};
 
 		private readonly List<RoboMethod> _roboMethodList = new List<RoboMethod> {

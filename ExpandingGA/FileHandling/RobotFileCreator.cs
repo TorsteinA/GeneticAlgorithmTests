@@ -31,6 +31,7 @@ namespace GeneticAlgorithmForStrings
 
 			var runMethod = "\n\t\tpublic override void Run() {" +
 			                "\n\t\t\tEnemy = new EnemyData();" +
+			                "\n\t\t\tTargetedEnemy = new EnemyData();" +
 			                "\n\t\t\tStateManager = new StateManagerScript(new State0(this));" +
 			                "\n" + dnaTranslator.GetVariableInitialisations() +
 							"\n" +
@@ -43,6 +44,7 @@ namespace GeneticAlgorithmForStrings
 			                "\n";
 
 			const string methods = "\n\t\tpublic override void OnScannedRobot(ScannedRobotEvent e) {" +
+			                       "\n\t\t\tUpdateEnemyData(e);" +
 			                       "\n\t\t\tvar angleToEnemy = HeadingRadians + e.BearingRadians;" +
 			                       "\n\t\t\tvar enemyX = (int)(X + Math.Sin(angleToEnemy) * e.Distance);" +
 			                       "\n\t\t\tvar enemyY = (int)(Y + Math.Cos(angleToEnemy) * e.Distance);" +
