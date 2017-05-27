@@ -55,10 +55,10 @@ namespace GeneticAlgorithmForStrings {
             new RoboMethod("SetAhead", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetBack", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
 //            new RoboMethod("SetFire", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
-            new RoboMethod("SetTurnGunLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
-            new RoboMethod("SetTurnGunRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
-            new RoboMethod("SetTurnRadarLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
-            new RoboMethod("SetTurnRadarRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+//            new RoboMethod("SetTurnGunLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+//            new RoboMethod("SetTurnGunRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+//            new RoboMethod("SetTurnRadarLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+//            new RoboMethod("SetTurnRadarRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double})
 //            new RoboMethod("DoubleFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
@@ -426,9 +426,9 @@ namespace GeneticAlgorithmForStrings {
 				return _finishedMethodCalls[GenesToNumber(GetNecessaryNumberOfGenes(_finishedMethodCalls.Count)) % _finishedMethodCalls.Count] + ";";
 			
 			var geneNum = GetNecessaryNumberOfGenes(_roboMethodList.Count); 
-			var returnString = "OurRobot." + _roboMethodList[geneNum].MethodName + "(";
+			var returnString = "OurRobot." + _roboMethodList[GenesToNumber(geneNum) % _roboMethodList.Count].MethodName + "(";
 
-		    var parameters = _roboMethodList[geneNum].TypeRequired.ToArray();
+		    var parameters = _roboMethodList[GenesToNumber(geneNum)%_roboMethodList.Count].TypeRequired.ToArray();
             
 			for(var i = 0; i < parameters.Length; i++)
 			{
@@ -444,6 +444,7 @@ namespace GeneticAlgorithmForStrings {
 			}
 			
 			returnString += ");";
+//            Console.WriteLine(returnString);
 			return returnString;
 		}
 

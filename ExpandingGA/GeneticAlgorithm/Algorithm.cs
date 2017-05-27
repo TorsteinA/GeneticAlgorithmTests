@@ -21,8 +21,7 @@ namespace GeneticAlgorithmForStrings {
 
         private static readonly Random Rnd = new Random();
 
-		
-	    internal static void RunGeneticAlgorithm(int fromSavedGeneration)
+		internal static void RunGeneticAlgorithm(int fromSavedGeneration)
 	    {
 	        int generationCount;
 	        Population myPop;
