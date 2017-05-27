@@ -30,7 +30,7 @@ robocode.battle.numRounds={NumberOfRounds}
 robocode.battle.gunCoolingRate=0.1
 robocode.battle.rules.inactivityTime=450
 robocode.battle.selectedRobots={robotName},{enemyName}
-robocode.battle.initialPositions=(50,50,0),(?,?,?)";
+robocode.battle.initialPositions=(?,?,?),(?,?,?)";
 		}
 	}
 }

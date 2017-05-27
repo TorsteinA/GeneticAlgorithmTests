@@ -4,26 +4,24 @@ namespace GeneticAlgorithmForStrings {
     internal class Algorithm {
         
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-	    internal static readonly int PopulationSize = 10;
+	    internal static readonly int PopulationSize = 20;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
 		internal static readonly string AllowedLetters = "agct";
         //DNA length
-        internal static int DefaultGeneLength = 1000;
+        internal static int DefaultGeneLength = 1820;   //Calculated based on Worst case gene use in DnaToCode.cs
 
+        //tournamentSelection population size
+        //private const int TournamentSize = 40;
         //How much DNA to take from each parent. Should stay at 0.5
         private const double UniformRate = 0.5;
         //Keep copy of best individual next generation?
         private const bool Elitism = true;
 
-        /*//tournamentSelection population size
-        private const int TournamentSize = 40;*/
-
         private static readonly Random Rnd = new Random();
 
-		
-	    internal static void RunGeneticAlgorithm(int fromSavedGeneration)
+		internal static void RunGeneticAlgorithm(int fromSavedGeneration)
 	    {
 	        int generationCount;
 	        Population myPop;
@@ -37,7 +35,9 @@ namespace GeneticAlgorithmForStrings {
 	        else
 	        {
 	            generationCount = fromSavedGeneration;
+	            Console.WriteLine("Generation: " + generationCount);
 	            var individualGenes = PopulationFileHandler.ReadFile(fromSavedGeneration);
+	            Console.WriteLine("IndivGenesLength: " + individualGenes.Length);
 	            var individuals = new Individual[individualGenes.Length];
 	            for (var i = 0; i < individualGenes.Length; i++)
 	            {
@@ -116,8 +116,7 @@ namespace GeneticAlgorithmForStrings {
         }
 
         /// <summary>
-        /// Select random individual with fitness higher than 0.
-        /// This selection is based on natural selection
+        /// Select random individual with fitness higher than 0
         /// </summary>
         /// <param name="pop"></param>
         /// <returns></returns>
@@ -127,7 +126,7 @@ namespace GeneticAlgorithmForStrings {
             do
             {
                 candidate = pop.GetIndividual(Rnd.Next(pop.Size()));
-            } while (candidate.GetFitness() <= 0);  //If we normalize fitness values, we can use a specific rate here
+            } while (candidate.GetFitness() <= (pop.GetFittest().GetFitness()/2));  //If we normalize fitness values, we can use a specific rate here
             return candidate;
         }
 
