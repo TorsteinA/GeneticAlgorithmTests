@@ -40,27 +40,25 @@ namespace GeneticAlgorithmForStrings {
 
 		private readonly List<string> _finishedMethodCalls = new List<string> {						//String array with method calls robot can use. All calls from this array are called from a state class. 
 			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.Enemy.BearingRadians)",
-            "OurRobot.Fire(500 / OurRobot.Enemy.Distance)",
-            "OurRobot.Fire(1)",
-            "OurRobot.Fire(2)",
-            "OurRobot.Fire(3)",
+            "OurRobot.SetFire(500 / OurRobot.Enemy.Distance)",
+            "OurRobot.SetFire(1)",
+//            "OurRobot.SetFire(2)",
+            "OurRobot.SetFire(3)",
             "CircularTargetFire()"
 //            "Example()"
 		};
 
 		private readonly List<RoboMethod> _roboMethodList = new List<RoboMethod> {
-            //new RoboMethod("None", new List<RoboMethodTypes>()),
             new RoboMethod("SetAhead", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetBack", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
-            new RoboMethod("SetFire", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
+//            new RoboMethod("SetFire", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnGunLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnGunRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnRadarLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnRadarRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double})
-//            new RoboMethod("DoubDoub", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Double}),
-//            new RoboMethod("DoubFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
+//            new RoboMethod("DoubleFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
         };
 		
         private readonly Dictionary<string, List<string>> _variableDictionary = new Dictionary<string, List<string>>();		// Block for variable contents. Check helpermethod SetUpVariableLists to see/edit values
@@ -149,7 +147,7 @@ namespace GeneticAlgorithmForStrings {
 
             _intVarList = new List<string>
             {
-                "-1",
+//                "(-1)",
                 "0",
                 "1",
                 "2",
@@ -465,7 +463,7 @@ namespace GeneticAlgorithmForStrings {
             }
             List<string> list;
 			_variableDictionary.TryGetValue("int", out list);
-			return list != null ? list[GenesToNumber(GeneAccuracyInt) % list.Count] : "-1";
+			return list != null ? list[GenesToNumber(GeneAccuracyInt) % list.Count] : "(-1)";
 	    }
         
 		/// <summary>
@@ -491,14 +489,14 @@ namespace GeneticAlgorithmForStrings {
             if (geneNum == 0)            //25% chance of choosing a number from the float list
 	        {
 	            _variableDictionary.TryGetValue("float", out list);
-	            var floatString = list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] : "-1.00";
+	            var floatString = list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] : "(-1.0)0";
                 return floatString.Substring(0,floatString.Length-1);    //Convert float to double
             }
 
 	        if (geneNum == 1)            //25% chance of choosing a number from the double list
 	        {
 	            _variableDictionary.TryGetValue("double", out list);
-	            return list != null ? "OurRobot." + list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "-1.0";
+	            return list != null ? "OurRobot." + list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "(-1.0)";
 	        }
 
 	        var operators = "+-*/".ToCharArray();
@@ -512,13 +510,13 @@ namespace GeneticAlgorithmForStrings {
 	            else if (geneNum3 < 2)                  //50% chance of fetching variable from float list
 	            {
 	                _variableDictionary.TryGetValue("float", out list);
-	                var floatString = list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] : "-1.00";
+	                var floatString = list != null ? list[GenesToNumber(GeneAccuracyFloat) % list.Count] : "(-1.0)0";
 	                a[i] = floatString.Substring(0, floatString.Length - 1);    //Convert float to double
 	            }
 	            else
 	            {                                       //50% chance of fetching variable from double list
 	                _variableDictionary.TryGetValue("double", out list);
-	                a[i] = list != null ? "OurRobot." + list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "-1.0";
+	                a[i] = list != null ? "OurRobot." + list[GenesToNumber(GeneAccuracyDouble) % list.Count] : "(-1.0)";
 	            }
 	        }
 
@@ -535,13 +533,21 @@ namespace GeneticAlgorithmForStrings {
 	    /// <param name="variableArray">variables to add together</param>
 	    /// <param name="operatorsInOrder">operators to put between variables. Length should always be variableArray.length -1 </param>
 	    /// <returns></returns>
-	    private static string GetParseExpression(string[] variableArray, char[] operatorsInOrder) {
+	    private string GetParseExpression(string[] variableArray, char[] operatorsInOrder) {
 	        var returnstring = variableArray[0];
 	        for (var i = 1; i < variableArray.Length; i++) {
-	            if (operatorsInOrder[i - 1] == '/' && variableArray[i] == "0")     //We do not want to divide by zero
+	            if (operatorsInOrder[i - 1] == '/' && variableArray[i] == "0")      //We do not want to divide by zero
 	                variableArray[i] = "1";
-	            returnstring += $"{operatorsInOrder[i - 1]}{variableArray[i]}";      //operatorsInOrder[i-1] is because operatorsInOrder.Length should always be variableArray.length - 1
-	        }
+
+	            if (char.IsNumber(variableArray[i][0]) || variableArray[i][0] == 'O')   //The strings should always start with a number or "OurRobot" if it's a double variableName.                     
+	                returnstring +=
+	                    $"{operatorsInOrder[i - 1]}{variableArray[i]}";             //operatorsInOrder[i-1] is because operatorsInOrder.Length should always be variableArray.length - 1
+	            else
+	                returnstring += $"{operatorsInOrder[i - 1]}{variableArray[i].Substring(1, variableArray[i].Length-1)}"; //Negative numbers has caused some issues, so here's a hack to make negative numbers positive. Would make a better solution given more time. 
+
+
+                //	            $"{operatorsInOrder[i - 1]}{variableArray[i]}";             //operatorsInOrder[i-1] is because operatorsInOrder.Length should always be variableArray.length - 1
+            }
 	        return returnstring;
 	    }
 

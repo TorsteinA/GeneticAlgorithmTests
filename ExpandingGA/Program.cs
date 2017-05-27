@@ -22,7 +22,7 @@ namespace GeneticAlgorithmForStrings
             var _parser = new MathParser();
             double c = 256.2;
             string[] a = {c.ToString(), 2.5.ToString(), 0.0.ToString()};
-            char[] b = "/*".ToCharArray();
+            char[] b = "+/".ToCharArray();
             
             var returnstring = a[0];
             for (var i = 1; i < a.Length; i++) {

@@ -4,9 +4,9 @@ namespace GeneticAlgorithmForStrings {
     internal class Algorithm {
         
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-	    internal static readonly int PopulationSize = 50;
+	    internal static readonly int PopulationSize = 200;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
-        private const double MutationRate = 0.025;
+        private const double MutationRate = 0.035;
 		//Letters that algorithm can make genes with
 		internal static readonly string AllowedLetters = "agct";
         //DNA length
