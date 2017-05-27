@@ -43,7 +43,9 @@ namespace GeneticAlgorithmForStrings
         /// </summary>
         public static void ClearResultsFolder()
         {
-            var filePaths = Directory.GetFiles(@"c:\robocode\robots\.data\" + FileCreator.NameSpace);   //Would love to have these located within the project, but robocode does not allow for this to happen.
+            var dirName = @"c:\robocode\robots\.data\" + FileCreator.NameSpace;
+            if (!Directory.Exists(dirName)) Directory.CreateDirectory(dirName);
+            var filePaths = Directory.GetFiles(dirName);   //Would love to have these located within the project, but robocode does not allow for this to happen.
             foreach (var filePath in filePaths)
                 File.Delete(filePath);
         }

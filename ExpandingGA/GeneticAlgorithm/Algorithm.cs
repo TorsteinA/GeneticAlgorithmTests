@@ -4,7 +4,7 @@ namespace GeneticAlgorithmForStrings {
     internal class Algorithm {
         
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-	    internal static readonly int PopulationSize = 50;
+	    internal static readonly int PopulationSize = 10;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
@@ -12,12 +12,13 @@ namespace GeneticAlgorithmForStrings {
         //DNA length
         internal static int DefaultGeneLength = 1000;
 
-        //tournamentSelection population size
-        //private const int TournamentSize = 40;
         //How much DNA to take from each parent. Should stay at 0.5
         private const double UniformRate = 0.5;
         //Keep copy of best individual next generation?
         private const bool Elitism = true;
+
+        /*//tournamentSelection population size
+        private const int TournamentSize = 40;*/
 
         private static readonly Random Rnd = new Random();
 
@@ -115,7 +116,8 @@ namespace GeneticAlgorithmForStrings {
         }
 
         /// <summary>
-        /// Select random individual with fitness higher than 0
+        /// Select random individual with fitness higher than 0.
+        /// This selection is based on natural selection
         /// </summary>
         /// <param name="pop"></param>
         /// <returns></returns>
