@@ -69,14 +69,15 @@ namespace GeneticAlgorithmForStrings
 				    "System.dll",
 				    "System.net.dll", // For helpers
 //				    "Helpers.dll",
-				    "System.Drawing.dll"
+//				    "System.Collections.Generic.dll",
+				    "System.Drawing.dll",
 			    }
 		    };
 
 		    // create provider and generate results
 		    var codeProvider = new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v4.0" }, { "AssemblyVersion", "4.5.2.6" } , { "AssemblyTitle", "GARICS" } }); // NOTE: removed constructor parameter: new Dictionary<string, string> {{"CompilerVersion", "v4.0"}}
 
-            
+
             Process currentProcess = Process.GetCurrentProcess();
             string folder = Path.Combine(Path.GetDirectoryName(currentProcess.MainModule.FileName), helpersPath);
             string filter = "*.cs";
@@ -86,7 +87,7 @@ namespace GeneticAlgorithmForStrings
 	        string[] filez2 = Directory.GetFiles(Path.Combine(folder, "FSM"), filter);
 	        string[] filez3 = Directory.GetFiles(Path.Combine(folder, "Garics"), filter);
             string[] filez = filez0.Concat(filez1.Concat(filez2.Concat(filez3))).ToArray();        //Should rename from filez to something more appropriate
-                        
+
 //	        var results = codeProvider.CompileAssemblyFromFile(parameters, files);
             var results = codeProvider.CompileAssemblyFromFile(parameters, filez);
             
@@ -99,7 +100,7 @@ namespace GeneticAlgorithmForStrings
 		    {
 //			    Assembly.LoadFrom("./Helpers.dll");
 //			    Assembly.LoadFrom($"{dllDirPath}/Alvtor_Hartho_15-{robotId}.dll");
-    
+
                 Assembly.LoadFrom(dllPath);
 		    }
 		    catch (Exception ex)
