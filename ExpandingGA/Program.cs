@@ -14,8 +14,8 @@ namespace GeneticAlgorithmForStrings
         {
             //TODO When changing project to create many generations of bots, use e: drive on desktop computer because HDD space.
 
-
-            Algorithm.RunGeneticAlgorithm(0);
+            int startOnGeneration = 0;
+            Algorithm.RunGeneticAlgorithm(startOnGeneration);
 
 
             /*** Testing math expression creation ***

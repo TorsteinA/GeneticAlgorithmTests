@@ -68,8 +68,6 @@ namespace GeneticAlgorithmForStrings {
 							 _doubleVarList, 
 							 _transitionsList;
 		
-        private Mathos.Parser.MathParser _parser = new Mathos.Parser.MathParser();
-
 #endregion Fields
 
         #region CreateCodeContent
@@ -82,10 +80,11 @@ namespace GeneticAlgorithmForStrings {
         {
 	        _genes = genes;
 
-	        SetVariables();     //Uses max 29 genes
-			SetTransitions();
-			_geneIterator = 30; //Set geneIterator to specific number to let next gene start at the same place each time and not get messed up by mutations earlier in translation
+            SetVariables();     //Uses max 29 genes
+            SetTransitions();
+            _geneIterator = 30; //Set geneIterator to specific number to let next gene start at the same place each time and not get messed up by mutations earlier in translation
 
+//            Console.WriteLine("Should have setUp Transitions by now!");
             // Sets content for transitions
             _firstToSecondStateTransitionContent = GetCondition(); //Uses max 18
             _geneIterator = 50;
@@ -190,10 +189,13 @@ namespace GeneticAlgorithmForStrings {
 	    /// </summary>
 	    /// <param name="gene"></param>
 	    private void SetNumberOfVariables(char gene) {
+//	        Console.WriteLine("Setting no of VARS");
+//	        Console.WriteLine("Algorithm.AllowedLetters.Length: " + Algorithm.AllowedLetters.Length);
 	        for (var i = 0; i < Algorithm.AllowedLetters.Length; i++) {
-	            if (gene == Algorithm.AllowedLetters[i]) {
-	                _numberOfVariables = i + MinVariables;
-	            }
+//	            Console.WriteLine("VAR-Setting iteration: " + i);
+	            if (gene != Algorithm.AllowedLetters[i]) continue;
+	            _numberOfVariables = i + MinVariables;
+//	            Console.WriteLine("Sat no of VARS");
 	        }
 	    }
 
@@ -202,9 +204,11 @@ namespace GeneticAlgorithmForStrings {
 	    /// </summary>
 	    private void SetTransitions() {
 	        _transitionsList = new List<string>();
-
+//	        Console.WriteLine("Setting up Transitions, NumberOfVars = " + _numberOfVariables);
 	        for (var i = 0; i < _numberOfVariables; i++) {
+//	            Console.WriteLine("In I Loop");
 	            for (var j = 0; j < _numberOfVariables; j++) {
+//	                Console.WriteLine("In J loop");
 	                if (i == j) continue;   //Comparing a variable with itself is not going to be the best solution, so we skip those.
 
 	                _transitionsList.Add("OurRobot.V" + i + "<" + "OurRobot.V" + j);
@@ -213,9 +217,11 @@ namespace GeneticAlgorithmForStrings {
 	                _transitionsList.Add("OurRobot.V" + i + ">=" + "OurRobot.V" + j);
 	                _transitionsList.Add("OurRobot.V" + i + "==" + "OurRobot.V" + j);
 	                _transitionsList.Add("OurRobot.V" + i + "!=" + "OurRobot.V" + j);
+//	                Console.WriteLine("Added transitions");
 	            }
 	        }
 	        //Max transitions in _transitionsList with 6 comparators and 8 variables is 432 transitions
+//	        Console.WriteLine(_transitionsList.Count);
 	    }
         
 	    /// <summary>
@@ -349,7 +355,7 @@ namespace GeneticAlgorithmForStrings {
 	    {
 	        var gene1 = GetNextGene();
 	        var index = GenesToNumber(GetNecessaryNumberOfGenes(_transitionsList.Count));
-			
+//	        Console.WriteLine("TransitionListLength: " + _transitionsList.Count);
 	        var condition = _transitionsList[index % _transitionsList.Count];
 	        if (depth >= MaxConditons) return condition;
 
@@ -544,9 +550,7 @@ namespace GeneticAlgorithmForStrings {
 	                    $"{operatorsInOrder[i - 1]}{variableArray[i]}";             //operatorsInOrder[i-1] is because operatorsInOrder.Length should always be variableArray.length - 1
 	            else
 	                returnstring += $"{operatorsInOrder[i - 1]}{variableArray[i].Substring(1, variableArray[i].Length-1)}"; //Negative numbers has caused some issues, so here's a hack to make negative numbers positive. Would make a better solution given more time. 
-
-
-                //	            $"{operatorsInOrder[i - 1]}{variableArray[i]}";             //operatorsInOrder[i-1] is because operatorsInOrder.Length should always be variableArray.length - 1
+                
             }
 	        return returnstring;
 	    }
