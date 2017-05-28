@@ -42,10 +42,8 @@ namespace GeneticAlgorithmForStrings {
 //			"KeepRadarLock(OurRobot.HeadingRadians + OurRobot.TargetedEnemy.BearingRadians)",
             "OurRobot.SetFire(500 / OurRobot.TargetedEnemy.Distance)",
             "OurRobot.SetFire(1)",
-//            "OurRobot.SetFire(2)",
             "OurRobot.SetFire(3)",
-//            "CircularTargetFire()",
-//            "Example()"
+            "CircularTargetFire()",
 			"TurnRadar()",
 			"SpinRadar()",
 			"TurnGun()",
@@ -61,7 +59,7 @@ namespace GeneticAlgorithmForStrings {
 //            new RoboMethod("SetTurnRadarRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnLeftRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double}),
             new RoboMethod("SetTurnRightRadians", new List<RoboMethodTypes>() {RoboMethodTypes.Double})
-//            new RoboMethod("DoubleFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})
+//            new RoboMethod("DoubleFloat", new List<RoboMethodTypes>() {RoboMethodTypes.Double, RoboMethodTypes.Float})    //ExampleMethod to show how this would expand
         };
 		
         private readonly Dictionary<string, List<string>> _variableDictionary = new Dictionary<string, List<string>>();		// Block for variable contents. Check helpermethod SetUpVariableLists to see/edit values
@@ -86,31 +84,29 @@ namespace GeneticAlgorithmForStrings {
             SetVariables();     //Uses max 29 genes
             SetTransitions();
             _geneIterator = 30; //Set geneIterator to specific number to let next gene start at the same place each time and not get messed up by mutations earlier in translation
-
-//            Console.WriteLine("Should have setUp Transitions by now!");
+            
             // Sets content for transitions
-            _firstToSecondStateTransitionContent = GetCondition(); //Uses max 18
+            _firstToSecondStateTransitionContent = GetCondition(); //Uses max 18 genes
             _geneIterator = 50;
-            _secondToFirstStateTransitionContent = GetCondition(); //Uses max 18
+            _secondToFirstStateTransitionContent = GetCondition(); //Uses max 18 genes
             _geneIterator = 70;
 
 			// Sets content for state Enter                                                           
-			_firstStateEnterMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);      //Uses max 232 with MinEnterLeaveStatements = 0
-	        _geneIterator = 310;
-            _secondStateEnterMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);     //Uses max 232 with MinEnterLeaveStatements = 0
+			_firstStateEnterMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);      //Uses max 232 genes with MinEnterLeaveStatements = 0
+            _geneIterator = 310;
+            _secondStateEnterMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);     //Uses max 232 genes with MinEnterLeaveStatements = 0
             _geneIterator = 550;
             
-
-			// Sets content for state Leave
-			_firstStateLeaveMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);      //Uses max 232 with MinEnterLeaveStatements = 0
+            // Sets content for state Leave
+			_firstStateLeaveMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);      //Uses max 232 genes with MinEnterLeaveStatements = 0
             _geneIterator = 790;
-            _secondStateLeaveMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);     //Uses max 232 with MinEnterLeaveStatements = 0
+            _secondStateLeaveMethodContent = CreateStateMethodContent(MinEnterLeaveStatements);     //Uses max 232 genes with MinEnterLeaveStatements = 0
             _geneIterator = 1030;
             
 		    // Sets content for state doAction
-		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(MinActionStatements); //Uses max 386 with MinActionStatements = 2
-			_geneIterator = 1420;
-            _secondStateDoStateActionMethodContent = CreateStateMethodContent(MinActionStatements); //Uses max 386 with MinActionStatements = 2
+		     _firstStateDoStateActionMethodContent = CreateStateMethodContent(MinActionStatements); //Uses max 386 genes with MinActionStatements = 2
+            _geneIterator = 1420;
+            _secondStateDoStateActionMethodContent = CreateStateMethodContent(MinActionStatements); //Uses max 386 genes with MinActionStatements = 2
             //_geneIterator = 1820              //Just to decide what Gene total length should be. No need to set variable here. 
         }
 
@@ -149,7 +145,6 @@ namespace GeneticAlgorithmForStrings {
 
             _intVarList = new List<string>
             {
-//                "(-1)",
                 "0",
                 "1",
                 "2",
@@ -192,13 +187,9 @@ namespace GeneticAlgorithmForStrings {
 	    /// </summary>
 	    /// <param name="gene"></param>
 	    private void SetNumberOfVariables(char gene) {
-//	        Console.WriteLine("Setting no of VARS");
-//	        Console.WriteLine("Algorithm.AllowedLetters.Length: " + Algorithm.AllowedLetters.Length);
 	        for (var i = 0; i < Algorithm.AllowedLetters.Length; i++) {
-//	            Console.WriteLine("VAR-Setting iteration: " + i);
 	            if (gene != Algorithm.AllowedLetters[i]) continue;
 	            _numberOfVariables = i + MinVariables;
-//	            Console.WriteLine("Sat no of VARS");
 	        }
 	    }
 
@@ -207,11 +198,8 @@ namespace GeneticAlgorithmForStrings {
 	    /// </summary>
 	    private void SetTransitions() {
 	        _transitionsList = new List<string>();
-//	        Console.WriteLine("Setting up Transitions, NumberOfVars = " + _numberOfVariables);
 	        for (var i = 0; i < _numberOfVariables; i++) {
-//	            Console.WriteLine("In I Loop");
 	            for (var j = 0; j < _numberOfVariables; j++) {
-//	                Console.WriteLine("In J loop");
 	                if (i == j) continue;   //Comparing a variable with itself is not going to be the best solution, so we skip those.
 
 	                _transitionsList.Add("OurRobot.V" + i + "<" + "OurRobot.V" + j);
@@ -220,11 +208,9 @@ namespace GeneticAlgorithmForStrings {
 	                _transitionsList.Add("OurRobot.V" + i + ">=" + "OurRobot.V" + j);
 	                _transitionsList.Add("OurRobot.V" + i + "==" + "OurRobot.V" + j);
 	                _transitionsList.Add("OurRobot.V" + i + "!=" + "OurRobot.V" + j);
-//	                Console.WriteLine("Added transitions");
 	            }
 	        }
 	        //Max transitions in _transitionsList with 6 comparators and 8 variables is 432 transitions
-//	        Console.WriteLine(_transitionsList.Count);
 	    }
         
 	    /// <summary>
@@ -358,7 +344,6 @@ namespace GeneticAlgorithmForStrings {
 	    {
 	        var gene1 = GetNextGene();
 	        var index = GenesToNumber(GetNecessaryNumberOfGenes(_transitionsList.Count));
-//	        Console.WriteLine("TransitionListLength: " + _transitionsList.Count);
 	        var condition = _transitionsList[index % _transitionsList.Count];
 	        if (depth >= MaxConditons) return condition;
 
@@ -444,7 +429,6 @@ namespace GeneticAlgorithmForStrings {
 			}
 			
 			returnString += ");";
-//            Console.WriteLine(returnString);
 			return returnString;
 		}
 

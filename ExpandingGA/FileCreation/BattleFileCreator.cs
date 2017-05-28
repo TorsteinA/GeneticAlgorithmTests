@@ -6,7 +6,7 @@ namespace GeneticAlgorithmForStrings {
 	internal class BattleFileCreator {
 		//The robots to face off against
 		private static readonly string[] EnemyRobots =
-			{"sample.SittingDuck", "sample.Crazy", "sample.Tracker", "sample.Corners"};
+			{"Alvtor_Hartho_15.Robot_g0009_i0006", "Alvtor_Hartho_15.Robot_g0006_i0001", "Alvtor_Hartho_15.Robot_g0004_i0014", "SeaSharpBot.SeaSharpBot"};
 
 		//Number of rounds per battle
 		private const int NumberOfRounds = 10;

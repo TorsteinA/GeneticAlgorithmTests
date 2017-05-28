@@ -4,7 +4,7 @@ namespace GeneticAlgorithmForStrings {
     internal class Algorithm {
         
 		//Tweak. Too low and it breaks, too high, and each generation will take forever.
-	    internal static readonly int PopulationSize = 20;
+	    internal static readonly int PopulationSize = 100;
 		//Tweak. Too high creates random gibberish, too low never finds the solution.
         private const double MutationRate = 0.025;
 		//Letters that algorithm can make genes with
@@ -13,7 +13,7 @@ namespace GeneticAlgorithmForStrings {
         internal static int DefaultGeneLength = 1820;   //Calculated based on Worst case gene use in DnaToCode.cs
 
         //tournamentSelection population size
-        //private const int TournamentSize = 40;
+        private const int TournamentSize = 30;
         //How much DNA to take from each parent. Should stay at 0.5
         private const double UniformRate = 0.5;
         //Keep copy of best individual next generation?
@@ -91,8 +91,8 @@ namespace GeneticAlgorithmForStrings {
 
             // Loop over the population size and create new individuals with crossover
             for (var i = elitismOffset; i < pop.Size(); i++) {
-                var individual1 = CustomSelection(pop);
-                var individual2 = CustomSelection(pop);
+                var individual1 = TournamentSelection(pop);
+                var individual2 = TournamentSelection(pop);
 
                 var newIndividual = Crossover(individual1, individual2, generationCount, i);
                 newPopulation.SaveIndividual(i, newIndividual);
@@ -126,7 +126,7 @@ namespace GeneticAlgorithmForStrings {
             do
             {
                 candidate = pop.GetIndividual(Rnd.Next(pop.Size()));
-            } while (candidate.GetFitness() <= (pop.GetFittest().GetFitness()/2));  //If we normalize fitness values, we can use a specific rate here
+            } while (candidate.GetFitness() <= (pop.GetFittest().GetFitness()/2));  //Needs to be at least half as good as the fittest bot
             return candidate;
         }
 
@@ -164,7 +164,7 @@ namespace GeneticAlgorithmForStrings {
             }
         }
 
-        /*
+        
 		/// <summary>
 		/// Select individual for crossover
 		/// </summary>
@@ -173,7 +173,7 @@ namespace GeneticAlgorithmForStrings {
 		private static Individual TournamentSelection(Population pop)
         {
             // Create a tournament population
-            var tournament = new Population(TournamentSize, false);
+            var tournament = new Population(TournamentSize, false, 999);
             // For each place in the tournament get a random individual
             for (var i = 0; i < TournamentSize; i++) {
                 var randomId = Rnd.Next(pop.Size());
@@ -183,6 +183,6 @@ namespace GeneticAlgorithmForStrings {
             var fittest = tournament.GetFittest();
             return fittest;
         }
-        */
+        
     }
 }
